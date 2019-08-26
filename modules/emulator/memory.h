@@ -16,21 +16,7 @@ class GenericMemory
 public:
     GenericMemory() = default;
     ~GenericMemory() { }; 
-    // const MemoryUnit& operator[](size_t index) { return m_container[index]; }
     MemoryUnit& operator[](size_t index) { return m_container[index]; }
-    // bool insertAtAddress(size_t address, MemoryUnit value) 
-    // {
-    //     try
-    //     {
-    //         m_container.at(address) = value;
-    //     }
-    //     catch(std::out_of_range&)
-    //     {
-    //         return false;
-    //     }
-
-    //     return true;
-    // } 
 private: 
     std::array<MemoryUnit, MemorySize> m_container;
 };
@@ -55,9 +41,16 @@ public:
     {
         return m_value;
     }
+
     Register<MemoryType>& operator--()
     {
         --m_value;
+        return *this; 
+    } 
+
+    Register<MemoryType>& operator++()
+    {
+        ++m_value;
         return *this; 
     } 
 private:
