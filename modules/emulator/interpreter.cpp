@@ -44,6 +44,16 @@ void skipNextInstructionIfEqual(uint16_t value,
     }
 }
 
+void skipNextInstructionIfNotEqual(uint16_t value,
+                                   std::size_t register_id,
+                                   std::vector<GeneralRegister> registers,
+                                   ProgramCounter& pc)
+{
+    if(registers[register_id].get() != value)
+    {
+        pc + TwoBytesValue(2);
+    }
+}
 
 }
 }

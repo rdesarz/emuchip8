@@ -57,3 +57,22 @@ TEST(InterpreterTest, jumpBecauseValueAndRegisterAreNotEqual) {
     EXPECT_EQ(pc.get(), 0x4);
 }
 
+TEST(InterpreterTest, DontJumpBecauseValueAndRegisterAreEqual) {
+    ProgramCounter pc(0x4);
+    std::vector<GeneralRegister> registers(16);
+    registers[1] = 0x2;
+
+    skipNextInstructionIfNotEqual(0x2, 1, registers, pc);
+
+    EXPECT_EQ(pc.get(), 0x4);
+}
+
+TEST(InterpreterTest, DontJumpBecauseValueAndRegisterAreNotEqual) {
+    ProgramCounter pc(0x4);
+    std::vector<GeneralRegister> registers(16);
+    registers[1] = 0x1;
+
+    skipNextInstructionIfNotEqual(0x2, 1, registers, pc);
+
+    EXPECT_EQ(pc.get(), 0x6);
+}

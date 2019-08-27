@@ -25,6 +25,11 @@ void skipNextInstructionIfEqual(uint16_t value,
                                 std::vector<memory::GeneralRegister> registers,
                                 memory::ProgramCounter& pc);
 
+void skipNextInstructionIfNotEqual(uint16_t value,
+                                std::size_t register_id,
+                                std::vector<memory::GeneralRegister> registers,
+                                memory::ProgramCounter& pc);
+
 } /// interpreter
 } /// chip8
 #endif
