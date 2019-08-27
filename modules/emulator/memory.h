@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 
+#include "boost/serialization/strong_typedef.hpp"
  
 namespace chip8
 {
@@ -24,6 +25,7 @@ private:
 using RAM = GenericMemory<uint8_t, 4096>;
 using Stack = GenericMemory<uint16_t, 16>;
 
+BOOST_STRONG_TYPEDEF(uint16_t, TwoBytesValue);
 
 
 template<typename MemoryType>
@@ -52,7 +54,20 @@ public:
     {
         ++m_value;
         return *this; 
-    } 
+    }
+
+    Register<MemoryType>& operator+(TwoBytesValue value)
+    {
+        m_value += value;
+        return *this; 
+    }
+     
+    Register<MemoryType>& operator-(TwoBytesValue value)
+    {
+        m_value -= value;
+        return *this; 
+    }
+
 private:
     MemoryType m_value;
 };
@@ -61,6 +76,7 @@ using GeneralRegister = Register<uint8_t>;
 using MemoryAddressRegister = Register<uint16_t>;
 using ProgramCounter = Register<uint16_t>;
 using StackPointer = Register<uint8_t>;
+
 
 } /// memory
 } /// chip8

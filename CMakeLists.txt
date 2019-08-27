@@ -4,6 +4,11 @@ project(chip8_emulator)
 
 set (CMAKE_CXX_STANDARD 11)
 
+find_package (Boost 1.58.0 REQUIRED COMPONENTS serialization)
+if (Boost_FOUND)
+  include_directories (SYSTEM ${Boost_INCLUDE_DIR})
+endif ()
+
 ## GTest
 find_package(GTest REQUIRED)
 enable_testing()
@@ -13,7 +18,10 @@ include_directories("$(PROJECT_SOURCE_DIR)/modules/")
 
 ## Libraries
 add_library(memory modules/emulator/memory.cpp)
+target_link_libraries (memory ${Boost_LIBRARIES})
 add_library(interpreter modules/emulator/interpreter.cpp)
+target_link_libraries (memory ${Boost_LIBRARIES})
+
 
 ## Executables
 # add_executable(main app/main.cpp)
