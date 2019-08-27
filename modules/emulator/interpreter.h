@@ -20,6 +20,11 @@ void callSubroutineAt(uint16_t address,
                       memory::StackPointer& stack_ptr,
                       memory::Stack& stack);
 
+void skipNextInstructionIfEqual(uint16_t value,
+                                std::size_t register_id,
+                                std::vector<memory::GeneralRegister> registers,
+                                memory::ProgramCounter& pc);
+
 } /// interpreter
 } /// chip8
 #endif

@@ -37,3 +37,23 @@ TEST(InterpreterTest, callSubroutineAt) {
 }
 
 
+TEST(InterpreterTest, jumpBecauseValueAndRegisterAreEqual) {
+    ProgramCounter pc(0x4);
+    std::vector<GeneralRegister> registers(16);
+    registers[1] = 0x2;
+
+    skipNextInstructionIfEqual(0x2, 1, registers, pc);
+
+    EXPECT_EQ(pc.get(), 0x6);
+}
+
+TEST(InterpreterTest, jumpBecauseValueAndRegisterAreNotEqual) {
+    ProgramCounter pc(0x4);
+    std::vector<GeneralRegister> registers(16);
+    registers[1] = 0x1;
+
+    skipNextInstructionIfEqual(0x2, 1, registers, pc);
+
+    EXPECT_EQ(pc.get(), 0x4);
+}
+
