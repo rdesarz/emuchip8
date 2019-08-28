@@ -22,13 +22,26 @@ void callSubroutineAt(uint16_t address,
 
 void skipNextInstructionIfEqual(uint16_t value,
                                 std::size_t register_id,
-                                std::vector<memory::GeneralRegister> registers,
+                                const std::vector<memory::GeneralRegister>& registers,
                                 memory::ProgramCounter& pc);
 
 void skipNextInstructionIfNotEqual(uint16_t value,
-                                std::size_t register_id,
-                                std::vector<memory::GeneralRegister> registers,
-                                memory::ProgramCounter& pc);
+                                   std::size_t register_id,
+                                   const std::vector<memory::GeneralRegister>& registers,
+                                   memory::ProgramCounter& pc);
+
+void skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
+                                         std::size_t register_2_id,
+                                         const std::vector<memory::GeneralRegister>& registers,
+                                         memory::ProgramCounter& pc);
+
+void storeInRegister(uint16_t value,
+                     std::size_t register_id,
+                     std::vector<memory::GeneralRegister>& registers);
+
+void addToRegister(uint16_t value,
+                   std::size_t register_id,
+                   std::vector<memory::GeneralRegister>& registers);
 
 } /// interpreter
 } /// chip8

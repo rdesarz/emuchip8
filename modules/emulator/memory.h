@@ -3,6 +3,7 @@
 #include <array>
 #include <vector>
 #include <string>
+#include <type_traits>
 
 #include "boost/serialization/strong_typedef.hpp"
  
@@ -24,9 +25,6 @@ private:
 
 using RAM = GenericMemory<uint8_t, 4096>;
 using Stack = GenericMemory<uint16_t, 16>;
-
-BOOST_STRONG_TYPEDEF(uint16_t, TwoBytesValue);
-
 
 template<typename MemoryType>
 class Register
@@ -56,18 +54,23 @@ public:
         return *this; 
     }
 
-    Register<MemoryType>& operator+(TwoBytesValue value)
+    Register<MemoryType>& operator+(MemoryType value)
     {
         m_value += value;
         return *this; 
     }
      
-    Register<MemoryType>& operator-(TwoBytesValue value)
+    Register<MemoryType>& operator-(MemoryType value)
     {
         m_value -= value;
         return *this; 
     }
 
+    Register<MemoryType>& operator+=(MemoryType value)
+    {
+        m_value += value;
+        return *this; 
+    }
 private:
     MemoryType m_value;
 };

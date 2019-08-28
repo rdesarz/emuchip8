@@ -35,24 +35,50 @@ void callSubroutineAt(uint16_t address,
 
 void skipNextInstructionIfEqual(uint16_t value,
                                 std::size_t register_id,
-                                std::vector<GeneralRegister> registers,
+                                const std::vector<GeneralRegister>& registers,
                                 ProgramCounter& pc)
 {
     if(registers[register_id].get() == value)
     {
-        pc + TwoBytesValue(2);
+        pc + 2;
     }
 }
 
 void skipNextInstructionIfNotEqual(uint16_t value,
                                    std::size_t register_id,
-                                   std::vector<GeneralRegister> registers,
+                                   const std::vector<GeneralRegister>& registers,
                                    ProgramCounter& pc)
 {
     if(registers[register_id].get() != value)
     {
-        pc + TwoBytesValue(2);
+        pc + 2;
     }
+}
+
+void skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
+                                         std::size_t register_2_id,
+                                         const std::vector<memory::GeneralRegister>& registers,
+                                         memory::ProgramCounter& pc)
+{
+    if(registers[register_1_id].get() == registers[register_2_id].get())
+    {
+        pc + 2;
+    }
+
+}
+
+void storeInRegister(uint16_t value,
+                     std::size_t register_id,
+                     std::vector<memory::GeneralRegister>& registers)
+{
+    registers[register_id].set(value);
+}
+
+void addToRegister(uint16_t value,
+                   std::size_t register_id,
+                   std::vector<memory::GeneralRegister>& registers)
+{
+    registers[register_id] += value;
 }
 
 }
