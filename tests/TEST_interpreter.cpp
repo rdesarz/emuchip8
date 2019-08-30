@@ -127,3 +127,22 @@ TEST(InterpreterTest, bitwiseOR) {
     EXPECT_EQ(registers[1].get(), 0b11001111);
 }
 
+TEST(InterpreterTest, bitwiseAnd) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b11001111;
+    registers[1] = 0b00001111;
+
+    bitwiseAnd(1, 0, registers);
+    
+    EXPECT_EQ(registers[1].get(), 0b00001111);
+}
+
+TEST(InterpreterTest, bitwiseXor) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b11001111;
+    registers[1] = 0b00001111;
+
+    bitwiseXor(1, 0, registers);
+    
+    EXPECT_EQ(registers[1].get(), 0b11000000);
+}

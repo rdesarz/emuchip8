@@ -91,6 +91,18 @@ public:
         return *this; 
     }
 
+    Register<MemoryType>& operator&(const Register<MemoryType>& rh_register)
+    {
+        m_value = m_value & rh_register.m_value;
+        return *this; 
+    }
+    
+    Register<MemoryType>& operator^(const Register<MemoryType>& rh_register)
+    {
+        m_value = m_value ^ rh_register.m_value;
+        return *this; 
+    }
+
     bool operator==(const Register<MemoryType>& rh_register) const
     {
         return m_value == rh_register.m_value;

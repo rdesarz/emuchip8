@@ -95,6 +95,18 @@ void bitwiseOr(std::size_t register_x_id,
     registers[register_x_id] = (registers[register_x_id] | registers[register_y_id]);
 }
 
+void bitwiseAnd(std::size_t register_x_id,
+                std::size_t register_y_id,
+                std::vector<memory::GeneralRegister>& registers)
+{
+    registers[register_x_id] = (registers[register_x_id] & registers[register_y_id]);
+}
 
+void bitwiseXor(std::size_t register_x_id,
+                std::size_t register_y_id,
+                std::vector<memory::GeneralRegister>& registers)
+{
+    registers[register_x_id] = (registers[register_x_id] ^ registers[register_y_id]);
+}
 }
 }
