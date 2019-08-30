@@ -20,12 +20,12 @@ void callSubroutineAt(uint16_t address,
                       memory::StackPointer& stack_ptr,
                       memory::Stack& stack);
 
-void skipNextInstructionIfEqual(uint16_t value,
+void skipNextInstructionIfEqual(uint8_t value,
                                 std::size_t register_id,
                                 const std::vector<memory::GeneralRegister>& registers,
                                 memory::ProgramCounter& pc);
 
-void skipNextInstructionIfNotEqual(uint16_t value,
+void skipNextInstructionIfNotEqual(uint8_t value,
                                    std::size_t register_id,
                                    const std::vector<memory::GeneralRegister>& registers,
                                    memory::ProgramCounter& pc);
@@ -35,11 +35,11 @@ void skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
                                          const std::vector<memory::GeneralRegister>& registers,
                                          memory::ProgramCounter& pc);
 
-void storeInRegister(uint16_t value,
+void storeInRegister(uint8_t value,
                      std::size_t register_id,
                      std::vector<memory::GeneralRegister>& registers);
 
-void addToRegister(uint16_t value,
+void addToRegister(uint8_t value,
                    std::size_t register_id,
                    std::vector<memory::GeneralRegister>& registers);
 
