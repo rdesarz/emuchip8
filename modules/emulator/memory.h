@@ -78,6 +78,25 @@ public:
         return *this; 
     }
 
+    bool operator==(const Register<MemoryType>& rh_register) const
+    {
+        return m_value == rh_register.m_value;
+    }
+    
+    bool operator!=(const Register<MemoryType>& rh_register) const
+    {
+        return !(*this == rh_register);
+    }
+    
+    bool operator==(MemoryType value) const
+    {
+        return m_value == value;
+    }
+    
+    bool operator!=(MemoryType value) const
+    {
+        return !(m_value == value);
+    }
 private:
     MemoryType m_value;
 };

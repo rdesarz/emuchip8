@@ -38,7 +38,7 @@ void skipNextInstructionIfEqual(uint8_t value,
                                 const std::vector<GeneralRegister>& registers,
                                 ProgramCounter& pc)
 {
-    if(registers[register_id].get() == value)
+    if(registers[register_id] == value)
     {
         pc + 2;
     }
@@ -49,7 +49,7 @@ void skipNextInstructionIfNotEqual(uint8_t value,
                                    const std::vector<GeneralRegister>& registers,
                                    ProgramCounter& pc)
 {
-    if(registers[register_id].get() != value)
+    if(registers[register_id] != value)
     {
         pc + 2;
     }
@@ -60,7 +60,7 @@ void skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
                                          const std::vector<memory::GeneralRegister>& registers,
                                          memory::ProgramCounter& pc)
 {
-    if(registers[register_1_id].get() == registers[register_2_id].get())
+    if(registers[register_1_id] == registers[register_2_id])
     {
         pc + 2;
     }
