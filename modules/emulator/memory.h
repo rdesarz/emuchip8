@@ -71,6 +71,13 @@ public:
         m_value += value;
         return *this; 
     }
+
+    Register<MemoryType>& operator-=(MemoryType value)
+    {
+        m_value -= value;
+        return *this; 
+    }
+
 private:
     MemoryType m_value;
 };
