@@ -31,7 +31,14 @@ class Register
 {
 public:
     Register() : m_value(MemoryType()) { };
+    
     Register(MemoryType value) : m_value(value) { };
+    
+    void operator=(const Register<MemoryType>& to_assign)
+    {
+        m_value = to_assign.m_value;
+    }
+
     void set(MemoryType value)
     {
         m_value = value;
@@ -75,6 +82,12 @@ public:
     Register<MemoryType>& operator-=(MemoryType value)
     {
         m_value -= value;
+        return *this; 
+    }
+
+    Register<MemoryType>& operator|(const Register<MemoryType>& rh_register)
+    {
+        m_value = m_value | rh_register.m_value;
         return *this; 
     }
 

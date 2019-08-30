@@ -81,5 +81,20 @@ void addToRegister(uint8_t value,
     registers[register_id] += value;
 }
 
+void storeRegisterInRegister(std::size_t register_x_id,
+                             std::size_t register_y_id,
+                             std::vector<memory::GeneralRegister>& registers)
+{
+    registers[register_x_id].set(registers[register_y_id].get());
+}
+
+void bitwiseOr(std::size_t register_x_id,
+               std::size_t register_y_id,
+               std::vector<memory::GeneralRegister>& registers)
+{
+    registers[register_x_id] = (registers[register_x_id] | registers[register_y_id]);
+}
+
+
 }
 }

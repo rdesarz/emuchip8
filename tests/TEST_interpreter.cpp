@@ -105,3 +105,25 @@ TEST(InterpreterTest, AddToRegister) {
 
     EXPECT_EQ(registers[1].get(), 0x4);
 }
+
+TEST(InterpreterTest, storeRegisterInRegister) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0x6;
+    registers[1] = 0x2;
+
+    storeRegisterInRegister(1, 0, registers);
+
+    EXPECT_EQ(registers[0].get(), 0x6);
+    EXPECT_EQ(registers[1].get(), 0x6);
+}
+
+TEST(InterpreterTest, bitwiseOR) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b11001111;
+    registers[1] = 0b00001111;
+
+    bitwiseOr(1, 0, registers);
+    
+    EXPECT_EQ(registers[1].get(), 0b11001111);
+}
+

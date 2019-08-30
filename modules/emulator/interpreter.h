@@ -43,6 +43,14 @@ void addToRegister(uint8_t value,
                    std::size_t register_id,
                    std::vector<memory::GeneralRegister>& registers);
 
+void storeRegisterInRegister(std::size_t register_x_id,
+                             std::size_t register_y_id,
+                             std::vector<memory::GeneralRegister>& registers);
+
+void bitwiseOr(std::size_t register_x_id,
+               std::size_t register_y_id,
+               std::vector<memory::GeneralRegister>& registers);
+
 } /// interpreter
 } /// chip8
 #endif
