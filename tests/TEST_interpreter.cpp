@@ -190,3 +190,63 @@ TEST(InterpreterTest, subtractRegisterToRegisterBelowZero) {
     EXPECT_EQ(registers[1], static_cast<uint8_t>(20-245));
     EXPECT_EQ(registers[0xF], 0x1);
 }
+
+TEST(InterpreterTest, shiftRightLSBZero) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b00000010;
+
+    shiftRight(0, registers);
+    
+    EXPECT_EQ(registers[0], 0b00000001);
+    EXPECT_EQ(registers[0xF], 0x0);
+}
+
+TEST(InterpreterTest, shiftRightLSBOne) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b00000011;
+
+    shiftRight(0, registers);
+    
+    EXPECT_EQ(registers[0], 0b00000001);
+    EXPECT_EQ(registers[0xF], 0x1);
+}
+
+TEST(InterpreterTest, shiftLeftMSBZero) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b00000010;
+
+    shiftLeft(0, registers);
+    
+    EXPECT_EQ(registers[0], 0b00000100);
+    EXPECT_EQ(registers[0xF], 0x0);
+}
+
+TEST(InterpreterTest, shiftLeftMSBOne) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0b10000001;
+
+    shiftLeft(0, registers);
+    
+    EXPECT_EQ(registers[0], 0b00000010);
+    EXPECT_EQ(registers[0xF], 0x1);
+}
+
+
+TEST(InterpreterTest, JumpBecauseTwoRegistersAreNotEqual) {
+    ProgramCounter pc(0x4);
+    std::vector<GeneralRegister> registers(16);
+    registers[1] = 0x3;
+    registers[0] = 0x1;
+
+    skipNextInstructionIfRegistersNotEqual(0, 1, registers, pc);
+
+    EXPECT_EQ(pc, 0x6);
+}
+
+TEST(InterpreterTest, StoreInMemoryAddressRegister) {
+    MemoryAddressRegister mem_add_reg(0x14);
+
+    storeInMemoryAddressRegister(0x2, mem_add_reg);
+
+    EXPECT_EQ(mem_add_reg, 0x2);
+}

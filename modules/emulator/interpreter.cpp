@@ -138,5 +138,45 @@ void subtractRegisterToRegister(std::size_t register_x_id,
 }
 
 
+void shiftRight(std::size_t register_id,
+                std::vector<memory::GeneralRegister>& registers)
+{
+
+    registers[0xF] =  (registers[register_id] & 0b00000001);
+    registers[register_id] = registers[register_id] >> 1;
+}
+
+void shiftLeft(std::size_t register_id,
+               std::vector<memory::GeneralRegister>& registers)
+{
+    if (registers[register_id] & 0b10000000)
+    {
+        registers[0xF] = 1;
+    }
+    else
+    {
+        registers[0xF] = 0;
+    }
+
+    registers[register_id] = registers[register_id] << 1;
+}
+
+void skipNextInstructionIfRegistersNotEqual(std::size_t register_1_id,
+                                            std::size_t register_2_id,
+                                            const std::vector<memory::GeneralRegister>& registers,
+                                            memory::ProgramCounter& pc)
+{
+    if(registers[register_1_id] != registers[register_2_id])
+    {
+        pc += 2;
+    }
+}
+
+void storeInMemoryAddressRegister(uint16_t value,
+                                  MemoryAddressRegister& mem_add_reg)
+{
+    mem_add_reg = value;
+}
+
 }
 }

@@ -67,6 +67,20 @@ void subtractRegisterToRegister(std::size_t register_x_id,
                                 std::size_t register_y_id,
                                 std::vector<memory::GeneralRegister>& registers);
 
+void shiftRight(std::size_t register_id,
+                std::vector<memory::GeneralRegister>& registers);
+
+void shiftLeft(std::size_t register_id,
+               std::vector<memory::GeneralRegister>& registers);
+
+void skipNextInstructionIfRegistersNotEqual(std::size_t register_1_id,
+                                            std::size_t register_2_id,
+                                            const std::vector<memory::GeneralRegister>& registers,
+                                            memory::ProgramCounter& pc);
+
+void storeInMemoryAddressRegister(uint16_t value,
+                                  memory::MemoryAddressRegister& mem_add_reg);
+
 } /// interpreter
 } /// chip8
 #endif
