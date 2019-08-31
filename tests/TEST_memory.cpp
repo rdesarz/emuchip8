@@ -16,7 +16,7 @@ TEST(Register, bitwiseOrOperator)
 
     auto result = register_1 | register_2;
 
-    EXPECT_EQ(result.get(), 0b11001111);
+    EXPECT_EQ(result, 0b11001111);
 }
 
 TEST(Register, bitwiseAndOperator)
@@ -26,7 +26,7 @@ TEST(Register, bitwiseAndOperator)
 
     auto result = register_1 & register_2;
 
-    EXPECT_EQ(result.get(), 0b00001111);
+    EXPECT_EQ(result, 0b00001111);
 }
 
 TEST(Register, bitwiseXorOperator)
@@ -36,7 +36,7 @@ TEST(Register, bitwiseXorOperator)
 
     auto result = register_1 ^ register_2;
 
-    EXPECT_EQ(result.get(), 0b11000000);
+    EXPECT_EQ(result, 0b11000000);
 }
 
 TEST(Register, assignRegisterToRegister)
@@ -46,5 +46,16 @@ TEST(Register, assignRegisterToRegister)
 
     register_1 = register_2;
 
-    EXPECT_EQ(register_1.get(), 0x2);
+    EXPECT_EQ(register_1, 0x2);
+}
+
+TEST(Register, additionBetweenRegister)
+{
+    Register<uint8_t> register_1{0x2};
+    Register<uint8_t> register_2{0x2};
+
+    register_1 = register_2 + register_1;
+
+    EXPECT_EQ(register_1, 0x4);
+    EXPECT_EQ(register_2, 0x2);
 }

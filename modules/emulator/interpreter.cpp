@@ -1,5 +1,7 @@
 #include "emulator/interpreter.h"
 
+#include <limits>
+
 using namespace chip8::memory;
 
 namespace chip8
@@ -12,7 +14,7 @@ void returnFromSubroutine(ProgramCounter& pc,
                           StackPointer& stack_ptr,
                           Stack& stack)
 {
-    pc.set(stack[stack_ptr.get()]);
+    pc = stack[stack_ptr];
     --stack_ptr;  
 }
 
@@ -28,8 +30,8 @@ void callSubroutineAt(uint16_t address,
                       Stack& stack)
 {
     ++stack_ptr;
-    stack[stack_ptr.get()] = pc.get();
-    pc.set(address);
+    stack[stack_ptr] = pc;
+    pc = address;
 }
 
 
@@ -40,7 +42,7 @@ void skipNextInstructionIfEqual(uint8_t value,
 {
     if(registers[register_id] == value)
     {
-        pc + 2;
+        pc += 2;
     }
 }
 
@@ -51,7 +53,7 @@ void skipNextInstructionIfNotEqual(uint8_t value,
 {
     if(registers[register_id] != value)
     {
-        pc + 2;
+        pc += 2;
     }
 }
 
@@ -62,16 +64,15 @@ void skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
 {
     if(registers[register_1_id] == registers[register_2_id])
     {
-        pc + 2;
+        pc += 2;
     }
-
 }
 
 void storeInRegister(uint8_t value,
                      std::size_t register_id,
                      std::vector<memory::GeneralRegister>& registers)
 {
-    registers[register_id].set(value);
+    registers[register_id] = value;
 }
 
 void addToRegister(uint8_t value,
@@ -85,7 +86,7 @@ void storeRegisterInRegister(std::size_t register_x_id,
                              std::size_t register_y_id,
                              std::vector<memory::GeneralRegister>& registers)
 {
-    registers[register_x_id].set(registers[register_y_id].get());
+    registers[register_x_id] = registers[register_y_id];
 }
 
 void bitwiseOr(std::size_t register_x_id,
@@ -108,5 +109,25 @@ void bitwiseXor(std::size_t register_x_id,
 {
     registers[register_x_id] = (registers[register_x_id] ^ registers[register_y_id]);
 }
+
+void addRegisterToRegister(std::size_t register_x_id, 
+                           std::size_t register_y_id,
+                           std::vector<memory::GeneralRegister>& registers)
+{
+    std::uint16_t result = static_cast<std::uint16_t>(registers[register_x_id].get()) 
+                             + static_cast<std::uint16_t>(registers[register_y_id].get());
+
+    if (result <= std::numeric_limits<std::uint8_t>::max())
+    {
+        registers[register_x_id] = static_cast<std::uint8_t>(result);
+        registers[0xF] = 0; 
+    }
+    else
+    {
+        registers[register_x_id] = static_cast<std::uint8_t>(result);
+        registers[0xF] = 1; 
+    }
+}
+
 }
 }

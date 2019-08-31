@@ -30,98 +30,16 @@ template<typename MemoryType>
 class Register
 {
 public:
-    Register() : m_value(MemoryType()) { };
-    
-    Register(MemoryType value) : m_value(value) { };
-    
-    void operator=(const Register<MemoryType>& to_assign)
-    {
-        m_value = to_assign.m_value;
-    }
+    Register() { };
+    explicit Register(MemoryType value) : m_value(value) { };
+    Register(const Register & register_) : m_value(register_.m_value) {}   
+    Register & operator=(const Register & rhs) { m_value = rhs.m_value; return *this;}    
+    Register & operator=(const MemoryType & rhs) { m_value = rhs; return *this;}      
+    operator const MemoryType & () const { return m_value; }                    
+    operator MemoryType & () { return m_value; }
+    bool operator==(const Register & rhs) const { return m_value == rhs.m_value; } 
+    bool operator<(const Register & rhs) const { return m_value < rhs.m_value; }   
 
-    void set(MemoryType value)
-    {
-        m_value = value;
-    } 
-    
-    const MemoryType& get() const
-    {
-        return m_value;
-    }
-
-    Register<MemoryType>& operator--()
-    {
-        --m_value;
-        return *this; 
-    } 
-
-    Register<MemoryType>& operator++()
-    {
-        ++m_value;
-        return *this; 
-    }
-
-    Register<MemoryType>& operator+(MemoryType value)
-    {
-        m_value += value;
-        return *this; 
-    }
-     
-    Register<MemoryType>& operator-(MemoryType value)
-    {
-        m_value -= value;
-        return *this; 
-    }
-
-    Register<MemoryType>& operator+=(MemoryType value)
-    {
-        m_value += value;
-        return *this; 
-    }
-
-    Register<MemoryType>& operator-=(MemoryType value)
-    {
-        m_value -= value;
-        return *this; 
-    }
-
-    Register<MemoryType>& operator|(const Register<MemoryType>& rh_register)
-    {
-        m_value = m_value | rh_register.m_value;
-        return *this; 
-    }
-
-    Register<MemoryType>& operator&(const Register<MemoryType>& rh_register)
-    {
-        m_value = m_value & rh_register.m_value;
-        return *this; 
-    }
-    
-    Register<MemoryType>& operator^(const Register<MemoryType>& rh_register)
-    {
-        m_value = m_value ^ rh_register.m_value;
-        return *this; 
-    }
-
-    bool operator==(const Register<MemoryType>& rh_register) const
-    {
-        return m_value == rh_register.m_value;
-    }
-    
-    bool operator!=(const Register<MemoryType>& rh_register) const
-    {
-        return !(*this == rh_register);
-    }
-    
-    bool operator==(MemoryType value) const
-    {
-        return m_value == value;
-    }
-    
-    bool operator!=(MemoryType value) const
-    {
-        return !(m_value == value);
-    }
 private:
     MemoryType m_value;
 };

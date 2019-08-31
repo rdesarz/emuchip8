@@ -12,8 +12,8 @@ TEST(InterpreterTest, returnFromSubroutine) {
 
     returnFromSubroutine(pc, stack_ptr, stack);
 
-    EXPECT_EQ(stack_ptr.get(), 0x0);
-    EXPECT_EQ(pc.get(), 0x4);
+    EXPECT_EQ(stack_ptr, 0x0);
+    EXPECT_EQ(pc, 0x4);
 }
 
 TEST(InterpreterTest, jumpToLocation) {
@@ -21,7 +21,7 @@ TEST(InterpreterTest, jumpToLocation) {
 
     jumpToLocation(0x12, pc);
 
-    EXPECT_EQ(pc.get(), 0x12);
+    EXPECT_EQ(pc, 0x12);
 }
 
 TEST(InterpreterTest, callSubroutineAt) {
@@ -31,9 +31,9 @@ TEST(InterpreterTest, callSubroutineAt) {
 
     callSubroutineAt(0x12, pc, stack_ptr, stack);
 
-    EXPECT_EQ(pc.get(), 0x12);
-    EXPECT_EQ(stack_ptr.get(), 0x1);
-    EXPECT_EQ(stack[stack_ptr.get()], 0x4);
+    EXPECT_EQ(pc, 0x12);
+    EXPECT_EQ(stack_ptr, 0x1);
+    EXPECT_EQ(stack[stack_ptr], 0x4);
 }
 
 
@@ -44,7 +44,7 @@ TEST(InterpreterTest, jumpBecauseValueAndRegisterAreEqual) {
 
     skipNextInstructionIfEqual(0x2, 1, registers, pc);
 
-    EXPECT_EQ(pc.get(), 0x6);
+    EXPECT_EQ(pc, 0x6);
 }
 
 TEST(InterpreterTest, jumpBecauseValueAndRegisterAreNotEqual) {
@@ -54,7 +54,7 @@ TEST(InterpreterTest, jumpBecauseValueAndRegisterAreNotEqual) {
 
     skipNextInstructionIfEqual(0x2, 1, registers, pc);
 
-    EXPECT_EQ(pc.get(), 0x4);
+    EXPECT_EQ(pc, 0x4);
 }
 
 TEST(InterpreterTest, DontJumpBecauseValueAndRegisterAreEqual) {
@@ -64,7 +64,7 @@ TEST(InterpreterTest, DontJumpBecauseValueAndRegisterAreEqual) {
 
     skipNextInstructionIfNotEqual(0x2, 1, registers, pc);
 
-    EXPECT_EQ(pc.get(), 0x4);
+    EXPECT_EQ(pc, 0x4);
 }
 
 TEST(InterpreterTest, DontJumpBecauseValueAndRegisterAreNotEqual) {
@@ -74,7 +74,7 @@ TEST(InterpreterTest, DontJumpBecauseValueAndRegisterAreNotEqual) {
 
     skipNextInstructionIfNotEqual(0x2, 1, registers, pc);
 
-    EXPECT_EQ(pc.get(), 0x6);
+    EXPECT_EQ(pc, 0x6);
 }
 
 TEST(InterpreterTest, JumpBecauseTwoRegistersAreEqual) {
@@ -85,7 +85,7 @@ TEST(InterpreterTest, JumpBecauseTwoRegistersAreEqual) {
 
     skipNextInstructionIfRegistersEqual(0, 1, registers, pc);
 
-    EXPECT_EQ(pc.get(), 0x6);
+    EXPECT_EQ(pc, 0x6);
 }
 
 TEST(InterpreterTest, StoreInRegister) {
@@ -93,7 +93,7 @@ TEST(InterpreterTest, StoreInRegister) {
 
     storeInRegister(0x2, 1, registers);
 
-    EXPECT_EQ(registers[1].get(), 0x2);
+    EXPECT_EQ(registers[1], 0x2);
 }
 
 
@@ -103,7 +103,7 @@ TEST(InterpreterTest, AddToRegister) {
 
     addToRegister(0x2, 1, registers);
 
-    EXPECT_EQ(registers[1].get(), 0x4);
+    EXPECT_EQ(registers[1], 0x4);
 }
 
 TEST(InterpreterTest, storeRegisterInRegister) {
@@ -113,8 +113,8 @@ TEST(InterpreterTest, storeRegisterInRegister) {
 
     storeRegisterInRegister(1, 0, registers);
 
-    EXPECT_EQ(registers[0].get(), 0x6);
-    EXPECT_EQ(registers[1].get(), 0x6);
+    EXPECT_EQ(registers[0], 0x6);
+    EXPECT_EQ(registers[1], 0x6);
 }
 
 TEST(InterpreterTest, bitwiseOR) {
@@ -124,7 +124,7 @@ TEST(InterpreterTest, bitwiseOR) {
 
     bitwiseOr(1, 0, registers);
     
-    EXPECT_EQ(registers[1].get(), 0b11001111);
+    EXPECT_EQ(registers[1], 0b11001111);
 }
 
 TEST(InterpreterTest, bitwiseAnd) {
@@ -134,7 +134,7 @@ TEST(InterpreterTest, bitwiseAnd) {
 
     bitwiseAnd(1, 0, registers);
     
-    EXPECT_EQ(registers[1].get(), 0b00001111);
+    EXPECT_EQ(registers[1], 0b00001111);
 }
 
 TEST(InterpreterTest, bitwiseXor) {
@@ -144,5 +144,27 @@ TEST(InterpreterTest, bitwiseXor) {
 
     bitwiseXor(1, 0, registers);
     
-    EXPECT_EQ(registers[1].get(), 0b11000000);
+    EXPECT_EQ(registers[1], 0b11000000);
+}
+
+TEST(InterpreterTest, addRegisterToRegisterBelowLimit) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0x2;
+    registers[1] = 0x2;
+
+    addRegisterToRegister(1, 0, registers);
+    
+    EXPECT_EQ(registers[1], 0x4);
+    EXPECT_EQ(registers[0xF], 0x0);
+}
+
+TEST(InterpreterTest, addRegisterToRegisterAboveLimit) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 245;
+    registers[1] = 20;
+
+    addRegisterToRegister(1, 0, registers);
+    
+    EXPECT_EQ(registers[1], static_cast<std::uint8_t>(245+20));
+    EXPECT_EQ(registers[0xF], 0x1);
 }

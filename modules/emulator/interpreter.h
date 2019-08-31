@@ -58,6 +58,11 @@ void bitwiseAnd(std::size_t register_x_id,
 void bitwiseXor(std::size_t register_x_id,
                 std::size_t register_y_id,
                 std::vector<memory::GeneralRegister>& registers);
+
+void addRegisterToRegister(std::size_t register_x_id, 
+                           std::size_t register_y_id,
+                           std::vector<memory::GeneralRegister>& registers);
+
 } /// interpreter
 } /// chip8
 #endif
