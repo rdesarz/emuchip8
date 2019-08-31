@@ -63,6 +63,10 @@ void addRegisterToRegister(std::size_t register_x_id,
                            std::size_t register_y_id,
                            std::vector<memory::GeneralRegister>& registers);
 
+void subtractRegisterToRegister(std::size_t register_x_id, 
+                                std::size_t register_y_id,
+                                std::vector<memory::GeneralRegister>& registers);
+
 } /// interpreter
 } /// chip8
 #endif

@@ -168,3 +168,25 @@ TEST(InterpreterTest, addRegisterToRegisterAboveLimit) {
     EXPECT_EQ(registers[1], static_cast<std::uint8_t>(245+20));
     EXPECT_EQ(registers[0xF], 0x1);
 }
+
+TEST(InterpreterTest, subtractRegisterToRegisterNominal) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 20;
+    registers[1] = 245;
+
+    subtractRegisterToRegister(1, 0, registers);
+    
+    EXPECT_EQ(registers[1], 225);
+    EXPECT_EQ(registers[0xF], 0x0);
+}
+
+TEST(InterpreterTest, subtractRegisterToRegisterBelowZero) {
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 245;
+    registers[1] = 20;
+
+    subtractRegisterToRegister(1, 0, registers);
+    
+    EXPECT_EQ(registers[1], static_cast<uint8_t>(20-245));
+    EXPECT_EQ(registers[0xF], 0x1);
+}

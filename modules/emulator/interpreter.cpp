@@ -114,8 +114,8 @@ void addRegisterToRegister(std::size_t register_x_id,
                            std::size_t register_y_id,
                            std::vector<memory::GeneralRegister>& registers)
 {
-    std::uint16_t result = static_cast<std::uint16_t>(registers[register_x_id].get()) 
-                             + static_cast<std::uint16_t>(registers[register_y_id].get());
+    std::uint16_t result = static_cast<std::uint16_t>(registers[register_x_id]) 
+                             + static_cast<std::uint16_t>(registers[register_y_id]);
 
     if (result <= std::numeric_limits<std::uint8_t>::max())
     {
@@ -128,6 +128,15 @@ void addRegisterToRegister(std::size_t register_x_id,
         registers[0xF] = 1; 
     }
 }
+
+void subtractRegisterToRegister(std::size_t register_x_id, 
+                                std::size_t register_y_id,
+                                std::vector<memory::GeneralRegister>& registers)
+{
+    registers[0xF] = registers[register_x_id] < registers[register_y_id] ? 1 : 0;
+    registers[register_x_id] = registers[register_x_id] - registers[register_y_id];
+}
+
 
 }
 }
