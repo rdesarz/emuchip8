@@ -4,6 +4,7 @@ project(chip8_emulator)
 
 set (CMAKE_CXX_STANDARD 17)
 
+# Boost
 find_package (Boost 1.58.0 REQUIRED COMPONENTS serialization)
 if (Boost_FOUND)
   include_directories (SYSTEM ${Boost_INCLUDE_DIR})
@@ -13,6 +14,11 @@ endif ()
 find_package(GTest REQUIRED)
 enable_testing()
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+## SDL
+find_package (SDL2 REQUIRED)
+include_directories (${SDL_INCLUDE_DIR})
+
 
 include_directories("$(PROJECT_SOURCE_DIR)/modules/")
 
