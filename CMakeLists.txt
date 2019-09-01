@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.7)
 
 project(chip8_emulator)
 
@@ -17,7 +17,8 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 ## SDL
 find_package (SDL2 REQUIRED)
-include_directories (${SDL_INCLUDE_DIR})
+include_directories (${SDL2_INCLUDE_DIRS})
+string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 
 
 include_directories("$(PROJECT_SOURCE_DIR)/modules/")
@@ -32,7 +33,8 @@ target_link_libraries (display ${Boost_LIBRARIES})
 
 
 ## Executables
-# add_executable(main app/main.cpp)
+add_executable(main app/main.cpp)
+target_link_libraries (main ${SDL2_LIBRARIES})
 
 ## Unit tests
 add_executable( memory_test tests/TEST_memory.cpp )
