@@ -81,6 +81,15 @@ void skipNextInstructionIfRegistersNotEqual(std::size_t register_1_id,
 void storeInMemoryAddressRegister(uint16_t value,
                                   memory::MemoryAddressRegister& mem_add_reg);
 
+void setPCToV0PlusValue(uint16_t value,
+                        const std::vector<memory::GeneralRegister>& registers,
+                        memory::ProgramCounter& pc);
+
+void registerEqualRandomValue(uint8_t value,
+                              std::size_t register_id,
+                              std::vector<memory::GeneralRegister> registers);
+                              
+
 } /// interpreter
 } /// chip8
 #endif

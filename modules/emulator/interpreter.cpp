@@ -1,6 +1,7 @@
 #include "emulator/interpreter.h"
 
 #include <limits>
+#include <cstdlib>
 
 using namespace chip8::memory;
 
@@ -176,6 +177,22 @@ void storeInMemoryAddressRegister(uint16_t value,
                                   MemoryAddressRegister& mem_add_reg)
 {
     mem_add_reg = value;
+}
+
+void setPCToV0PlusValue(uint16_t value,
+                        const std::vector<memory::GeneralRegister>& registers,
+                        ProgramCounter& pc)
+{
+    pc = value + registers[0];
+}
+
+void registerEqualRandomValue(uint8_t value,
+                              std::size_t register_id,
+                              std::vector<memory::GeneralRegister> registers)
+{
+    srand (time(NULL));
+    auto random_value = rand() % 256;
+    registers[register_id] = (value & random_value);
 }
 
 }

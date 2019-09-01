@@ -250,3 +250,13 @@ TEST(InterpreterTest, StoreInMemoryAddressRegister) {
 
     EXPECT_EQ(mem_add_reg, 0x2);
 }
+
+TEST(InterpreterTest, SetPCToValuePlusV0) {
+    ProgramCounter pc(0x4);
+    std::vector<GeneralRegister> registers(16);
+    registers[0] = 0x1;
+
+    setPCToV0PlusValue(0x2, registers, pc);
+
+    EXPECT_EQ(pc, 0x3);
+}
