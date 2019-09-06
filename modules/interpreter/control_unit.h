@@ -8,6 +8,8 @@ namespace chip8
 namespace ctrlunit
 {
 
+BOOST_STRONG_TYPEDEF(std::size_t, RegisterId)
+
 class ControlUnit
 {
 public:
@@ -26,55 +28,55 @@ public:
     void callSubroutineAt(uint16_t address);
     
     void skipNextInstructionIfEqual(uint8_t value,
-                                    std::size_t register_id);
+                                    RegisterId reg);
     
     void skipNextInstructionIfNotEqual(uint8_t value,
-                                       std::size_t register_id);
+                                       RegisterId reg);
     
-    void skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
-                                             std::size_t register_2_id);
+    void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
+                                             RegisterId reg_y);
     
     void storeInRegister(uint8_t value,
-                         std::size_t register_id);
+                         RegisterId reg);
     
     void addToRegister(uint8_t value,
-                       std::size_t register_id);
+                       RegisterId reg);
     
-    void storeRegisterInRegister(std::size_t register_x_id,
-                                 std::size_t register_y_id);
+    void storeRegisterInRegister(RegisterId reg_x,
+                                 RegisterId reg_y);
     
-    void bitwiseOr(std::size_t register_x_id,
-                   std::size_t register_y_id);
+    void bitwiseOr(RegisterId reg_x,
+                   RegisterId reg_y);
     
-    void bitwiseAnd(std::size_t register_x_id,
-                    std::size_t register_y_id);
+    void bitwiseAnd(RegisterId reg_x,
+                    RegisterId reg_y);
     
-    void bitwiseXor(std::size_t register_x_id,
-                    std::size_t register_y_id);
+    void bitwiseXor(RegisterId reg_x,
+                    RegisterId reg_y);
     
-    void addRegisterToRegister(std::size_t register_x_id, 
-                               std::size_t register_y_id);
+    void addRegisterToRegister(RegisterId reg_x, 
+                               RegisterId reg_y);
     
-    void subtractRegisterToRegister(std::size_t register_x_id, 
-                                    std::size_t register_y_id);
+    void subtractRegisterToRegister(RegisterId reg_x, 
+                                    RegisterId reg_y);
     
-    void shiftRight(std::size_t register_id);
+    void shiftRight(RegisterId reg);
     
-    void shiftLeft(std::size_t register_id);
+    void shiftLeft(RegisterId reg);
     
-    void skipNextInstructionIfRegistersNotEqual(std::size_t register_1_id,
-                                                std::size_t register_2_id);
+    void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
+                                                RegisterId reg_y);
     
     void storeInMemoryAddressRegister(uint16_t value);
     
     void setPCToV0PlusValue(uint16_t value);
     
     void registerEqualRandomValue(uint8_t value,
-                                  std::size_t register_id);
+                                  RegisterId reg);
     
     void displayOnScreen(uint16_t n_bytes_to_read,
-                         std::size_t register_x_id,
-                         std::size_t register_y_id);
+                         RegisterId reg_x,
+                         RegisterId reg_y);
 private:
     memory::ProgramCounter& m_pc;
     memory::StackPointer& m_stack_ptr;
@@ -84,6 +86,7 @@ private:
     memory::RAM& m_ram;
     display::Display<bool>& m_display;
 };
+
 } /// ctrlunit
 } /// chip8
 #endif

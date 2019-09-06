@@ -12,6 +12,7 @@ namespace chip8
 namespace memory
 {
 
+
 template<typename MemoryUnit, std::size_t MemorySize>
 class GenericMemory
 {

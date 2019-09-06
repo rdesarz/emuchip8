@@ -10,6 +10,8 @@ namespace chip8
 namespace ctrlunit
 {
 
+
+
 ControlUnit::ControlUnit(memory::ProgramCounter& pc,
                 memory::StackPointer& stack_ptr,
                 memory::MemoryAddressRegister& mem_add_reg,
@@ -45,107 +47,105 @@ void ControlUnit::callSubroutineAt(uint16_t address)
     m_pc = address;
 }
 
-
 void ControlUnit::skipNextInstructionIfEqual(uint8_t value,
-                                    std::size_t register_id)
-
+                                             RegisterId reg)
 {
-    if(m_registers[register_id] == value)
+    if(m_registers[reg] == value)
     {
         m_pc += 2;
     }
 }
 
 void ControlUnit::skipNextInstructionIfNotEqual(uint8_t value,
-                                                std::size_t register_id)
+                                                RegisterId reg)
 {
-    if(m_registers[register_id] != value)
+    if(m_registers[reg] != value)
     {
         m_pc += 2;
     }
 }
 
-void ControlUnit::skipNextInstructionIfRegistersEqual(std::size_t register_1_id,
-                                                      std::size_t register_2_id)
+void ControlUnit::skipNextInstructionIfRegistersEqual(RegisterId reg_x,
+                                                      RegisterId reg_y)
 {
-    if(m_registers[register_1_id] == m_registers[register_2_id])
+    if(m_registers[reg_x] == m_registers[reg_y])
     {
         m_pc += 2;
     }
 }
 
 void ControlUnit::storeInRegister(uint8_t value,
-                     std::size_t register_id)
+                                  RegisterId reg)
 {
-    m_registers[register_id] = value;
+    m_registers[reg] = value;
 }
 
 void ControlUnit::addToRegister(uint8_t value,
-                   std::size_t register_id)
+                                RegisterId reg)
 {
-    m_registers[register_id] += value;
+    m_registers[reg] += value;
 }
 
-void ControlUnit::storeRegisterInRegister(std::size_t register_x_id,
-                             std::size_t register_y_id)
+void ControlUnit::storeRegisterInRegister(RegisterId reg_x,
+                                          RegisterId reg_y)
 {
-    m_registers[register_x_id] = m_registers[register_y_id];
+    m_registers[reg_x] = m_registers[reg_y];
 }
 
-void ControlUnit::bitwiseOr(std::size_t register_x_id,
-               std::size_t register_y_id)
+void ControlUnit::bitwiseOr(RegisterId reg_x,
+                            RegisterId reg_y)
 {
-    m_registers[register_x_id] = (m_registers[register_x_id] | m_registers[register_y_id]);
+    m_registers[reg_x] = (m_registers[reg_x] | m_registers[reg_y]);
 }
 
-void ControlUnit::bitwiseAnd(std::size_t register_x_id,
-                std::size_t register_y_id)
+void ControlUnit::bitwiseAnd(RegisterId reg_x,
+                             RegisterId reg_y)
 {
-    m_registers[register_x_id] = (m_registers[register_x_id] & m_registers[register_y_id]);
+    m_registers[reg_x] = (m_registers[reg_x] & m_registers[reg_y]);
 }
 
-void ControlUnit::bitwiseXor(std::size_t register_x_id,
-                std::size_t register_y_id)
+void ControlUnit::bitwiseXor(RegisterId reg_x,
+                             RegisterId reg_y)
 {
-    m_registers[register_x_id] = (m_registers[register_x_id] ^ m_registers[register_y_id]);
+    m_registers[reg_x] = (m_registers[reg_x] ^ m_registers[reg_y]);
 }
 
-void ControlUnit::addRegisterToRegister(std::size_t register_x_id, 
-                           std::size_t register_y_id)
+void ControlUnit::addRegisterToRegister(RegisterId reg_x, 
+                                        RegisterId reg_y)
 {
-    std::uint16_t result = static_cast<std::uint16_t>(m_registers[register_x_id]) 
-                             + static_cast<std::uint16_t>(m_registers[register_y_id]);
+    std::uint16_t result = static_cast<std::uint16_t>(m_registers[reg_x]) 
+                             + static_cast<std::uint16_t>(m_registers[reg_y]);
 
     if (result <= std::numeric_limits<std::uint8_t>::max())
     {
-        m_registers[register_x_id] = static_cast<std::uint8_t>(result);
+        m_registers[reg_x] = static_cast<std::uint8_t>(result);
         m_registers[0xF] = 0; 
     }
     else
     {
-        m_registers[register_x_id] = static_cast<std::uint8_t>(result);
+        m_registers[reg_x] = static_cast<std::uint8_t>(result);
         m_registers[0xF] = 1; 
     }
 }
 
-void ControlUnit::subtractRegisterToRegister(std::size_t register_x_id, 
-                                std::size_t register_y_id)
+void ControlUnit::subtractRegisterToRegister(RegisterId reg_x, 
+                                             RegisterId reg_y)
 {
-    m_registers[0xF] = m_registers[register_x_id] < m_registers[register_y_id] ? 1 : 0;
-    m_registers[register_x_id] = m_registers[register_x_id] - m_registers[register_y_id];
+    m_registers[0xF] = m_registers[reg_x] < m_registers[reg_y] ? 1 : 0;
+    m_registers[reg_x] = m_registers[reg_x] - m_registers[reg_y];
 }
 
 
-void ControlUnit::shiftRight(std::size_t register_id)
+void ControlUnit::shiftRight(RegisterId reg)
 {
 
-    m_registers[0xF] =  (m_registers[register_id] & 0b00000001);
-    m_registers[register_id] = m_registers[register_id] >> 1;
+    m_registers[0xF] =  (m_registers[reg] & 0b00000001);
+    m_registers[reg] = m_registers[reg] >> 1;
 }
 
-void ControlUnit::shiftLeft(std::size_t register_id)
+void ControlUnit::shiftLeft(RegisterId reg)
 {
-    if (m_registers[register_id] & 0b10000000)
+    if (m_registers[reg] & 0b10000000)
     {
         m_registers[0xF] = 1;
     }
@@ -154,13 +154,13 @@ void ControlUnit::shiftLeft(std::size_t register_id)
         m_registers[0xF] = 0;
     }
 
-    m_registers[register_id] = m_registers[register_id] << 1;
+    m_registers[reg] = m_registers[reg] << 1;
 }
 
-void ControlUnit::skipNextInstructionIfRegistersNotEqual(std::size_t register_1_id,
-                                            std::size_t register_2_id)
+void ControlUnit::skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
+                                                         RegisterId reg_y)
 {
-    if(m_registers[register_1_id] != m_registers[register_2_id])
+    if(m_registers[reg_x] != m_registers[reg_y])
     {
         m_pc += 2;
     }
@@ -177,18 +177,18 @@ void ControlUnit::setPCToV0PlusValue(uint16_t value)
 }
 
 void ControlUnit::registerEqualRandomValue(uint8_t value,
-                              std::size_t register_id)
+                                           RegisterId reg)
 {
     srand (time(NULL));
     auto random_value = rand() % 256;
-    m_registers[register_id] = (value & random_value);
+    m_registers[reg] = (value & random_value);
 }
 
 void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
-                     std::size_t register_x_id,
-                     std::size_t register_y_id)
+                                  RegisterId reg_x,
+                                  RegisterId reg_y)
 {
-    m_display.setSprite({m_registers[register_x_id], m_registers[register_y_id]}, display::makeSprite(m_ram[m_mem_add_reg]));
+    m_display.setSprite({m_registers[reg_x], m_registers[reg_y]}, display::makeSprite(m_ram[m_mem_add_reg]));
 }
 
 }
