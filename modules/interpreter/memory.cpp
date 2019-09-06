@@ -1,4 +1,4 @@
-#include "emulator/memory.h"
+#include "interpreter/memory.h"
 
 namespace chip8
 {

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "emulator/display.h"
+#include "interpreter/display.h"
 
 using namespace chip8::display;
 

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "emulator/memory.h"
+#include "interpreter/memory.h"
 
 using namespace chip8::memory;
 
