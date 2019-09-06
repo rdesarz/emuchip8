@@ -1,6 +1,7 @@
 #ifndef CHIP_INTERPRETER_H
 #define CHIP_INTERPRETER_H
 #include "emulator/memory.h"
+#include "emulator/display.h"
  
 namespace chip8
 {
@@ -88,7 +89,15 @@ void setPCToV0PlusValue(uint16_t value,
 void registerEqualRandomValue(uint8_t value,
                               std::size_t register_id,
                               std::vector<memory::GeneralRegister> registers);
-                              
+
+void displayOnScreen(uint16_t n_bytes_to_read,
+                     std::size_t register_x_id,
+                     std::size_t register_y_id,
+                     std::vector<memory::GeneralRegister>& registers,
+                     memory::MemoryAddressRegister& mem_add_reg,
+                     memory::RAM& ram,
+                     display::Display<bool>& display);
+                                                   
 
 } /// interpreter
 } /// chip8

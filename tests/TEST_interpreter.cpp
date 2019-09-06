@@ -2,6 +2,7 @@
 #include "emulator/interpreter.h"
 
 using namespace chip8::memory;
+using namespace chip8::display;
 using namespace chip8::interpreter;
 
 TEST(InterpreterTest, returnFromSubroutine) {
@@ -260,3 +261,18 @@ TEST(InterpreterTest, SetPCToValuePlusV0) {
 
     EXPECT_EQ(pc, 0x3);
 }
+
+TEST(InterpreterTest, DisplayOneByteOnScreen) {
+    RAM ram;
+    ram[0x400] = 0b11111111;
+    MemoryAddressRegister mem_add_reg(0x400);
+    std::vector<GeneralRegister> registers(16);
+    Display<bool> display(64,32);
+    registers[0] = 0x0;
+    registers[1] = 0x0;
+
+    displayOnScreen(1, 0, 1, registers, mem_add_reg, ram, display);
+
+    EXPECT_EQ(display(0,0), 1);
+}
+

@@ -195,5 +195,16 @@ void registerEqualRandomValue(uint8_t value,
     registers[register_id] = (value & random_value);
 }
 
+void displayOnScreen(uint16_t n_bytes_to_read,
+                     std::size_t register_x_id,
+                     std::size_t register_y_id,
+                     std::vector<memory::GeneralRegister>& registers,
+                     memory::MemoryAddressRegister& mem_add_reg,
+                     memory::RAM& ram,
+                     display::Display<bool>& display)
+{
+    display.setSprite({registers[register_x_id], registers[register_y_id]}, display::makeSprite(ram[mem_add_reg]));
+}
+
 }
 }
