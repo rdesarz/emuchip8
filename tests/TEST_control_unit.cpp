@@ -266,3 +266,38 @@ TEST_F(TestControlUnitFixture, DisplayOneByteOnScreen) {
     EXPECT_EQ(display(0,0), 1);
 }
 
+TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
+    ram[0x400] = 0b11111111;
+    ram[0x401] = 0b11111111;
+    ram[0x402] = 0b11111111;
+    mem_add_reg = 0x400;
+    registers[0] = 0x0;
+    registers[1] = 0x0;
+
+    ctrl_unit.displayOnScreen(3, RegisterId(0), RegisterId(1));
+
+    EXPECT_EQ(display(0,24), 0);
+    EXPECT_EQ(display(0,25), 0);
+}
+
+TEST_F(TestControlUnitFixture, DisplaySpriteOnScreenFlagIsTrue) {
+    ram[0x400] = 0b11111111;
+    mem_add_reg = 0x400;
+    registers[0] = 0x0;
+    registers[1] = 0x0;
+
+    ctrl_unit.displayOnScreen(1, RegisterId(0), RegisterId(1));
+
+    EXPECT_EQ(registers[0xF], 1);
+}
+
+TEST_F(TestControlUnitFixture, DisplayOnScreenWithoutModificationFlagIsFalse) {
+    ram[0x400] = 0b000000000;
+    mem_add_reg = 0x400;
+    registers[0] = 0x0;
+    registers[1] = 0x0;
+
+    ctrl_unit.displayOnScreen(1, RegisterId(0), RegisterId(1));
+
+    EXPECT_EQ(registers[0xF], 0);
+}

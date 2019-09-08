@@ -10,8 +10,6 @@ namespace chip8
 namespace ctrlunit
 {
 
-
-
 ControlUnit::ControlUnit(memory::ProgramCounter& pc,
                 memory::StackPointer& stack_ptr,
                 memory::MemoryAddressRegister& mem_add_reg,
@@ -188,7 +186,22 @@ void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
                                   RegisterId reg_x,
                                   RegisterId reg_y)
 {
-    m_display.setSprite({m_registers[reg_x], m_registers[reg_y]}, display::makeSprite(m_ram[m_mem_add_reg]));
+    bool any_pixel_modified = false;
+    for(uint16_t i=0;i<n_bytes_to_read;++i)
+    {
+        any_pixel_modified |= m_display.setSprite({m_registers[reg_x], m_registers[reg_y]+8*i}, display::makeSprite(m_ram[m_mem_add_reg+i]));
+    }   
+
+    if (any_pixel_modified)
+    {
+        m_registers[0xF] = 1;
+    }
+    else
+    {
+        m_registers[0xF] = 0;
+    }
+
+
 }
 
 }

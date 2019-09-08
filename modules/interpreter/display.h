@@ -11,50 +11,55 @@ namespace display
 
 struct PixelCoordinate
 {
-    PixelCoordinate(uint32_t _x, uint32_t _y) : x(_x), y(_y) { }
-    uint32_t x = 0;
-    uint32_t y = 0;
+    PixelCoordinate(std::size_t _x, std::size_t _y) : x(_x), y(_y) { }
+    std::size_t x = 0;
+    std::size_t y = 0;
 };
-
 
 template<typename Pixel>
 class Display
 {
 public:
-    Display(uint32_t w, uint32_t l); 
+    Display(std::size_t width, std::size_t length);
     virtual ~Display() = default;
 
-    uint8_t operator() (uint32_t x, uint32_t y) const
+    Pixel operator() (std::size_t x, std::size_t y) const
     {
-        return m_screen(x,y);
+        return m_pixels(x,y);
     }
 
-    void setPixel(PixelCoordinate coord, Pixel value);
-    void setSprite(PixelCoordinate coord, std::vector<Pixel> sprite);
+    bool setPixel(PixelCoordinate coord, Pixel value);
+    bool setSprite(PixelCoordinate coord, std::vector<Pixel> sprite);
 
-private: 
-    boost::numeric::ublas::matrix<Pixel> m_screen;
+private:
+    boost::numeric::ublas::matrix<Pixel> m_pixels;
 };
 
 template<typename Pixel>
-Display<Pixel>::Display(uint32_t w, uint32_t l) : m_screen(boost::numeric::ublas::matrix<Pixel>(w,l))
+Display<Pixel>::Display(std::size_t width, std::size_t length) : m_pixels(boost::numeric::ublas::matrix<Pixel>(width,length))
 { }
 
 
 template<typename Pixel>
-void Display<Pixel>::setPixel(PixelCoordinate coord, Pixel value)
+bool Display<Pixel>::setPixel(PixelCoordinate coord, Pixel value)
 {
-    m_screen(coord.x, coord.y) ^= value;
+    Pixel old_value = m_pixels(coord.x, coord.y); 
+    m_pixels(coord.x, coord.y) ^= value;
+    return m_pixels(coord.x, coord.y) != old_value;
 }
 
 template<typename Pixel>
-void Display<Pixel>::setSprite(PixelCoordinate coord, std::vector<Pixel> sprite)
+bool Display<Pixel>::setSprite(PixelCoordinate coord, std::vector<Pixel> sprite)
 {
+    bool any_pixel_modified = false;
     for(uint8_t i=0;i<8;++i)
     {
-       m_screen(coord.x,coord.y+i) ^= sprite[i]; 
+        any_pixel_modified |= setPixel({ coord.x,coord.y+i }, sprite[i]); 
     }
+
+    return any_pixel_modified;
 }
+
 
 std::vector<bool> makeSprite(uint8_t byte);
 
