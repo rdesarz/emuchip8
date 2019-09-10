@@ -20,7 +20,7 @@ template<typename Pixel>
 class Display
 {
 public:
-    Display(std::size_t width, std::size_t length);
+    Display(std::size_t width, std::size_t height);
     virtual ~Display() = default;
 
     Pixel operator() (std::size_t x, std::size_t y) const
@@ -36,15 +36,22 @@ private:
 };
 
 template<typename Pixel>
-Display<Pixel>::Display(std::size_t width, std::size_t length) : m_pixels(boost::numeric::ublas::matrix<Pixel>(width,length))
-{ }
+Display<Pixel>::Display(std::size_t width, std::size_t height) : m_pixels(width,height)
+{ 
+    m_pixels.clear();
+}
 
 
 template<typename Pixel>
 bool Display<Pixel>::setPixel(PixelCoordinate coord, Pixel value)
 {
-    Pixel old_value = m_pixels(coord.x, coord.y); 
+    // Crop if pixel is outside of the screen
+    coord.x = coord.x % m_pixels.size1();
+
+    // Check if pixel is modified or not
+    Pixel old_value = m_pixels(coord.x, coord.y);
     m_pixels(coord.x, coord.y) ^= value;
+
     return m_pixels(coord.x, coord.y) != old_value;
 }
 
@@ -54,12 +61,11 @@ bool Display<Pixel>::setSprite(PixelCoordinate coord, std::vector<Pixel> sprite)
     bool any_pixel_modified = false;
     for(uint8_t i=0;i<8;++i)
     {
-        any_pixel_modified |= setPixel({ coord.x,coord.y+i }, sprite[i]); 
+        any_pixel_modified |= setPixel({ coord.x+i,coord.y }, sprite[i]); 
     }
 
     return any_pixel_modified;
 }
-
 
 std::vector<bool> makeSprite(uint8_t byte);
 

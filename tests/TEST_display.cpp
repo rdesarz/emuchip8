@@ -37,20 +37,28 @@ TEST(DisplayTest, TestNonModifiedPixelFlag) {
     EXPECT_EQ(modified, false);
 }
 
-TEST(DisplayTest, TestModifiedPixelWhenModifyingSpriteFlag) {
+TEST(DisplayTest, TestModifiedSpriteFlag) {
     Display<bool> display(64,32);    
-    display.setPixel({1,1}, 1);
-    display.setPixel({1,2}, 1);
 
     auto modified = display.setSprite({1,1}, makeSprite(0b11111111));
     
     EXPECT_EQ(modified, true);
 }
 
-TEST(DisplayTest, TestNonModifiedPixelWhenModifyingSpriteFlag) {
-    Display<bool> display(64,32);    
+TEST(DisplayTest, TestNonModifiedSpriteFlag) {
+    Display<bool> display(64,32);
 
     auto modified = display.setSprite({1,1}, makeSprite(0b000000000));
     
     EXPECT_EQ(modified, false);
+}
+
+TEST(DisplayTest, TestSpriteOutsideOfScreen) {
+    Display<bool> display(64,32);    
+
+    display.setSprite({63,1}, makeSprite(0b11111111));
+    
+    EXPECT_EQ(display(0,1), 1);
+    EXPECT_EQ(display(6,1), 1);
+    EXPECT_EQ(display(7,1), 0);
 }
