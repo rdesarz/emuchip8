@@ -17,7 +17,7 @@ protected:
     Stack stack;
     std::vector<GeneralRegister> registers;
     RAM ram;
-    Display<bool> display;
+    Display<uint8_t> display;
     ControlUnit ctrl_unit;
 };
 
@@ -301,3 +301,5 @@ TEST_F(TestControlUnitFixture, DisplayOnScreenWithoutModificationFlagIsFalse) {
 
     EXPECT_EQ(registers[0xF], 0);
 }
+
+

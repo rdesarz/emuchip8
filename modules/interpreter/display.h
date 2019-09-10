@@ -9,6 +9,22 @@ namespace chip8
 namespace display
 {
 
+
+// Generate a vector of bit representing a sprite 
+template<typename SpriteType>
+std::vector<SpriteType> makeSprite(uint8_t byte)
+{
+   std::vector<SpriteType> sprite(8);
+
+   for(std::size_t index=0;index<8;++index)
+   {
+       sprite[index] =  ((1 << index) & byte) >> index;
+   }
+
+   return sprite; 
+}
+
+// Store a pixel coordinate to use with the display
 struct PixelCoordinate
 {
     PixelCoordinate(std::size_t _x, std::size_t _y) : x(_x), y(_y) { }
@@ -16,6 +32,8 @@ struct PixelCoordinate
     std::size_t y = 0;
 };
 
+
+// Store display information
 template<typename Pixel>
 class Display
 {

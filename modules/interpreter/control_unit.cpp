@@ -16,7 +16,7 @@ ControlUnit::ControlUnit(memory::ProgramCounter& pc,
                 memory::Stack& stack,
                 std::vector<memory::GeneralRegister>& registers,
                 memory::RAM& ram,
-                display::Display<bool>& display) :
+                display::Display<uint8_t>& display) :
       m_pc(pc),
       m_stack_ptr(stack_ptr),
       m_mem_add_reg(mem_add_reg),
@@ -189,7 +189,7 @@ void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
     bool any_pixel_modified = false;
     for(uint16_t i=0;i<n_bytes_to_read;++i)
     {
-        any_pixel_modified |= m_display.setSprite({m_registers[reg_x], m_registers[reg_y]+8*i}, display::makeSprite(m_ram[m_mem_add_reg+i]));
+        any_pixel_modified |= m_display.setSprite({m_registers[reg_x], m_registers[reg_y]+8*i}, display::makeSprite<uint8_t>(m_ram[m_mem_add_reg+i]));
     }   
 
     if (any_pixel_modified)

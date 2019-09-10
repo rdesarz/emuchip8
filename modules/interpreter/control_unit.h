@@ -19,7 +19,7 @@ public:
                 memory::Stack& stack,
                 std::vector<memory::GeneralRegister>& registers,
                 memory::RAM& ram,
-                display::Display<bool>& display);
+                display::Display<uint8_t>& display);
 
     void returnFromSubroutine();
     
@@ -84,7 +84,7 @@ private:
     memory::Stack& m_stack;
     std::vector<memory::GeneralRegister>& m_registers;
     memory::RAM& m_ram;
-    display::Display<bool>& m_display;
+    display::Display<uint8_t>& m_display;
 };
 
 } /// ctrlunit

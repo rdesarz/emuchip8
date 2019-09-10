@@ -17,11 +17,11 @@ template<typename MemoryUnit, std::size_t MemorySize>
 class GenericMemory
 {
 public:
-    GenericMemory() = default;
+    GenericMemory() : m_container(MemorySize, 0) { }
     ~GenericMemory() { }; 
     MemoryUnit& operator[](size_t index) { return m_container[index]; }
 private: 
-    std::array<MemoryUnit, MemorySize> m_container;
+    std::vector<MemoryUnit> m_container;
 };
 
 using RAM = GenericMemory<uint8_t, 4096>;
@@ -31,7 +31,7 @@ template<typename MemoryType>
 class Register
 {
 public:
-    Register() { };
+    Register() : m_value(MemoryType()) { };
     explicit Register(MemoryType value) : m_value(value) { };
     Register(const Register & register_) : m_value(register_.m_value) {}   
     Register & operator=(const Register & rhs) { m_value = rhs.m_value; return *this;}    
