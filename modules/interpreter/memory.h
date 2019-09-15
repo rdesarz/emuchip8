@@ -9,9 +9,6 @@
  
 namespace chip8
 {
-namespace memory
-{
-
 
 template<typename MemoryUnit, std::size_t MemorySize>
 class GenericMemory
@@ -50,7 +47,5 @@ using MemoryAddressRegister = Register<uint16_t>;
 using ProgramCounter = Register<uint16_t>;
 using StackPointer = Register<uint8_t>;
 
-
-} /// memory
 } /// chip8
 #endif

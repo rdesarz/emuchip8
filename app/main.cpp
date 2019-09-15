@@ -6,7 +6,7 @@
 #include "interpreter/user_input.h"
 #include "interpreter/user_input_impl.h"
 
-using namespace chip8::userinput;
+using namespace chip8;
 
 int main(int argc, char ** argv)
 {

@@ -2,7 +2,7 @@
 #include "interpreter/display.h"
 #include "iostream"
 
-using namespace chip8::display;
+using namespace chip8;
 
 
 class TestDisplayFixture : public ::testing::Test

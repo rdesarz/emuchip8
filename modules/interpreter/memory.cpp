@@ -2,9 +2,6 @@
 
 namespace chip8
 {
-namespace memory
-{
 
 
-}
 }

@@ -9,8 +9,6 @@
 
 namespace chip8
 {
-namespace userinput
-{
 
 // Map a Chip8 input to a SDL keycode
 class SDLInputToKeyMap
@@ -46,6 +44,5 @@ private:
     std::unordered_map<InputId, InputState> m_inputs_state;
 };
 
-} /// userinput
 } /// chip8
 #endif

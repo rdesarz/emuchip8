@@ -5,8 +5,6 @@
 
 namespace chip8
 {
-namespace userinput
-{
 
 // Enum definition
 enum class InputState
@@ -86,6 +84,5 @@ InputId toInputId(T value)
     }
 }
 
-} /// userinput
 } /// chip8
 #endif

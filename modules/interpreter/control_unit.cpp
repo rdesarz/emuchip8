@@ -3,21 +3,19 @@
 #include <limits>
 #include <cstdlib>
 
-using namespace chip8::memory;
+using namespace chip8;
 
 namespace chip8
 {
-namespace ctrlunit
-{
 
-ControlUnit::ControlUnit(memory::ProgramCounter& pc,
-                memory::StackPointer& stack_ptr,
-                memory::MemoryAddressRegister& mem_add_reg,
-                memory::Stack& stack,
-                std::vector<memory::GeneralRegister>& registers,
-                memory::RAM& ram,
-                display::Display<uint8_t>& display, 
-                userinput::UserInputController& ui_ctrler) :
+ControlUnit::ControlUnit(ProgramCounter& pc,
+                         StackPointer& stack_ptr,
+                         MemoryAddressRegister& mem_add_reg,
+                         Stack& stack,
+                         std::vector<GeneralRegister>& registers,
+                         RAM& ram,
+                         Display<uint8_t>& display, 
+                         UserInputController& ui_ctrler) :
       m_pc(pc),
       m_stack_ptr(stack_ptr),
       m_mem_add_reg(mem_add_reg),
@@ -191,7 +189,7 @@ void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
     bool any_pixel_modified = false;
     for(uint16_t i=0;i<n_bytes_to_read;++i)
     {
-        any_pixel_modified |= m_display.setSprite({m_registers[reg_x], m_registers[reg_y]+8*i}, display::makeSprite<uint8_t>(m_ram[m_mem_add_reg+i]));
+        any_pixel_modified |= m_display.setSprite({m_registers[reg_x], m_registers[reg_y]+8*i}, makeSprite<uint8_t>(m_ram[m_mem_add_reg+i]));
     }   
 
     if (any_pixel_modified)
@@ -200,13 +198,13 @@ void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
     }
     else
     {
-        m_registers[0xF] = 0;
+        m_registers[0xF] = 0; 
     }
 }
 
 void ControlUnit::checkIfKeyPressed(RegisterId reg_x)
 {
-    if(m_ui_ctrler.getInputState(userinput::toInputId(m_registers[reg_x])) == userinput::InputState::ON)
+    if(m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) == InputState::ON)
     {
         m_pc += 2;
     }
@@ -214,10 +212,10 @@ void ControlUnit::checkIfKeyPressed(RegisterId reg_x)
 
 void ControlUnit::checkIfKeyNotPressed(RegisterId reg_x)
 {
-    if(m_ui_ctrler.getInputState(userinput::toInputId(m_registers[reg_x])) != userinput::InputState::ON)
+    if(m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) != InputState::ON)
     {
         m_pc += 2;
     }
 }
-}
-}
+
+} /// namespace chip8
