@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "interpreter/memory.h"
 
-using namespace chip8::memory;
+using namespace chip8;
 
 TEST(Memory, Initialization) {
     RAM memory;

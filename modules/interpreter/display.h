@@ -6,9 +6,6 @@
 
 namespace chip8
 {
-namespace display
-{
-
 
 // Generate a vector of bit representing a sprite 
 template<typename SpriteType>
@@ -87,6 +84,5 @@ bool Display<Pixel>::setSprite(PixelCoordinate coord, std::vector<Pixel> sprite)
 
 std::vector<bool> makeSprite(uint8_t byte);
 
-} /// display
 } /// chip8
 #endif

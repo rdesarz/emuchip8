@@ -6,22 +6,20 @@
  
 namespace chip8
 {
-namespace ctrlunit
-{
 
 BOOST_STRONG_TYPEDEF(std::size_t, RegisterId)
 
 class ControlUnit
 {
 public:
-    ControlUnit(memory::ProgramCounter& pc,
-                memory::StackPointer& stack_ptr,
-                memory::MemoryAddressRegister& mem_add_reg,
-                memory::Stack& stack,
-                std::vector<memory::GeneralRegister>& registers,
-                memory::RAM& ram,
-                display::Display<uint8_t>& display,
-                userinput::UserInputController& ui_ctrler);
+    ControlUnit(ProgramCounter& pc,
+                StackPointer& stack_ptr,
+                MemoryAddressRegister& mem_add_reg,
+                Stack& stack,
+                std::vector<GeneralRegister>& registers,
+                RAM& ram,
+                Display<uint8_t>& display,
+                UserInputController& ui_ctrler);
 
     void returnFromSubroutine();
     
@@ -85,16 +83,15 @@ public:
     void checkIfKeyNotPressed(RegisterId reg_x);
 
 private:
-    memory::ProgramCounter& m_pc;
-    memory::StackPointer& m_stack_ptr;
-    memory::MemoryAddressRegister& m_mem_add_reg;
-    memory::Stack& m_stack;
-    std::vector<memory::GeneralRegister>& m_registers;
-    memory::RAM& m_ram;
-    display::Display<uint8_t>& m_display;
-    userinput::UserInputController& m_ui_ctrler; 
+    ProgramCounter& m_pc;
+    StackPointer& m_stack_ptr;
+    MemoryAddressRegister& m_mem_add_reg;
+    Stack& m_stack;
+    std::vector<GeneralRegister>& m_registers;
+    RAM& m_ram;
+    Display<uint8_t>& m_display;
+    UserInputController& m_ui_ctrler; 
 };
 
-} /// ctrlunit
 } /// chip8
 #endif

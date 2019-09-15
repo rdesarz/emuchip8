@@ -4,9 +4,6 @@ using namespace boost::numeric::ublas;
 
 namespace chip8
 {
-namespace display
-{
 
 
-}
 }

@@ -2,10 +2,7 @@
 #include "interpreter/control_unit.h"
 #include "interpreter/user_input_impl.h"
 
-using namespace chip8::memory;
-using namespace chip8::display;
-using namespace chip8::userinput;
-using namespace chip8::ctrlunit;
+using namespace chip8;
 
 class TestControlUnitFixture : public ::testing::Test
 {

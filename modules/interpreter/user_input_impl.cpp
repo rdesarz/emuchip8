@@ -2,8 +2,6 @@
 
 namespace chip8
 {
-namespace userinput
-{
 
 SDLInputToKeyMap::SDLInputToKeyMap()
 {
@@ -152,5 +150,4 @@ std::optional<InputState> TestUserInputController::getInputState(InputId input_i
     }
 }
 
-}
-}
+} /// namespace chip8
