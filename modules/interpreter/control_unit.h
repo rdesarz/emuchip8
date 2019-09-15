@@ -1,6 +1,7 @@
 #ifndef CHIP_CONTROL_UNIT_H
 #define CHIP_CONTROL_UNIT_H
 #include "interpreter/memory.h"
+#include "interpreter/user_input.h"
 #include "interpreter/display.h"
  
 namespace chip8
@@ -19,7 +20,8 @@ public:
                 memory::Stack& stack,
                 std::vector<memory::GeneralRegister>& registers,
                 memory::RAM& ram,
-                display::Display<uint8_t>& display);
+                display::Display<uint8_t>& display,
+                userinput::UserInputController& ui_ctrler);
 
     void returnFromSubroutine();
     
@@ -77,6 +79,11 @@ public:
     void displayOnScreen(uint16_t n_bytes_to_read,
                          RegisterId reg_x,
                          RegisterId reg_y);
+
+    void checkIfKeyPressed(RegisterId reg_x);
+    
+    void checkIfKeyNotPressed(RegisterId reg_x);
+
 private:
     memory::ProgramCounter& m_pc;
     memory::StackPointer& m_stack_ptr;
@@ -85,6 +92,7 @@ private:
     std::vector<memory::GeneralRegister>& m_registers;
     memory::RAM& m_ram;
     display::Display<uint8_t>& m_display;
+    userinput::UserInputController& m_ui_ctrler; 
 };
 
 } /// ctrlunit

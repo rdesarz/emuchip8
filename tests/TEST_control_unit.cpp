@@ -1,14 +1,16 @@
 #include "gtest/gtest.h"
 #include "interpreter/control_unit.h"
+#include "interpreter/user_input_impl.h"
 
 using namespace chip8::memory;
 using namespace chip8::display;
+using namespace chip8::userinput;
 using namespace chip8::ctrlunit;
 
 class TestControlUnitFixture : public ::testing::Test
 {
 protected:
-    TestControlUnitFixture() : ctrl_unit(pc, stack_ptr, mem_add_reg, stack, registers, ram, display), registers(16), display(64,32)
+    TestControlUnitFixture() : ctrl_unit(pc, stack_ptr, mem_add_reg, stack, registers, ram, display, ui_ctrler), registers(16), display(64,32)
     { }
 
     ProgramCounter pc;
@@ -18,6 +20,7 @@ protected:
     std::vector<GeneralRegister> registers;
     RAM ram;
     Display<uint8_t> display;
+    TestUserInputController ui_ctrler; 
     ControlUnit ctrl_unit;
 };
 
@@ -302,4 +305,40 @@ TEST_F(TestControlUnitFixture, DisplayOnScreenWithoutModificationFlagIsFalse) {
     EXPECT_EQ(registers[0xF], 0);
 }
 
+TEST_F(TestControlUnitFixture, CheckIfKeyPressedFalseCase) {
+    registers[1] = 0x1;
+    pc = 0x2;
 
+    ctrl_unit.checkIfKeyPressed(RegisterId(1));
+
+    EXPECT_EQ(pc, 0x2);
+}
+
+TEST_F(TestControlUnitFixture, CheckIfKeyPressedTrueCase) {
+    registers[1] = 0x1;
+    pc = 0x2;
+    ui_ctrler.setInputState(InputId::INPUT_1, InputState::ON);
+
+    ctrl_unit.checkIfKeyPressed(RegisterId(1));
+
+    EXPECT_EQ(pc, 0x4);
+}
+
+TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedFalseCase) {
+    registers[1] = 0x1;
+    pc = 0x2;
+
+    ctrl_unit.checkIfKeyNotPressed(RegisterId(1));
+
+    EXPECT_EQ(pc, 0x4);
+}
+
+TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedTrueCase) {
+    registers[1] = 0x1;
+    pc = 0x2;
+    ui_ctrler.setInputState(InputId::INPUT_1, InputState::ON);
+
+    ctrl_unit.checkIfKeyNotPressed(RegisterId(1));
+
+    EXPECT_EQ(pc, 0x2);
+}

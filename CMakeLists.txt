@@ -44,7 +44,7 @@ target_link_libraries( memory_test ${GTEST_BOTH_LIBRARIES} pthread memory displa
 add_test( NAME memory_test COMMAND memory_test)
 
 add_executable( control_unit_test tests/TEST_control_unit.cpp )
-target_link_libraries( control_unit_test control_unit ${GTEST_BOTH_LIBRARIES} pthread memory display)
+target_link_libraries( control_unit_test control_unit ${GTEST_BOTH_LIBRARIES} user_input_impl pthread memory display)
 add_test( NAME control_unit COMMAND control_unit_test)
 
 add_executable( display_test tests/TEST_display.cpp )
