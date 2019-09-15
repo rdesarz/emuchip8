@@ -30,11 +30,13 @@ add_library(control_unit modules/interpreter/control_unit.cpp)
 target_link_libraries (control_unit ${Boost_LIBRARIES})
 add_library(display modules/interpreter/display.cpp)
 target_link_libraries (display ${Boost_LIBRARIES})
+add_library(user_input_impl modules/interpreter/user_input_impl.cpp)
+target_link_libraries (user_input_impl ${Boost_LIBRARIES})
 
 
 ## Executables
 add_executable(main app/main.cpp)
-target_link_libraries (main ${SDL2_LIBRARIES})
+target_link_libraries (main user_input_impl ${SDL2_LIBRARIES})
 
 ## Unit tests
 add_executable( memory_test tests/TEST_memory.cpp )
