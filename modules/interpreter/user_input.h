@@ -1,6 +1,8 @@
 #ifndef USER_INPUT_H
 #define USER_INPUT_H
 
+#include <optional>
+
 namespace chip8
 {
 namespace userinput
@@ -13,8 +15,9 @@ enum class InputState
     ON
 };
 
-enum class InputId
+enum class InputId 
 {
+    INPUT_ERROR = -1,
     INPUT_0,
     INPUT_1,
     INPUT_2,
@@ -40,6 +43,48 @@ public:
     UserInputController() = default;
     virtual std::optional<InputState> getInputState(InputId input_id) = 0;
 };
+
+template<typename T>
+InputId toInputId(T value)
+{
+    switch(value)
+    {
+        case 0x0:
+            return InputId::INPUT_0;
+        case 0x1:
+            return InputId::INPUT_1;
+        case 0x2:
+            return InputId::INPUT_2;
+        case 0x3: 
+            return InputId::INPUT_3;
+        case 0x4: 
+            return InputId::INPUT_4;
+        case 0x5: 
+            return InputId::INPUT_5;
+        case 0x6: 
+            return InputId::INPUT_6;
+        case 0x7:
+            return InputId::INPUT_7;
+        case 0x8:
+            return InputId::INPUT_8;
+        case 0x9:
+            return InputId::INPUT_9;
+        case 0xA:
+            return InputId::INPUT_A;
+        case 0xB:
+            return InputId::INPUT_B;
+        case 0xC:
+            return InputId::INPUT_C;
+        case 0xD:
+            return InputId::INPUT_D;
+        case 0xE:
+            return InputId::INPUT_E;
+        case 0xF:
+            return InputId::INPUT_F;
+        default:
+            return InputId::INPUT_ERROR; 
+    }
+}
 
 } /// userinput
 } /// chip8

@@ -16,14 +16,16 @@ ControlUnit::ControlUnit(memory::ProgramCounter& pc,
                 memory::Stack& stack,
                 std::vector<memory::GeneralRegister>& registers,
                 memory::RAM& ram,
-                display::Display<uint8_t>& display) :
+                display::Display<uint8_t>& display, 
+                userinput::UserInputController& ui_ctrler) :
       m_pc(pc),
       m_stack_ptr(stack_ptr),
       m_mem_add_reg(mem_add_reg),
       m_stack(stack),
       m_registers(registers),
       m_ram(ram),
-      m_display(display)
+      m_display(display),
+      m_ui_ctrler(ui_ctrler)
 {
 }
 
@@ -200,9 +202,22 @@ void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
     {
         m_registers[0xF] = 0;
     }
-
-
 }
 
+void ControlUnit::checkIfKeyPressed(RegisterId reg_x)
+{
+    if(m_ui_ctrler.getInputState(userinput::toInputId(m_registers[reg_x])) == userinput::InputState::ON)
+    {
+        m_pc += 2;
+    }
+}
+
+void ControlUnit::checkIfKeyNotPressed(RegisterId reg_x)
+{
+    if(m_ui_ctrler.getInputState(userinput::toInputId(m_registers[reg_x])) != userinput::InputState::ON)
+    {
+        m_pc += 2;
+    }
+}
 }
 }
