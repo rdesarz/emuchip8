@@ -31,7 +31,8 @@ enum class InputId
     INPUT_C,
     INPUT_D,
     INPUT_E,
-    INPUT_F
+    INPUT_F,
+    INPUT_SIZE
 };
 
 // UserInputController

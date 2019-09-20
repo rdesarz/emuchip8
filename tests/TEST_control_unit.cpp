@@ -339,3 +339,23 @@ TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedTrueCase) {
 
     EXPECT_EQ(pc, 0x2);
 }
+
+TEST_F(TestControlUnitFixture, WaitForKeyPressedTrueCase) {
+    registers[1] = 0x0;
+    pc = 0x2;
+    ui_ctrler.setInputState(InputId::INPUT_1, InputState::ON);
+
+    ctrl_unit.waitForKeyPressed(RegisterId(1));
+
+    EXPECT_EQ(pc, 0x2);
+    EXPECT_EQ(registers[1], 0x1);
+}
+
+TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
+    registers[1] = 0x0;
+    pc = 0x2;
+
+    ctrl_unit.waitForKeyPressed(RegisterId(1));
+
+    EXPECT_EQ(pc, 0x1);
+}
