@@ -81,6 +81,8 @@ public:
     void checkIfKeyPressed(RegisterId reg_x);
     
     void checkIfKeyNotPressed(RegisterId reg_x);
+    
+    void waitForKeyPressed(RegisterId reg_x);
 
 private:
     ProgramCounter& m_pc;

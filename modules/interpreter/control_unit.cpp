@@ -218,4 +218,18 @@ void ControlUnit::checkIfKeyNotPressed(RegisterId reg_x)
     }
 }
 
+void ControlUnit::waitForKeyPressed(RegisterId reg_x)
+{
+    for(std::size_t index=0;index<static_cast<std::size_t>(InputId::INPUT_SIZE);++index)
+    {
+        if(m_ui_ctrler.getInputState(toInputId(index)) == InputState::ON)
+        {
+            m_registers[reg_x] = index;
+            return;
+        }
+    }
+
+    --m_pc;
+}
+
 } /// namespace chip8
