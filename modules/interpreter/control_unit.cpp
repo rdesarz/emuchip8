@@ -14,7 +14,7 @@ ControlUnit::ControlUnit(ProgramCounter& pc,
                          Stack& stack,
                          std::vector<GeneralRegister>& registers,
                          RAM& ram,
-                         Display<uint8_t>& display, 
+                         DisplayController& display_ctrler, 
                          UserInputController& ui_ctrler) :
       m_pc(pc),
       m_stack_ptr(stack_ptr),
@@ -22,7 +22,7 @@ ControlUnit::ControlUnit(ProgramCounter& pc,
       m_stack(stack),
       m_registers(registers),
       m_ram(ram),
-      m_display(display),
+      m_display_ctrler(display_ctrler),
       m_ui_ctrler(ui_ctrler)
 {
 }
@@ -189,7 +189,7 @@ void ControlUnit::displayOnScreen(uint16_t n_bytes_to_read,
     bool any_pixel_modified = false;
     for(uint16_t i=0;i<n_bytes_to_read;++i)
     {
-        any_pixel_modified |= m_display.setSprite({m_registers[reg_x], m_registers[reg_y]+8*i}, makeSprite<uint8_t>(m_ram[m_mem_add_reg+i]));
+        any_pixel_modified |= m_display_ctrler.setSprite(m_registers[reg_x], m_registers[reg_y]+8*i, makeSprite<uint8_t>(m_ram[m_mem_add_reg+i]));
     }   
 
     if (any_pixel_modified)
