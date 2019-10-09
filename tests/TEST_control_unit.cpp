@@ -1,25 +1,10 @@
 #include "gtest/gtest.h"
+
+#include "fixtures.h"
 #include "interpreter/control_unit.h"
 #include "interpreter/user_input_impl.h"
 
 using namespace chip8;
-
-class TestControlUnitFixture : public ::testing::Test
-{
-protected:
-    TestControlUnitFixture() : ctrl_unit(pc, stack_ptr, mem_add_reg, stack, registers, ram, display, ui_ctrler), registers(16), display(64,32)
-    { }
-
-    ProgramCounter pc;
-    StackPointer stack_ptr;
-    MemoryAddressRegister mem_add_reg;
-    Stack stack;
-    std::vector<GeneralRegister> registers;
-    RAM ram;
-    Display<uint8_t> display;
-    TestUserInputController ui_ctrler; 
-    ControlUnit ctrl_unit;
-};
 
 TEST_F(TestControlUnitFixture, returnFromSubroutine) {
 
@@ -263,7 +248,7 @@ TEST_F(TestControlUnitFixture, DisplayOneByteOnScreen) {
 
     ctrl_unit.displayOnScreen(1, RegisterId(0), RegisterId(1));
 
-    EXPECT_EQ(display(0,0), 1);
+    EXPECT_EQ(model.getPixelValue(0,0), 1);
 }
 
 TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
@@ -276,8 +261,8 @@ TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
 
     ctrl_unit.displayOnScreen(3, RegisterId(0), RegisterId(1));
 
-    EXPECT_EQ(display(0,24), 0);
-    EXPECT_EQ(display(0,25), 0);
+    EXPECT_EQ(model.getPixelValue(0,24), 0);
+    EXPECT_EQ(model.getPixelValue(0,25), 0);
 }
 
 TEST_F(TestControlUnitFixture, DisplaySpriteOnScreenFlagIsTrue) {

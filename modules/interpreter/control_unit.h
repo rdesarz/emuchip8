@@ -2,7 +2,7 @@
 #define CHIP_CONTROL_UNIT_H
 #include "interpreter/memory.h"
 #include "interpreter/user_input.h"
-#include "interpreter/display.h"
+#include "display/display_controller.h"
  
 namespace chip8
 {
@@ -18,7 +18,7 @@ public:
                 Stack& stack,
                 std::vector<GeneralRegister>& registers,
                 RAM& ram,
-                Display<uint8_t>& display,
+                DisplayController& display,
                 UserInputController& ui_ctrler);
 
     void returnFromSubroutine();
@@ -91,7 +91,7 @@ private:
     Stack& m_stack;
     std::vector<GeneralRegister>& m_registers;
     RAM& m_ram;
-    Display<uint8_t>& m_display;
+    DisplayController& m_display_ctrler;
     UserInputController& m_ui_ctrler; 
 };
 
