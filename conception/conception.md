@@ -1,11 +1,81 @@
 # Chip8 interpreter
 
-## Nominal execution
-The diagram below describes how a nominal loop of the system works :
-
-
-
 ## Display
+
+```plantuml
+@startuml class
+
+skinparam monochrome reverse
+
+class Window {                                        
+    + Window(pixel::Width width, pixel::Height height, const std::string& label)
+    + setBackgroundColor(pixel::Color color) : void
+    + update() : void                        
+    + attachNewComponent(std::shared_ptr<WindowComponent> component) : void                                                                     
+    -------------------------------------------------------------------
+    - m_components : std::vector<std::shared_ptr<Component>>                         
+    - m_window : SDL_Window*                                                      
+    - m_renderer : SDL_Renderer*                                                
+}                                                                  
+
+Window *-- WindowComponent
+
+class WindowComponent {
+    + assign_renderer(SDL_Renderer* renderer)
+    + render() : void
+    + getRenderer() : const SDL_Renderer*
+    --------------------------
+    - renderer : SDL_Renderer*
+}
+
+WindowComponent <|-- DisplayViewImpl
+
+interface DisplayView {
+    + render() : void 
+}
+
+class DisplayViewImpl {
+    + DisplayViewImpl(model : const DisplayModel&)
+    + render() : void 
+    -------------------------------------------------------------------
+    - m_model : const DisplayModel&
+}
+
+DisplayView <|-- DisplayViewImpl
+
+interface DisplayModel {
+    + setPixelValue(std::size_t x, std::size_t y, uint8_t value) : void
+    + getPixelValue(std::size_t x, std::size_t y) const : uint8_t     
+    + getWidth() const : std::size_t;                                   
+    + getHeight() const : std::size_t;                                   
+}
+
+class DisplayModelImpl {
+    + DisplayModelImpl(std::size_t width, std::size_t height)
+    + setPixelValue(std::size_t x, std::size_t y, uint8_t value) : void
+    + getPixelValue(std::size_t x, std::size_t y) const : uint8_t     
+    + getWidth() const : std::size_t;      
+    + getHeight() const : std::size_t; 
+    -----------------------------------------------------------------
+    - m_pixels : boost::numeric::ublas::matrix<Pixel>
+}
+
+DisplayModel <|-- DisplayModelImpl
+
+class DisplayController {  
+    DisplayController(DisplayModel& model, std::shared_ptr<DisplayView> view)
+    setPixel(std::size_t x, std::size_t y, uint8_t value) : bool
+    setSprite(std::size_t x, std::size_t y, std::vector<uint8_t> sprite) : bool 
+    -----------------------------------------------------------------
+    m_model : DisplayModel&         
+    m_view : DisplayView&                                                      
+}                                                     
+
+DisplayController *-- DisplayModel
+DisplayController *-- DisplayView
+
+@enduml
+```
 
 ## Input
 The goal is to have a component which handles the user inputs. Since the interpreter can be used on different platform (computer, but also smartphone, etc), the solution should be generic enough to handle either a keyboard, an input from a touchpad or something else. 
