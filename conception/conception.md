@@ -1,5 +1,27 @@
 # Chip8 interpreter
 
+## Instruction interpreter
+
+```plantuml
+@startuml 
+
+skinparam monochrome reverse
+
+start
+if(first digit = 0) then (yes)
+if(second digit = 0 & third digit = E) then (yes)
+if (4th digit = 0) then (yes)
+:Clear display;
+else (no)
+if (4th digit = E) then (yes)
+:returnFromSubroutine;
+else
+:Jump to;
+else
+:Test;
+@enduml
+```
+
 ## Display
 
 ```plantuml
