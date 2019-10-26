@@ -52,6 +52,9 @@ target_link_libraries (display_controller ${Boost_LIBRARIES})
 add_library(window modules/display/window.cpp)
 target_link_libraries (window ${Boost_LIBRARIES})
 
+add_library(rom_loader modules/interpreter/rom_loader.cpp)
+target_link_libraries (window ${Boost_LIBRARIES})
+
 ## Executables
 add_executable(main app/main.cpp)
 target_link_libraries (main window display_model_impl display_view_impl display_controller user_input_impl ${SDL2_LIBRARIES})
@@ -68,3 +71,7 @@ add_test( NAME control_unit COMMAND control_unit_test)
 add_executable( display_test tests/TEST_display.cpp )
 target_link_libraries( display_test ${GTEST_BOTH_LIBRARIES} pthread memory display_model_impl display_view_impl display_controller)
 add_test( NAME display_test COMMAND display_test)
+
+add_executable( rom_loader_test tests/TEST_rom_loader.cpp )
+target_link_libraries( rom_loader_test ${GTEST_BOTH_LIBRARIES} pthread rom_loader)
+add_test( NAME rom_loader_test COMMAND rom_loader_test)

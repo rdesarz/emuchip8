@@ -14,6 +14,14 @@ class GenericMemory {
  public:
   GenericMemory() : m_container(MemorySize, 0) {}
   ~GenericMemory(){};
+
+  typedef typename std::vector<MemoryUnit>::iterator iterator;
+  typedef typename std::vector<MemoryUnit>::const_iterator const_iterator;
+  iterator begin() { return m_container.begin(); }
+  const_iterator begin() const { return m_container.begin(); }
+  iterator end() { return m_container.end(); }
+  const_iterator end() const { return m_container.end(); }
+
   MemoryUnit& operator[](size_t index) { return m_container[index]; }
 
  private:
