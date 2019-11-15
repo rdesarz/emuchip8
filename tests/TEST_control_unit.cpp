@@ -341,3 +341,7 @@ TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
 
   EXPECT_EQ(pc, 0x1);
 }
+
+// TEST_F(TestControlUnitFixture, TestClearDisplayInstruction) {
+//   execute(Instruction(0x00E0), ctrl_unit);
+// }

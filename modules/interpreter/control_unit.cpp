@@ -7,6 +7,49 @@ using namespace chip8;
 
 namespace chip8 {
 
+static const uint16_t MASK_PREFIX = 0xF000;
+static const uint16_t MASK_ADDRESS = 0x0FFF;
+
+static const uint16_t PREFIX_SYS_INST = 0x0000;
+static const uint16_t PREFIX_JUMP = 0x1000;
+static const uint16_t PREFIX_CALL = 0x2000;
+static const uint16_t PREFIX_SKIP_IF_EQ_VALUE = 0x3000;
+static const uint16_t PREFIX_SKIP_IF_NEQ_VALUE = 0x4000;
+static const uint16_t PREFIX_SKIP_IF_REG_EQ = 0x5000;
+static const uint16_t PREFIX_SET_REG = 0x6000;
+static const uint16_t PREFIX_ADD_REG = 0x7000;
+static const uint16_t PREFIX_STORE_REG = 0x8000;
+static const uint16_t PREFIX_SKIP_IF_REG_NEQ = 0x9000;
+static const uint16_t PREFIX_SET_INDEX = 0xA000;
+static const uint16_t PREFIX_JUMP_OFFSET = 0xB000;
+static const uint16_t PREFIX_RANDOM = 0xC000;
+static const uint16_t PREFIX_DISPLAY = 0xD000;
+static const uint16_t PREFIX_KEYS = 0xE000;
+static const uint16_t PREFIX_SINGLE_REG = 0xF000;
+
+void InstructionInterpreter::interpret(uint16_t instruction) {
+  switch (instruction) {
+    case PREFIX_JUMP:
+    case PREFIX_CALL:
+    case PREFIX_SKIP_IF_EQ_VALUE:
+    case PREFIX_SKIP_IF_NEQ_VALUE:
+    case PREFIX_SKIP_IF_REG_EQ:
+    case PREFIX_SET_REG:
+    case PREFIX_ADD_REG:
+
+    case PREFIX_STORE_REG:
+    case PREFIX_SYS_INST:
+    case PREFIX_SKIP_IF_REG_NEQ:
+    case PREFIX_SET_INDEX:
+    case PREFIX_JUMP_OFFSET:
+    case PREFIX_RANDOM:
+    case PREFIX_DISPLAY:
+    case PREFIX_KEYS:
+    case PREFIX_SINGLE_REG:
+      break;
+  }
+}
+
 ControlUnit::ControlUnit(ProgramCounter& pc, StackPointer& stack_ptr,
                          MemoryAddressRegister& mem_add_reg, Stack& stack,
                          std::vector<GeneralRegister>& registers, RAM& ram,
@@ -174,4 +217,4 @@ void ControlUnit::waitForKeyPressed(RegisterId reg_x) {
   --m_pc;
 }
 
-}  /// namespace chip8
+}  // namespace chip8

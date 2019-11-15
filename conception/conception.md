@@ -2,23 +2,42 @@
 
 ## Instruction interpreter
 
+1. The instruction is given to the InstructionInterpreter
+
+```plantuml
+@startuml class
+skinparam monochrome reverse
+
+class Window {                                        
+    + Window(pixel::Width width, pixel::Height height, const std::string& label)
+    + setBackgroundColor(pixel::Color color) : void
+    + update() : void                        
+    + attachNewComponent(std::shared_ptr<WindowComponent> component) : void                                                                     
+    -------------------------------------------------------------------
+    - m_components : std::vector<std::shared_ptr<Component>>                         
+    - m_window : SDL_Window*                                                      
+    - m_renderer : SDL_Renderer*                                                
+}                                         
+@enduml
+```
+
 ```plantuml
 @startuml 
 
-skinparam monochrome reverse
-
-start
-if(first digit = 0) then (yes)
-if(second digit = 0 & third digit = E) then (yes)
-if (4th digit = 0) then (yes)
-:Clear display;
-else (no)
-if (4th digit = E) then (yes)
-:returnFromSubroutine;
-else
-:Jump to;
-else
-:Test;
+---skinparam monochrome reverse
+---
+---start
+---if(first digit = 0) then (yes)
+---if(second digit = 0 & third digit = E) then (yes)
+---if (4th digit = 0) then (yes)
+---:Clear display;
+---else (no)
+---if (4th digit = E) then (yes)
+---:returnFromSubroutine;
+---else
+---:Jump to;
+---else
+---:Test;
 @enduml
 ```
 
