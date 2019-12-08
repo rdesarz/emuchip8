@@ -81,11 +81,17 @@ struct MockControlUnit : public ControlUnit {
     id_called_function = 1;
   }
 
-  void callSubroutineAt(uint16_t address) override {}
+  void callSubroutineAt(uint16_t address) override {
+    id_called_function = 2;
+  }
 
-  void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) override {}
+  void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) override {
+    id_called_function = 3;
+  }
 
-  void skipNextInstructionIfNotEqual(uint8_t value, RegisterId reg) override {}
+  void skipNextInstructionIfNotEqual(uint8_t value, RegisterId reg) override {
+    id_called_function = 4;
+  }
 
   void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
                                            RegisterId reg_y) override {}

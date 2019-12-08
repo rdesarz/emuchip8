@@ -342,10 +342,6 @@ TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
   EXPECT_EQ(pc, 0x1);
 }
 
-// TEST_F(TestControlUnitFixture, TestClearDisplayInstruction) {
-//   execute(Instruction(0x00E0), ctrl_unit);
-// }
-
 TEST(TestInstructionInterpreter, InterpretJumpInstruction)
 {
   MockControlUnit mock_ctrl_unit;
@@ -354,4 +350,34 @@ TEST(TestInstructionInterpreter, InterpretJumpInstruction)
   instruction_interpreter.interpret(0x1001);
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 1);
+}
+
+TEST(TestInstructionInterpreter, InterpretCallInstruction)
+{
+  MockControlUnit mock_ctrl_unit;
+  InstructionInterpreter instruction_interpreter(&mock_ctrl_unit);
+
+  instruction_interpreter.interpret(0x2001);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 2);
+}
+
+TEST(TestInstructionInterpreter, InterpretSkipNextInstructionIfEq)
+{
+  MockControlUnit mock_ctrl_unit;
+  InstructionInterpreter instruction_interpreter(&mock_ctrl_unit);
+
+  instruction_interpreter.interpret(0x3001);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 3);
+}
+
+TEST(TestInstructionInterpreter, InterpretSkipNextInstructionIfNotEq)
+{
+  MockControlUnit mock_ctrl_unit;
+  InstructionInterpreter instruction_interpreter(&mock_ctrl_unit);
+
+  instruction_interpreter.interpret(0x4001);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 4);
 }

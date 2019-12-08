@@ -9,6 +9,8 @@ namespace chip8 {
 
 static const uint16_t MASK_PREFIX = 0xF000;
 static const uint16_t MASK_ADDRESS = 0x0FFF;
+static const uint16_t MASK_X_REG = 0x0F00;
+static const uint16_t MASK_BYTE = 0x00FF;
 
 static const uint16_t PREFIX_SYS_INST = 0x0000;
 static const uint16_t PREFIX_JUMP = 0x1000;
@@ -36,10 +38,18 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
   switch (prefix) {
     case PREFIX_JUMP:
       m_ctrl_unit->jumpToLocation(instruction & MASK_ADDRESS);
+      break;
     case PREFIX_CALL:
-
+      m_ctrl_unit->callSubroutineAt(instruction & MASK_ADDRESS);
+      break;
     case PREFIX_SKIP_IF_EQ_VALUE:
+      m_ctrl_unit->skipNextInstructionIfEqual(
+          instruction & MASK_X_REG, RegisterId(instruction & MASK_BYTE));
+      break;
     case PREFIX_SKIP_IF_NEQ_VALUE:
+      m_ctrl_unit->skipNextInstructionIfNotEqual(
+          instruction & MASK_X_REG, RegisterId(instruction & MASK_BYTE));
+      break;
     case PREFIX_SKIP_IF_REG_EQ:
     case PREFIX_SET_REG:
     case PREFIX_ADD_REG:
