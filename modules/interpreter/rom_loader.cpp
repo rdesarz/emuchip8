@@ -1,6 +1,7 @@
 #include "interpreter/rom_loader.h"
 
 #include <iterator>
+#include <algorithm>
 
 namespace chip8 {
 

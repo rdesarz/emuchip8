@@ -171,7 +171,7 @@ void ControlUnit::setPCToV0PlusValue(uint16_t value) {
 
 void ControlUnit::registerEqualRandomValue(uint8_t value, RegisterId reg) {
   srand(time(NULL));
-  auto random_value = rand() % 256;
+  auto random_value = rand_r() % 256;
   m_registers[reg] = (value & random_value);
 }
 

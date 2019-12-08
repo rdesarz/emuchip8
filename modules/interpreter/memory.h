@@ -13,7 +13,7 @@ template <typename MemoryUnit, std::size_t MemorySize>
 class GenericMemory {
  public:
   GenericMemory() : m_container(MemorySize, 0) {}
-  ~GenericMemory(){};
+  virtual ~GenericMemory() = default;
 
   typedef typename std::vector<MemoryUnit>::iterator iterator;
   typedef typename std::vector<MemoryUnit>::const_iterator const_iterator;
@@ -34,8 +34,8 @@ using Stack = GenericMemory<uint16_t, 16>;
 template <typename MemoryType>
 class Register {
  public:
-  Register() : m_value(MemoryType()){};
-  explicit Register(MemoryType value) : m_value(value){};
+  Register() : m_value(MemoryType()) {}
+  explicit Register(MemoryType value) : m_value(value) {}
   Register(const Register& register_) : m_value(register_.m_value) {}
   Register& operator=(const Register& rhs) {
     m_value = rhs.m_value;
@@ -59,5 +59,5 @@ using MemoryAddressRegister = Register<uint16_t>;
 using ProgramCounter = Register<uint16_t>;
 using StackPointer = Register<uint8_t>;
 
-}  /// chip8
+}  // namespace chip8
 #endif

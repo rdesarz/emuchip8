@@ -3,7 +3,7 @@
 namespace chip8 {
 
 SDLInputToKeyMap::SDLInputToKeyMap() {
-  // TODO : make the mapping between keys and
+  // TODO(Romain Desarzens) : make the mapping between keys and
   // input dynamic
   m_input_to_key[InputId::INPUT_0] = SDLK_0;
   m_input_to_key[InputId::INPUT_1] = SDLK_1;
