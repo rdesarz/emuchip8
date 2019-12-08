@@ -345,3 +345,13 @@ TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
 // TEST_F(TestControlUnitFixture, TestClearDisplayInstruction) {
 //   execute(Instruction(0x00E0), ctrl_unit);
 // }
+
+TEST(TestInstructionInterpreter, InterpretJumpInstruction)
+{
+  MockControlUnit mock_ctrl_unit;
+  InstructionInterpreter instruction_interpreter(&mock_ctrl_unit);
+
+  instruction_interpreter.interpret(0x1001);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 1);
+}

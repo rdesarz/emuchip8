@@ -70,7 +70,66 @@ class TestControlUnitFixture : public ::testing::Test {
   std::shared_ptr<TestDisplayView> view;
   DisplayController display_ctrler;
   TestUserInputController ui_ctrler;
-  ControlUnit ctrl_unit;
+  ControlUnitImpl ctrl_unit;
+};
+
+struct MockControlUnit : public ControlUnit {
+
+  void returnFromSubroutine() override {}
+
+  void jumpToLocation(uint16_t address) override {
+    id_called_function = 1;
+  }
+
+  void callSubroutineAt(uint16_t address) override {}
+
+  void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) override {}
+
+  void skipNextInstructionIfNotEqual(uint8_t value, RegisterId reg) override {}
+
+  void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
+                                           RegisterId reg_y) override {}
+
+  void storeInRegister(uint8_t value, RegisterId reg) override {}
+
+  void addToRegister(uint8_t value, RegisterId reg) override {}
+
+  void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) override {}
+
+  void bitwiseOr(RegisterId reg_x, RegisterId reg_y) override {}
+
+  void bitwiseAnd(RegisterId reg_x, RegisterId reg_y) override {}
+
+  void bitwiseXor(RegisterId reg_x, RegisterId reg_y) override {}
+
+  void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {}
+
+  void subtractRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {
+  }
+
+  void shiftRight(RegisterId reg) override {}
+
+  void shiftLeft(RegisterId reg) override {}
+
+  void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
+                                              RegisterId reg_y) override {}
+
+  void storeInMemoryAddressRegister(uint16_t value) override {}
+
+  void setPCToV0PlusValue(uint16_t value) override {}
+
+  void registerEqualRandomValue(uint8_t value, RegisterId reg) override {}
+
+  void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
+                       RegisterId reg_y) override {}
+
+  void checkIfKeyPressed(RegisterId reg_x) override {}
+
+  void checkIfKeyNotPressed(RegisterId reg_x) override {}
+
+  void waitForKeyPressed(RegisterId reg_x) override {}
+
+  int id_called_function;
 };
 
 }  // namespace chip8
