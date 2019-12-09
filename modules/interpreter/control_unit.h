@@ -135,14 +135,5 @@ class ControlUnitImpl : public ControlUnit {
   UserInputController& m_ui_ctrler;
 };
 
-class InstructionInterpreter {
- public:
-  explicit InstructionInterpreter(ControlUnit* ctrl_unit);
-  void interpret(uint16_t instruction);
-
- private:
-  ControlUnit* m_ctrl_unit;
-};
-
 }  // namespace chip8
 #endif  // MODULES_INTERPRETER_CONTROL_UNIT_H_
