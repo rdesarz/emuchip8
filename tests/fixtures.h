@@ -74,16 +74,11 @@ class TestControlUnitFixture : public ::testing::Test {
 };
 
 struct MockControlUnit : public ControlUnit {
-
   void returnFromSubroutine() override {}
 
-  void jumpToLocation(uint16_t address) override {
-    id_called_function = 1;
-  }
+  void jumpToLocation(uint16_t address) override { id_called_function = 1; }
 
-  void callSubroutineAt(uint16_t address) override {
-    id_called_function = 2;
-  }
+  void callSubroutineAt(uint16_t address) override { id_called_function = 2; }
 
   void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) override {
     id_called_function = 3;
@@ -94,46 +89,73 @@ struct MockControlUnit : public ControlUnit {
   }
 
   void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
-                                           RegisterId reg_y) override {}
-
-  void storeInRegister(uint8_t value, RegisterId reg) override {}
-
-  void addToRegister(uint8_t value, RegisterId reg) override {}
-
-  void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) override {}
-
-  void bitwiseOr(RegisterId reg_x, RegisterId reg_y) override {}
-
-  void bitwiseAnd(RegisterId reg_x, RegisterId reg_y) override {}
-
-  void bitwiseXor(RegisterId reg_x, RegisterId reg_y) override {}
-
-  void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {}
-
-  void subtractRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {
+                                           RegisterId reg_y) override {
+    id_called_function = 5;
   }
 
-  void shiftRight(RegisterId reg) override {}
+  void storeInRegister(uint8_t value, RegisterId reg) override {
+    id_called_function = 6;
+  }
 
-  void shiftLeft(RegisterId reg) override {}
+  void addToRegister(uint8_t value, RegisterId reg) override {
+    id_called_function = 7;
+  }
+
+  void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 8;
+  }
+
+  void bitwiseOr(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 9;
+  }
+
+  void bitwiseAnd(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 10;
+  }
+
+  void bitwiseXor(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 11;
+  }
+
+  void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 12;
+  }
+
+  void subtractRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 13;
+  }
+
+  void shiftRight(RegisterId reg) override { id_called_function = 14; }
+
+  void shiftLeft(RegisterId reg) override { id_called_function = 15; }
 
   void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
-                                              RegisterId reg_y) override {}
+                                              RegisterId reg_y) override {
+    id_called_function = 16;
+  }
 
-  void storeInMemoryAddressRegister(uint16_t value) override {}
+  void storeInMemoryAddressRegister(uint16_t value) override {
+    id_called_function = 17;
+  }
 
-  void setPCToV0PlusValue(uint16_t value) override {}
+  void setPCToV0PlusValue(uint16_t value) override { id_called_function = 18; }
 
-  void registerEqualRandomValue(uint8_t value, RegisterId reg) override {}
+  void registerEqualRandomValue(uint8_t value, RegisterId reg) override {
+    id_called_function = 19;
+  }
 
   void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
-                       RegisterId reg_y) override {}
+                       RegisterId reg_y) override {
+    id_called_function = 20;
+  }
 
-  void checkIfKeyPressed(RegisterId reg_x) override {}
+  void checkIfKeyPressed(RegisterId reg_x) override { id_called_function = 21; }
 
-  void checkIfKeyNotPressed(RegisterId reg_x) override {}
+  void checkIfKeyNotPressed(RegisterId reg_x) override {
+    id_called_function = 22;
+  }
 
-  void waitForKeyPressed(RegisterId reg_x) override {}
+  void waitForKeyPressed(RegisterId reg_x) override { id_called_function = 23; }
 
   int id_called_function;
 };
