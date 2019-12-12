@@ -22,9 +22,10 @@ class SDLInputToKeyMap {
 // SDL User input controller
 class SDLKeyboardUserInputController : public UserInputController {
  public:
-  SDLKeyboardUserInputController(const SDLInputToKeyMap& key_to_input_map);
+  explicit SDLKeyboardUserInputController(
+      const SDLInputToKeyMap& key_to_input_map);
   bool processEvent(const SDL_Event& event);
-  virtual std::optional<InputState> getInputState(InputId input_id) override;
+  std::optional<InputState> getInputState(InputId input_id) override;
 
  private:
   std::unordered_map<SDL_Keycode, InputState> m_keys_state;
@@ -36,11 +37,11 @@ class TestUserInputController : public UserInputController {
  public:
   TestUserInputController();
   bool setInputState(InputId input_id, InputState input_state);
-  virtual std::optional<InputState> getInputState(InputId input_id) override;
+  std::optional<InputState> getInputState(InputId input_id) override;
 
  private:
   std::unordered_map<InputId, InputState> m_inputs_state;
 };
 
-}  /// chip8
+}  // namespace chip8
 #endif

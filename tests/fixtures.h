@@ -19,18 +19,17 @@ class TestDisplayModel : public DisplayModel {
     m_pixels.clear();
   }
 
-  virtual void setPixelValue(std::size_t x, std::size_t y,
-                             uint8_t value) override {
+  void setPixelValue(std::size_t x, std::size_t y, uint8_t value) override {
     m_pixels(x, y) = value;
   }
 
-  virtual uint8_t getPixelValue(std::size_t x, std::size_t y) const override {
+  uint8_t getPixelValue(std::size_t x, std::size_t y) const override {
     return m_pixels(x, y);
   }
 
-  virtual std::size_t getWidth() const override { return m_pixels.size1(); }
+  std::size_t getWidth() const override { return m_pixels.size1(); }
 
-  virtual std::size_t getHeight() const override { return m_pixels.size2(); }
+  std::size_t getHeight() const override { return m_pixels.size2(); }
 
  private:
   boost::numeric::ublas::matrix<uint8_t> m_pixels;
@@ -71,7 +70,7 @@ class TestControlUnitFixture : public ::testing::Test {
   std::shared_ptr<TestDisplayView> view;
   DisplayController display_ctrler;
   TestUserInputController ui_ctrler;
-  ControlUnit ctrl_unit;
+  ControlUnitImpl ctrl_unit;
 };
 
 }  // namespace chip8

@@ -41,6 +41,9 @@ target_link_libraries (window CONAN_PKG::boost CONAN_PKG::sdl2)
 add_library(rom_loader modules/interpreter/rom_loader.cpp)
 target_link_libraries (rom_loader CONAN_PKG::boost)
 
+add_library(instruction_interpreter modules/interpreter/instruction_interpreter.cpp)
+target_link_libraries (instruction_interpreter CONAN_PKG::boost)
+
 ## Executables
 add_executable(main app/main.cpp)
 target_link_libraries (main window display_model_impl display_view_impl display_controller user_input_impl CONAN_PKG::sdl2)
@@ -61,3 +64,7 @@ add_test( NAME display_test COMMAND display_test)
 add_executable( rom_loader_test tests/TEST_rom_loader.cpp )
 target_link_libraries( rom_loader_test CONAN_PKG::gtest pthread rom_loader)
 add_test( NAME rom_loader_test COMMAND rom_loader_test)
+
+add_executable( instruction_interpreter_test tests/TEST_instruction_interpreter.cpp )
+target_link_libraries( instruction_interpreter_test CONAN_PKG::gtest pthread instruction_interpreter)
+add_test( NAME instruction_interpreter_test COMMAND instruction_interpreter_test)

@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include <SDL.h>
 

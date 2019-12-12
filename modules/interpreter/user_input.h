@@ -76,5 +76,5 @@ InputId toInputId(T value) {
   }
 }
 
-}  /// chip8
+}  /// namespace chip8
 #endif
