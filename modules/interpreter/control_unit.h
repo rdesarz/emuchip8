@@ -69,7 +69,8 @@ class ControlUnit {
 class ControlUnitImpl : public ControlUnit {
  public:
   ControlUnitImpl(ProgramCounter& pc, StackPointer& stack_ptr,
-                  MemoryAddressRegister& mem_add_reg, Stack& stack,
+                  MemoryAddressRegister& mem_add_reg, DelayTimerRegister& delay_timer_reg,
+                  SoundTimerRegister& sound_timer_reg, Stack& stack, 
                   std::vector<GeneralRegister>& registers, RAM& ram,
                   DisplayController& display, UserInputController& ui_ctrler);
 
@@ -124,10 +125,16 @@ class ControlUnitImpl : public ControlUnit {
 
   void waitForKeyPressed(RegisterId reg_x) override;
 
+  void setDelayTimerRegister(RegisterId reg_x);
+
+  void setSoundTimerRegister(RegisterId reg_x);
+
  private:
   ProgramCounter& m_pc;
   StackPointer& m_stack_ptr;
   MemoryAddressRegister& m_mem_add_reg;
+  DelayTimerRegister& m_delay_timer_reg;
+  SoundTimerRegister& m_sound_timer_reg;
   Stack& m_stack;
   std::vector<GeneralRegister>& m_registers;
   RAM& m_ram;

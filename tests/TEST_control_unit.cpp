@@ -341,3 +341,21 @@ TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
 
   EXPECT_EQ(pc, 0x1);
 }
+
+TEST_F(TestControlUnitFixture, SetDelayTimerRegister) { 
+  delay_timer_reg = 0x10;
+  registers[1] = 0x20;
+
+  ctrl_unit.setDelayTimerRegister(RegisterId(1));
+
+  EXPECT_EQ(delay_timer_reg, 0x20);
+}
+
+TEST_F(TestControlUnitFixture, SetSoundTimerRegister) { 
+  sound_timer_reg = 0x10;
+  registers[1] = 0x20;
+
+  ctrl_unit.setSoundTimerRegister(RegisterId(1));
+
+  EXPECT_EQ(sound_timer_reg, 0x20);
+}

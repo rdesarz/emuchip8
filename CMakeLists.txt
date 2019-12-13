@@ -7,8 +7,8 @@ set (CMAKE_CXX_STANDARD 17)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
-include_directories("$(PROJECT_SOURCE_DIR)/modules/")
-include_directories("$(PROJECT_SOURCE_DIR)/tests/")
+include_directories("${PROJECT_SOURCE_DIR}/modules/")
+include_directories("${PROJECT_SOURCE_DIR}/tests/")
 
 ## Libraries
 add_library(memory modules/interpreter/memory.cpp)
@@ -38,6 +38,9 @@ target_link_libraries (display_controller CONAN_PKG::boost)
 add_library(window modules/display/window.cpp)
 target_link_libraries (window CONAN_PKG::boost CONAN_PKG::sdl2)
 
+add_library(clock modules/interpreter/clock.cpp)
+target_link_libraries (clock CONAN_PKG::boost)
+
 add_library(rom_loader modules/interpreter/rom_loader.cpp)
 target_link_libraries (rom_loader CONAN_PKG::boost)
 
@@ -60,7 +63,11 @@ add_test( NAME control_unit COMMAND control_unit_test)
 add_executable( display_test tests/TEST_display.cpp )
 target_link_libraries( display_test CONAN_PKG::gtest pthread memory display_model_impl display_view_impl display_controller)
 add_test( NAME display_test COMMAND display_test)
- 
+
+add_executable( clock_test tests/TEST_clock.cpp )
+target_link_libraries( clock_test CONAN_PKG::gtest pthread clock)
+add_test( NAME clock_test COMMAND clock_test)
+
 add_executable( rom_loader_test tests/TEST_rom_loader.cpp )
 target_link_libraries( rom_loader_test CONAN_PKG::gtest pthread rom_loader)
 add_test( NAME rom_loader_test COMMAND rom_loader_test)
