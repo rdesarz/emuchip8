@@ -6,14 +6,16 @@
 namespace chip8 {
 
 ControlUnitImpl::ControlUnitImpl(ProgramCounter& pc, StackPointer& stack_ptr,
-                                 MemoryAddressRegister& mem_add_reg,
-                                 Stack& stack,
-                                 std::vector<GeneralRegister>& registers,
-                                 RAM& ram, DisplayController& display_ctrler,
-                                 UserInputController& ui_ctrler)
+                                MemoryAddressRegister& mem_add_reg, DelayTimerRegister& delay_timer_reg,
+                                SoundTimerRegister& sound_timer_reg, Stack& stack,
+                                std::vector<GeneralRegister>& registers, RAM& ram,
+                                DisplayController& display_ctrler,
+                                UserInputController& ui_ctrler)
     : m_pc(pc),
       m_stack_ptr(stack_ptr),
       m_mem_add_reg(mem_add_reg),
+      m_delay_timer_reg(delay_timer_reg),
+      m_sound_timer_reg(sound_timer_reg),
       m_stack(stack),
       m_registers(registers),
       m_ram(ram),
@@ -175,6 +177,14 @@ void ControlUnitImpl::waitForKeyPressed(RegisterId reg_x) {
   }
 
   --m_pc;
+}
+
+void ControlUnitImpl::setDelayTimerRegister(RegisterId reg_x) {
+  m_delay_timer_reg = m_registers[reg_x];
+}
+
+void ControlUnitImpl::setSoundTimerRegister(RegisterId reg_x) {
+  m_sound_timer_reg = m_registers[reg_x];
 }
 
 }  // namespace chip8

@@ -58,6 +58,8 @@ using GeneralRegister = Register<uint8_t>;
 using MemoryAddressRegister = Register<uint16_t>;
 using ProgramCounter = Register<uint16_t>;
 using StackPointer = Register<uint8_t>;
+using DelayTimerRegister = Register<uint8_t>;
+using SoundTimerRegister = Register<uint8_t>;
 
 }  // namespace chip8
 #endif

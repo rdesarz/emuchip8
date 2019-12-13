@@ -1,5 +1,58 @@
 # Chip8 interpreter
 
+## Execution workflow
+```plantuml
+@startuml class
+
+skinparam monochrome reverse
+
+class PeriodicCallback {
+    + callback : std::function<void>
+    + frequency : double
+    + last_call_timestamp : std::chrono::microseconds
+}
+
+class Clock {
+    + Clock(std::function<std::chrono::microseconds()> get_current_time)
+    + tick() : void 
+    + registerCallback(const std::function<void()> cb, double frequency) : void 
+    ------------------------------------------------------------------
+    - resetCallbackTimer(const PeriodicCallback& cb) : void
+    - needsToBeCalled(const PeriodicCallback& periodic_cb) : bool
+    - m_callbacks : std::vector<PeriodicCallback>
+    - m_get_current_time : std::function<std::chrono::microseconds()>  
+}                                                                  
+
+Clock *-- PeriodicCallback
+
+@enduml
+```
+
+```plantuml
+@startuml sequence
+
+title Tick
+
+skinparam monochrome reverse
+
+Main --> Clock : tick()
+
+loop over all periodic callback
+  Clock --> Clock : needsToBeCalled(const PeriodicCallback&)
+
+  alt needs to be called
+    Clock --> PeriodicCallback : callback()
+    Clock --> Clock : resetCallbackTimer(PeriodicCallback periodic_cb))
+  else
+  end
+  
+
+end
+
+@enduml
+```
+
+
 ## Instruction interpreter
 
 1. The instruction is given to the InstructionInterpreter
