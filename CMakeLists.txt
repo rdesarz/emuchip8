@@ -14,8 +14,8 @@ include_directories("${PROJECT_SOURCE_DIR}/tests/")
 add_library(memory modules/interpreter/memory.cpp)
 target_link_libraries (memory CONAN_PKG::boost)
 
-add_library(control_unit modules/interpreter/control_unit.cpp)
-target_link_libraries (control_unit CONAN_PKG::boost)
+add_library(control_unit_impl modules/interpreter/control_unit_impl.cpp)
+target_link_libraries (control_unit_impl CONAN_PKG::boost)
 
 add_library(user_input_impl modules/interpreter/user_input_impl.cpp)
 target_link_libraries (user_input_impl CONAN_PKG::boost CONAN_PKG::sdl2)
@@ -57,8 +57,8 @@ target_link_libraries( memory_test CONAN_PKG::gtest pthread memory display_contr
 add_test( NAME memory_test COMMAND memory_test)
 
 add_executable( control_unit_test tests/TEST_control_unit.cpp )
-target_link_libraries( control_unit_test control_unit CONAN_PKG::gtest pthread user_input_impl memory display_controller)
-add_test( NAME control_unit COMMAND control_unit_test)
+target_link_libraries( control_unit_test control_unit_impl CONAN_PKG::gtest pthread user_input_impl memory display_controller)
+add_test( NAME control_unit_impl COMMAND control_unit_test)
  
 add_executable( display_test tests/TEST_display.cpp )
 target_link_libraries( display_test CONAN_PKG::gtest pthread memory display_model_impl display_view_impl display_controller)

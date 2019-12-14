@@ -189,5 +189,4 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
     }
   }
 }
-
 }  // namespace chip8
