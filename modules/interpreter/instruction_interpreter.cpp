@@ -167,9 +167,26 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
       }
       break;
     }
-    case PREFIX_SINGLE_REG:
-      // TODO(Romain Desarzens) : implement
+    case PREFIX_SINGLE_REG: {
+      uint16_t postfix = instruction & MASK_BYTE;
+      switch (postfix) {
+        case POSTFIX_STORE_DELAY_TIMER:
+          // TODO(Romain Desarzens) : implement
+          break;
+        case POSTFIX_WAIT_FOR_KEY_PRESS:
+          m_ctrl_unit->waitForKeyPressed(RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_SET_DELAY_TIMER:
+          m_ctrl_unit->setDelayTimerRegister(
+              RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_SET_SOUND_TIMER:
+          m_ctrl_unit->setSoundTimerRegister(
+              RegisterId(instruction & MASK_X_REG));
+          break;
+      }
       break;
+    }
   }
 }
 

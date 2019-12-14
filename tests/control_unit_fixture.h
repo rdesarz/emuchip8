@@ -89,6 +89,10 @@ struct MockControlUnit : public ControlUnit {
 
   void waitForKeyPressed(RegisterId reg_x) override { id_called_function = 23; }
 
+  void setDelayTimerRegister(RegisterId reg_x) { id_called_function = 24; }
+
+  void setSoundTimerRegister(RegisterId reg_x) { id_called_function = 25; }
+
   int id_called_function;
 };
 

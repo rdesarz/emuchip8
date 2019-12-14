@@ -152,3 +152,21 @@ TEST_F(TestInstructionInterpreterFixture, InterpretCheckIfKeyNotPressed) {
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 22);
 }
+
+TEST_F(TestInstructionInterpreterFixture, InterpretWaitForKeyPressed) {
+  instruction_interpreter.interpret(0xF10A);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 23);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretSetDelayTimer) {
+  instruction_interpreter.interpret(0xF115);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 24);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretSetSoundTimer) {
+  instruction_interpreter.interpret(0xF118);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 25);
+}

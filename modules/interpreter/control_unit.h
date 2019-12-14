@@ -64,13 +64,18 @@ class ControlUnit {
   virtual void checkIfKeyNotPressed(RegisterId reg_x) = 0;
 
   virtual void waitForKeyPressed(RegisterId reg_x) = 0;
+
+  virtual void setDelayTimerRegister(RegisterId reg_x) = 0;
+
+  virtual void setSoundTimerRegister(RegisterId reg_x) = 0;
 };
 
 class ControlUnitImpl : public ControlUnit {
  public:
   ControlUnitImpl(ProgramCounter& pc, StackPointer& stack_ptr,
-                  MemoryAddressRegister& mem_add_reg, DelayTimerRegister& delay_timer_reg,
-                  SoundTimerRegister& sound_timer_reg, Stack& stack, 
+                  MemoryAddressRegister& mem_add_reg,
+                  DelayTimerRegister& delay_timer_reg,
+                  SoundTimerRegister& sound_timer_reg, Stack& stack,
                   std::vector<GeneralRegister>& registers, RAM& ram,
                   DisplayController& display, UserInputController& ui_ctrler);
 
@@ -125,9 +130,9 @@ class ControlUnitImpl : public ControlUnit {
 
   void waitForKeyPressed(RegisterId reg_x) override;
 
-  void setDelayTimerRegister(RegisterId reg_x);
+  void setDelayTimerRegister(RegisterId reg_x) override;
 
-  void setSoundTimerRegister(RegisterId reg_x);
+  void setSoundTimerRegister(RegisterId reg_x) override;
 
  private:
   ProgramCounter& m_pc;
