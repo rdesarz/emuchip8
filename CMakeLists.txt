@@ -4,9 +4,15 @@ project(chip8_emulator)
 
 set (CMAKE_CXX_STANDARD 17)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(TARGETS)
+# Running conan install
+include(${PROJECT_SOURCE_DIR}/conan.cmake)
 
+conan_cmake_run(REQUIRES boost/1.71.0@conan/stable
+                         sdl2/2.0.8@bincrafters/stable
+                         gtest/1.8.0@bincrafters/stable
+                BASIC_SETUP CMAKE_TARGETS)
+
+## Add include directories
 include_directories("${PROJECT_SOURCE_DIR}/modules/")
 include_directories("${PROJECT_SOURCE_DIR}/tests/")
 
