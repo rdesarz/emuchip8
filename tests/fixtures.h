@@ -8,6 +8,7 @@
 #include "display/display_view.h"
 
 #include "interpreter/control_unit.h"
+#include "interpreter/control_unit_impl.h"
 #include "interpreter/user_input_impl.h"
 
 namespace chip8 {
@@ -56,8 +57,8 @@ class TestControlUnitFixture : public ::testing::Test {
       : model(64, 32),
         view(new TestDisplayView()),
         display_ctrler(model, view),
-        ctrl_unit(pc, stack_ptr, mem_add_reg, delay_timer_reg, sound_timer_reg, stack, registers, ram,
-                  display_ctrler, ui_ctrler),
+        ctrl_unit(pc, stack_ptr, mem_add_reg, delay_timer_reg, sound_timer_reg,
+                  stack, registers, ram, display_ctrler, ui_ctrler),
         registers(16) {}
 
   ProgramCounter pc;
