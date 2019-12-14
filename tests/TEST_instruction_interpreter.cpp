@@ -14,7 +14,6 @@ class TestInstructionInterpreterFixture : public ::testing::Test {
   InstructionInterpreter instruction_interpreter;
 };
 
-
 TEST_F(TestInstructionInterpreterFixture, InterpretJumpInstruction) {
   instruction_interpreter.interpret(0x1001);
 
@@ -140,4 +139,16 @@ TEST_F(TestInstructionInterpreterFixture, InterpretDisplayOnScreen) {
   instruction_interpreter.interpret(0xD001);
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 20);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretCheckIfKeyPressed) {
+  instruction_interpreter.interpret(0xE19E);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 21);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretCheckIfKeyNotPressed) {
+  instruction_interpreter.interpret(0xE1A1);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 22);
 }

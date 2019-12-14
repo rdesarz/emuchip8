@@ -31,7 +31,7 @@ static const uint16_t PREFIX_DISPLAY = 0xD000;
 static const uint16_t PREFIX_KEYS = 0xE000;
 static const uint16_t PREFIX_SINGLE_REG = 0xF000;
 
-// Postfix
+// Postfix registers
 static const uint16_t POSTFIX_STORE_REG_IN_REG = 0x0000;
 static const uint16_t POSTFIX_OR = 0x0001;
 static const uint16_t POSTFIX_AND = 0x0002;
@@ -42,6 +42,15 @@ static const uint16_t POSTFIX_SHR = 0x0006;
 static const uint16_t POSTFIX_SUBN = 0x0007;
 static const uint16_t POSTFIX_SHL = 0x000E;
 
+// Postfix keys instruction
+static const uint16_t POSTFIX_SKIP_NEXT_IF_PRESSED = 0x009E;
+static const uint16_t POSTFIX_SKIP_NEXT_IF_NOT_PRESSED = 0x00A1;
+
+// Postfix single registers
+static const uint16_t POSTFIX_STORE_DELAY_TIMER = 0x0007;
+static const uint16_t POSTFIX_WAIT_FOR_KEY_PRESS = 0x000A;
+static const uint16_t POSTFIX_SET_DELAY_TIMER = 0x0015;
+static const uint16_t POSTFIX_SET_SOUND_TIMER = 0x0018;
 
 InstructionInterpreter::InstructionInterpreter(ControlUnit* ctrl_unit)
     : m_ctrl_unit(ctrl_unit) {}
@@ -145,13 +154,23 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
     case PREFIX_SYS_INST:
       // TODO(Romain Desarzens) : implement
       break;
-    case PREFIX_KEYS:
-      // TODO(Romain Desarzens) : implement
+    case PREFIX_KEYS: {
+      uint16_t postfix = instruction & MASK_BYTE;
+      switch (postfix) {
+        case POSTFIX_SKIP_NEXT_IF_PRESSED:
+          m_ctrl_unit->checkIfKeyPressed(RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_SKIP_NEXT_IF_NOT_PRESSED:
+          m_ctrl_unit->checkIfKeyNotPressed(
+              RegisterId(instruction & MASK_Y_REG));
+          break;
+      }
       break;
+    }
     case PREFIX_SINGLE_REG:
       // TODO(Romain Desarzens) : implement
       break;
   }
 }
 
-} // namespace chip8
+}  // namespace chip8
