@@ -1,6 +1,6 @@
 name: C/C++ CI
 
-on: [push]
+on: [push] 
 
 jobs:
   build:
@@ -9,11 +9,24 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.8.0' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        architecture: 'x64' 
+
+
+    - name: install and configure Conan
+      run: |
+        sudo apt-get install python3-setuptools
+        sudo python3 -m pip install conan
+        conan profile new default --detect
+        conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+
+    - name: Conan install
+      run: conan install .
+
+    - name: Configure project
+      run: cmake .
+
+    - name: Make project
+      run: make 
