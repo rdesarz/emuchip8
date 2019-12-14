@@ -6,11 +6,13 @@
 namespace chip8 {
 
 ControlUnitImpl::ControlUnitImpl(ProgramCounter& pc, StackPointer& stack_ptr,
-                                MemoryAddressRegister& mem_add_reg, DelayTimerRegister& delay_timer_reg,
-                                SoundTimerRegister& sound_timer_reg, Stack& stack,
-                                std::vector<GeneralRegister>& registers, RAM& ram,
-                                DisplayController& display_ctrler,
-                                UserInputController& ui_ctrler)
+                                 MemoryAddressRegister& mem_add_reg,
+                                 DelayTimerRegister& delay_timer_reg,
+                                 SoundTimerRegister& sound_timer_reg,
+                                 Stack& stack,
+                                 std::vector<GeneralRegister>& registers,
+                                 RAM& ram, DisplayController& display_ctrler,
+                                 UserInputController& ui_ctrler)
     : m_pc(pc),
       m_stack_ptr(stack_ptr),
       m_mem_add_reg(mem_add_reg),

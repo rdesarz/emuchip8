@@ -6,7 +6,7 @@
 namespace chip8 {
 
 struct MockControlUnit : public ControlUnit {
-  void returnFromSubroutine() override {}
+  void returnFromSubroutine() override { id_called_function = 1; }
 
   void jumpToLocation(uint16_t address) override { id_called_function = 1; }
 
