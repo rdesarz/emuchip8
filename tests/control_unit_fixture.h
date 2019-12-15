@@ -93,6 +93,24 @@ struct MockControlUnit : public ControlUnit {
 
   void setSoundTimerRegister(RegisterId reg_x) { id_called_function = 25; }
 
+  void addToIndexReg(RegisterId reg_x) override { id_called_function = 26; }
+
+  void setIndexRegToSpriteLocation(RegisterId reg_x) override {
+    id_called_function = 27;
+  }
+
+  void storeBCDRepresentation(RegisterId reg_x) override {
+    id_called_function = 28;
+  }
+
+  void storeMultipleRegister(RegisterId reg_x) override {
+    id_called_function = 29;
+  }
+
+  void readMultipleRegister(RegisterId reg_x) override {
+    id_called_function = 30;
+  }
+
   int id_called_function;
 };
 

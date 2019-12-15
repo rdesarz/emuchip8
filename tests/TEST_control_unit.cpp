@@ -359,3 +359,49 @@ TEST_F(TestControlUnitFixture, SetSoundTimerRegister) {
 
   EXPECT_EQ(sound_timer_reg, 0x20);
 }
+
+TEST_F(TestControlUnitFixture, addToIndexReg) {
+  index_reg = 0x2;
+  registers[1] = 0x3;
+
+  ctrl_unit.addToIndexReg(RegisterId(1));
+
+  EXPECT_EQ(index_reg, 0x5);
+}
+
+TEST_F(TestControlUnitFixture, storeBCDRepresentation) {
+  index_reg = 0x450;
+  registers[1] = 123;
+
+  ctrl_unit.storeBCDRepresentation(RegisterId(1));
+
+  EXPECT_EQ(ram[0x450], 3);
+  EXPECT_EQ(ram[0x451], 2);
+  EXPECT_EQ(ram[0x452], 1);
+}
+
+TEST_F(TestControlUnitFixture, storeMultipleRegisters) {
+  index_reg = 0x450;
+  registers[0] = 1;
+  registers[1] = 2;
+  registers[2] = 3;
+
+  ctrl_unit.storeMultipleRegister(RegisterId(2));
+
+  EXPECT_EQ(ram[0x450], 1);
+  EXPECT_EQ(ram[0x451], 2);
+  EXPECT_EQ(ram[0x452], 3);
+}
+
+TEST_F(TestControlUnitFixture, readMultipleRegisters) {
+  index_reg = 0x450;
+  ram[0x450] = 1;
+  ram[0x451] = 2;
+  ram[0x452] = 3;
+
+  ctrl_unit.readMultipleRegister(RegisterId(2));
+
+  EXPECT_EQ(registers[0], 1);
+  EXPECT_EQ(registers[1], 2);
+  EXPECT_EQ(registers[2], 3);
+}
