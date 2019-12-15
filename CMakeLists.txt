@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.11)
 
 project(chip8_emulator)
 
@@ -7,10 +7,11 @@ set (CMAKE_CXX_STANDARD 17)
 # Running conan install
 include(${PROJECT_SOURCE_DIR}/conan.cmake)
 
-conan_cmake_run(REQUIRES boost/1.71.0@conan/stable
-                         sdl2/2.0.8@bincrafters/stable
-                         gtest/1.8.0@bincrafters/stable
+conan_cmake_run(CONANFILE
+                conanfile.txt 
                 BASIC_SETUP CMAKE_TARGETS)
+
+include(CTest)
 
 ## Add include directories
 include_directories("${PROJECT_SOURCE_DIR}/modules/")
@@ -60,24 +61,24 @@ target_link_libraries (main window display_model_impl display_view_impl display_
 ## Unit tests
 add_executable( memory_test tests/TEST_memory.cpp )
 target_link_libraries( memory_test CONAN_PKG::gtest pthread memory display_controller)
-add_test( NAME memory_test COMMAND memory_test)
+add_test( NAME memory_test COMMAND memory_test )
 
 add_executable( control_unit_test tests/TEST_control_unit.cpp )
-target_link_libraries( control_unit_test control_unit_impl CONAN_PKG::gtest pthread user_input_impl memory display_controller)
-add_test( NAME control_unit_impl COMMAND control_unit_test)
+target_link_libraries( control_unit_test CONAN_PKG::gtest control_unit_impl pthread user_input_impl memory display_controller)
+add_test( NAME control_unit_test COMMAND control_unit_test )
  
 add_executable( display_test tests/TEST_display.cpp )
 target_link_libraries( display_test CONAN_PKG::gtest pthread memory display_model_impl display_view_impl display_controller)
-add_test( NAME display_test COMMAND display_test)
+add_test( NAME display_test COMMAND display_test )
 
 add_executable( clock_test tests/TEST_clock.cpp )
 target_link_libraries( clock_test CONAN_PKG::gtest pthread clock)
-add_test( NAME clock_test COMMAND clock_test)
+add_test( NAME clock_test COMMAND clock_test )
 
 add_executable( rom_loader_test tests/TEST_rom_loader.cpp )
 target_link_libraries( rom_loader_test CONAN_PKG::gtest pthread rom_loader)
-add_test( NAME rom_loader_test COMMAND rom_loader_test)
+add_test( NAME rom_loader_test COMMAND rom_loader_test )
 
 add_executable( instruction_interpreter_test tests/TEST_instruction_interpreter.cpp )
 target_link_libraries( instruction_interpreter_test CONAN_PKG::gtest pthread instruction_interpreter)
-add_test( NAME instruction_interpreter_test COMMAND instruction_interpreter_test)
+add_test( NAME instruction_interpreter_test COMMAND instruction_interpreter_test )
