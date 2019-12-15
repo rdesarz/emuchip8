@@ -51,6 +51,11 @@ static const uint16_t POSTFIX_STORE_DELAY_TIMER = 0x0007;
 static const uint16_t POSTFIX_WAIT_FOR_KEY_PRESS = 0x000A;
 static const uint16_t POSTFIX_SET_DELAY_TIMER = 0x0015;
 static const uint16_t POSTFIX_SET_SOUND_TIMER = 0x0018;
+static const uint16_t POSTFIX_ADD_TO_INDEX = 0X001E;
+static const uint16_t POSTFIX_SET_INDEX_TO_SPRITE_LOC = 0x0029;
+static const uint16_t POSTFIX_STORE_BCD = 0x0033;
+static const uint16_t POSTFIX_STORE_REG_IN_MEM = 0x0055;
+static const uint16_t POSTFIX_READ_REG_TO_MEM = 0x0065;
 
 InstructionInterpreter::InstructionInterpreter(ControlUnit* ctrl_unit)
     : m_ctrl_unit(ctrl_unit) {}
@@ -182,6 +187,25 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
           break;
         case POSTFIX_SET_SOUND_TIMER:
           m_ctrl_unit->setSoundTimerRegister(
+              RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_ADD_TO_INDEX:
+          m_ctrl_unit->addToIndexReg(RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_SET_INDEX_TO_SPRITE_LOC:
+          m_ctrl_unit->setIndexRegToSpriteLocation(
+              RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_STORE_BCD:
+          m_ctrl_unit->storeBCDRepresentation(
+              RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_STORE_REG_IN_MEM:
+          m_ctrl_unit->storeMultipleRegister(
+              RegisterId(instruction & MASK_X_REG));
+          break;
+        case POSTFIX_READ_REG_TO_MEM:
+          m_ctrl_unit->readMultipleRegister(
               RegisterId(instruction & MASK_X_REG));
           break;
       }
