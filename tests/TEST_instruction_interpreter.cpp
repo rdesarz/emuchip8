@@ -170,3 +170,33 @@ TEST_F(TestInstructionInterpreterFixture, InterpretSetSoundTimer) {
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 25);
 }
+
+TEST_F(TestInstructionInterpreterFixture, InterpretAddToIndex) {
+  instruction_interpreter.interpret(0xF11E);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 26);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretStoreSprite) {
+  instruction_interpreter.interpret(0xF129);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 27);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretStoreBCD) {
+  instruction_interpreter.interpret(0xF133);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 28);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretStoreMultipleReg) {
+  instruction_interpreter.interpret(0xF155);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 29);
+}
+
+TEST_F(TestInstructionInterpreterFixture, InterpretReadMultipleReg) {
+  instruction_interpreter.interpret(0xF165);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 30);
+}
