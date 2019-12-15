@@ -26,3 +26,6 @@ jobs:
 
     - name: Make project
       run: make 
+
+    - name: Run tests
+      run: ctest -C=Release 
