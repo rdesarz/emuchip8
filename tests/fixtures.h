@@ -57,13 +57,13 @@ class TestControlUnitFixture : public ::testing::Test {
       : model(64, 32),
         view(new TestDisplayView()),
         display_ctrler(model, view),
-        ctrl_unit(pc, stack_ptr, mem_add_reg, delay_timer_reg, sound_timer_reg,
+        ctrl_unit(pc, stack_ptr, index_reg, delay_timer_reg, sound_timer_reg,
                   stack, registers, ram, display_ctrler, ui_ctrler),
         registers(16) {}
 
   ProgramCounter pc;
   StackPointer stack_ptr;
-  MemoryAddressRegister mem_add_reg;
+  IndexRegister index_reg;
   Stack stack;
   DelayTimerRegister delay_timer_reg;
   SoundTimerRegister sound_timer_reg;

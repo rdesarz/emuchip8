@@ -5,17 +5,14 @@
 
 namespace chip8 {
 
-ControlUnitImpl::ControlUnitImpl(ProgramCounter& pc, StackPointer& stack_ptr,
-                                 MemoryAddressRegister& mem_add_reg,
-                                 DelayTimerRegister& delay_timer_reg,
-                                 SoundTimerRegister& sound_timer_reg,
-                                 Stack& stack,
-                                 std::vector<GeneralRegister>& registers,
-                                 RAM& ram, DisplayController& display_ctrler,
-                                 UserInputController& ui_ctrler)
+ControlUnitImpl::ControlUnitImpl(
+    ProgramCounter& pc, StackPointer& stack_ptr, IndexRegister& mem_add_reg,
+    DelayTimerRegister& delay_timer_reg, SoundTimerRegister& sound_timer_reg,
+    Stack& stack, std::vector<GeneralRegister>& registers, RAM& ram,
+    DisplayController& display_ctrler, UserInputController& ui_ctrler)
     : m_pc(pc),
       m_stack_ptr(stack_ptr),
-      m_mem_add_reg(mem_add_reg),
+      m_index_reg(mem_add_reg),
       m_delay_timer_reg(delay_timer_reg),
       m_sound_timer_reg(sound_timer_reg),
       m_stack(stack),
@@ -126,7 +123,7 @@ void ControlUnitImpl::skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
 }
 
 void ControlUnitImpl::storeInMemoryAddressRegister(uint16_t value) {
-  m_mem_add_reg = value;
+  m_index_reg = value;
 }
 
 void ControlUnitImpl::setPCToV0PlusValue(uint16_t value) {
@@ -145,7 +142,7 @@ void ControlUnitImpl::displayOnScreen(uint16_t n_bytes_to_read,
   for (uint16_t i = 0; i < n_bytes_to_read; ++i) {
     any_pixel_modified |= m_display_ctrler.setSprite(
         m_registers[reg_x], m_registers[reg_y] + 8 * i,
-        makeSprite<uint8_t>(m_ram[m_mem_add_reg + i]));
+        makeSprite<uint8_t>(m_ram[m_index_reg + i]));
   }
 
   if (any_pixel_modified) {

@@ -221,11 +221,11 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreNotEqual) {
 }
 
 TEST_F(TestControlUnitFixture, StoreInMemoryAddressRegister) {
-  mem_add_reg = 0x14;
+  index_reg = 0x14;
 
   ctrl_unit.storeInMemoryAddressRegister(0x2);
 
-  EXPECT_EQ(mem_add_reg, 0x2);
+  EXPECT_EQ(index_reg, 0x2);
 }
 
 TEST_F(TestControlUnitFixture, SetPCToValuePlusV0) {
@@ -239,7 +239,7 @@ TEST_F(TestControlUnitFixture, SetPCToValuePlusV0) {
 
 TEST_F(TestControlUnitFixture, DisplayOneByteOnScreen) {
   ram[0x400] = 0b11111111;
-  mem_add_reg = 0x400;
+  index_reg = 0x400;
   registers[0] = 0x0;
   registers[1] = 0x0;
 
@@ -252,7 +252,7 @@ TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
   ram[0x400] = 0b11111111;
   ram[0x401] = 0b11111111;
   ram[0x402] = 0b11111111;
-  mem_add_reg = 0x400;
+  index_reg = 0x400;
   registers[0] = 0x0;
   registers[1] = 0x0;
 
@@ -264,7 +264,7 @@ TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
 
 TEST_F(TestControlUnitFixture, DisplaySpriteOnScreenFlagIsTrue) {
   ram[0x400] = 0b11111111;
-  mem_add_reg = 0x400;
+  index_reg = 0x400;
   registers[0] = 0x0;
   registers[1] = 0x0;
 
@@ -275,7 +275,7 @@ TEST_F(TestControlUnitFixture, DisplaySpriteOnScreenFlagIsTrue) {
 
 TEST_F(TestControlUnitFixture, DisplayOnScreenWithoutModificationFlagIsFalse) {
   ram[0x400] = 0b000000000;
-  mem_add_reg = 0x400;
+  index_reg = 0x400;
   registers[0] = 0x0;
   registers[1] = 0x0;
 
@@ -342,7 +342,7 @@ TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
   EXPECT_EQ(pc, 0x1);
 }
 
-TEST_F(TestControlUnitFixture, SetDelayTimerRegister) { 
+TEST_F(TestControlUnitFixture, SetDelayTimerRegister) {
   delay_timer_reg = 0x10;
   registers[1] = 0x20;
 
@@ -351,7 +351,7 @@ TEST_F(TestControlUnitFixture, SetDelayTimerRegister) {
   EXPECT_EQ(delay_timer_reg, 0x20);
 }
 
-TEST_F(TestControlUnitFixture, SetSoundTimerRegister) { 
+TEST_F(TestControlUnitFixture, SetSoundTimerRegister) {
   sound_timer_reg = 0x10;
   registers[1] = 0x20;
 
