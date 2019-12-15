@@ -73,6 +73,16 @@ class ControlUnitImpl : public ControlUnit {
 
   void setSoundTimerRegister(RegisterId reg_x) override;
 
+  void addToIndexReg(RegisterId reg_x) override;
+
+  void setIndexRegToSpriteLocation(RegisterId reg_x) override;
+
+  void storeBCDRepresentation(RegisterId reg_x) override;
+
+  void storeMultipleRegister(RegisterId reg_x) override;
+
+  void readMultipleRegister(RegisterId reg_x) override;
+
  private:
   ProgramCounter& m_pc;
   StackPointer& m_stack_ptr;

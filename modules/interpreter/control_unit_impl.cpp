@@ -186,4 +186,33 @@ void ControlUnitImpl::setSoundTimerRegister(RegisterId reg_x) {
   m_sound_timer_reg = m_registers[reg_x];
 }
 
+void ControlUnitImpl::addToIndexReg(RegisterId reg_x) {
+  m_index_reg += m_registers[reg_x];
+}
+
+void ControlUnitImpl::setIndexRegToSpriteLocation(RegisterId reg_x) {
+  // TODO(Romain Desarzens) : implement when the hexadecimal font will be
+  // implemented
+}
+
+void ControlUnitImpl::storeBCDRepresentation(RegisterId reg_x) {
+  m_ram[m_index_reg] = m_registers[reg_x] % 10;
+  m_ram[m_index_reg + 1] = (m_registers[reg_x] % 100 - m_ram[m_index_reg]) / 10;
+  m_ram[m_index_reg + 2] = (m_registers[reg_x] % 1000 -
+                            m_ram[m_index_reg + 1] * 10 - m_ram[m_index_reg]) /
+                           100;
+}
+
+void ControlUnitImpl::storeMultipleRegister(RegisterId reg_x) {
+  for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
+    m_ram[m_index_reg + reg_id] = m_registers[reg_id];
+  }
+}
+
+void ControlUnitImpl::readMultipleRegister(RegisterId reg_x) {
+  for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
+    m_registers[reg_id] = m_ram[reg_id + m_index_reg];
+  }
+}
+
 }  // namespace chip8

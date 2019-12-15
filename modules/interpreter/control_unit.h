@@ -68,6 +68,16 @@ class ControlUnit {
   virtual void setDelayTimerRegister(RegisterId reg_x) = 0;
 
   virtual void setSoundTimerRegister(RegisterId reg_x) = 0;
+
+  virtual void addToIndexReg(RegisterId reg_x) = 0;
+
+  virtual void setIndexRegToSpriteLocation(RegisterId reg_x) = 0;
+
+  virtual void storeBCDRepresentation(RegisterId reg_x) = 0;
+
+  virtual void storeMultipleRegister(RegisterId reg_x) = 0;
+
+  virtual void readMultipleRegister(RegisterId reg_x) = 0;
 };
 
 }  // namespace chip8
