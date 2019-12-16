@@ -46,6 +46,11 @@ ControlUnitImpl::ControlUnitImpl(
       m_display_ctrler(display_ctrler),
       m_ui_ctrler(ui_ctrler) {}
 
+
+void ControlUnitImpl::clearDisplay() {
+  m_display_ctrler.clear();
+}
+
 void ControlUnitImpl::returnFromSubroutine() {
   m_pc = m_stack[m_stack_ptr];
   --m_stack_ptr;

@@ -81,3 +81,11 @@ TEST_F(TestDisplayFixture, TestSpriteOutsideOfScreen) {
   EXPECT_EQ(model.getPixelValue(6, 1), 1);
   EXPECT_EQ(model.getPixelValue(7, 1), 0);
 }
+
+TEST_F(TestDisplayFixture, TestClearDisplay) {
+  display.setPixel(1, 1, 1);
+
+  display.clear();
+
+  EXPECT_EQ(model.getPixelValue(1, 1), 0);
+}

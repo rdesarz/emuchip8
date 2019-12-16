@@ -43,6 +43,8 @@ class ControlUnitImpl : public ControlUnit {
                   std::vector<GeneralRegister>& registers, RAM& ram,
                   DisplayController& display, UserInputController& ui_ctrler);
 
+  void clearDisplay() override;
+
   void returnFromSubroutine() override;
 
   void jumpToLocation(uint16_t address) override;

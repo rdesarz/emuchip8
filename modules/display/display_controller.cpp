@@ -53,4 +53,7 @@ bool DisplayController::setSprite(std::size_t x, std::size_t y,
 
   return any_pixel_modified;
 }
+
+void DisplayController::clear() { m_model.clear(); }
+
 }  // namespace chip8
