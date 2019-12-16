@@ -56,6 +56,10 @@ static const uint16_t PREFIX_DISPLAY = 0xD000;
 static const uint16_t PREFIX_KEYS = 0xE000;
 static const uint16_t PREFIX_SINGLE_REG = 0xF000;
 
+// Postfix system instructions
+static const uint16_t POSTFIX_CLEAR_DISPLAY = 0x00E0;
+static const uint16_t POSTFIX_RET_FROM_SUBROUTINE = 0x00EE;
+
 // Postfix registers
 static const uint16_t POSTFIX_STORE_REG_IN_REG = 0x0000;
 static const uint16_t POSTFIX_OR = 0x0001;
@@ -181,9 +185,17 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
       break;
     }
 
-    case PREFIX_SYS_INST:
-      // TODO(Romain Desarzens) : implement
-      break;
+    case PREFIX_SYS_INST: {
+      uint16_t postfix = instruction & MASK_BYTE;
+      switch (postfix) {
+        case POSTFIX_CLEAR_DISPLAY:
+          m_ctrl_unit->clearDisplay();
+          break;
+        case POSTFIX_RET_FROM_SUBROUTINE:
+          // TODO(Romain Desarzens) : implement
+          break;
+      }
+    } break;
     case PREFIX_KEYS: {
       uint16_t postfix = instruction & MASK_BYTE;
       switch (postfix) {
