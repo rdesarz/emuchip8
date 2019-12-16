@@ -72,6 +72,7 @@ int main(int argc, char** argv) {
     // Short line to test keyboard input
     if (keyboard_ctrller.getInputState(InputId::INPUT_0) == InputState::ON) {
       std::cout << "0 Key pressed" << std::endl;
+      display_controller.clear();
     }
 
     display_controller.setPixel(std::rand() % 64, std::rand() % 32, 1);

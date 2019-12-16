@@ -59,6 +59,8 @@ class DisplayController {
   bool setPixel(std::size_t x, std::size_t y, uint8_t value);
   // Set a sprite value following the logic of the chip 8 emulator
   bool setSprite(std::size_t x, std::size_t y, std::vector<uint8_t> sprite);
+  // Clear the complete display
+  void clear();
 
  private:
   DisplayModel& m_model;

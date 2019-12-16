@@ -38,6 +38,8 @@ BOOST_STRONG_TYPEDEF(std::size_t, RegisterId)
 
 class ControlUnit {
  public:
+  virtual void clearDisplay() = 0;
+
   virtual void returnFromSubroutine() = 0;
 
   virtual void jumpToLocation(uint16_t address) = 0;

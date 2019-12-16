@@ -31,7 +31,9 @@
 namespace chip8 {
 
 struct MockControlUnit : public ControlUnit {
-  void returnFromSubroutine() override { id_called_function = 1; }
+  void clearDisplay() override { id_called_function = -1; }
+
+  void returnFromSubroutine() override { id_called_function = 0; }
 
   void jumpToLocation(uint16_t address) override { id_called_function = 1; }
 

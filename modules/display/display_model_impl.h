@@ -46,6 +46,8 @@ class DisplayModelImpl : public DisplayModel {
     return m_pixels(x, y);
   }
 
+  void clear() override { m_pixels.clear(); }
+
   std::size_t getWidth() const override { return m_pixels.size1(); }
 
   std::size_t getHeight() const override { return m_pixels.size2(); }

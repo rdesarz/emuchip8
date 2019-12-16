@@ -25,11 +25,19 @@
 
 #include "gtest/gtest.h"
 
+#include "fixtures.h"
 #include "interpreter/control_unit.h"
 #include "interpreter/user_input_impl.h"
-#include "fixtures.h"
 
 using namespace chip8;
+
+TEST_F(TestControlUnitFixture, ClearDisplay) {
+  model.setPixelValue(0, 0, 1);
+
+  ctrl_unit.clearDisplay();
+
+  EXPECT_EQ(model.getPixelValue(0, 0), 0);
+}
 
 TEST_F(TestControlUnitFixture, returnFromSubroutine) {
   pc = 0x1;
