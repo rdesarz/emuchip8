@@ -39,6 +39,12 @@ class TestInstructionInterpreterFixture : public ::testing::Test {
   InstructionInterpreter instruction_interpreter;
 };
 
+TEST_F(TestInstructionInterpreterFixture, ClearDisplay) {
+  instruction_interpreter.interpret(0x00E0);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, -1);
+}
+
 TEST_F(TestInstructionInterpreterFixture, InterpretJumpInstruction) {
   instruction_interpreter.interpret(0x1001);
 
