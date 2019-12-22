@@ -46,10 +46,7 @@ ControlUnitImpl::ControlUnitImpl(
       m_display_ctrler(display_ctrler),
       m_ui_ctrler(ui_ctrler) {}
 
-
-void ControlUnitImpl::clearDisplay() {
-  m_display_ctrler.clear();
-}
+void ControlUnitImpl::clearDisplay() { m_display_ctrler.clear(); }
 
 void ControlUnitImpl::returnFromSubroutine() {
   m_pc = m_stack[m_stack_ptr];
@@ -180,6 +177,10 @@ void ControlUnitImpl::displayOnScreen(uint16_t n_bytes_to_read,
   } else {
     m_registers[0xF] = 0;
   }
+}
+
+void ControlUnitImpl::storeDelayTimer(RegisterId reg_x) {
+  m_registers[reg_x] = m_delay_timer_reg;
 }
 
 void ControlUnitImpl::checkIfKeyPressed(RegisterId reg_x) {

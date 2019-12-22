@@ -86,6 +86,8 @@ class ControlUnit {
   virtual void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
                                RegisterId reg_y) = 0;
 
+  virtual void storeDelayTimer(RegisterId reg_x) = 0;
+
   virtual void checkIfKeyPressed(RegisterId reg_x) = 0;
 
   virtual void checkIfKeyNotPressed(RegisterId reg_x) = 0;
