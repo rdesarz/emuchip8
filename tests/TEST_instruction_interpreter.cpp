@@ -45,6 +45,12 @@ TEST_F(TestInstructionInterpreterFixture, ClearDisplay) {
   EXPECT_EQ(mock_ctrl_unit.id_called_function, -1);
 }
 
+TEST_F(TestInstructionInterpreterFixture, ReturnFromSubroutine) {
+  instruction_interpreter.interpret(0x00EE);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 0);
+}
+
 TEST_F(TestInstructionInterpreterFixture, InterpretJumpInstruction) {
   instruction_interpreter.interpret(0x1001);
 
