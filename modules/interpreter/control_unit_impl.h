@@ -90,6 +90,8 @@ class ControlUnitImpl : public ControlUnit {
   void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
                        RegisterId reg_y) override;
 
+  void storeDelayTimer(RegisterId reg_x) override;
+
   void checkIfKeyPressed(RegisterId reg_x) override;
 
   void checkIfKeyNotPressed(RegisterId reg_x) override;

@@ -231,3 +231,9 @@ TEST_F(TestInstructionInterpreterFixture, InterpretReadMultipleReg) {
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 30);
 }
+
+TEST_F(TestInstructionInterpreterFixture, StoreDelayTimer) {
+  instruction_interpreter.interpret(0xF107);
+
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 31);
+}

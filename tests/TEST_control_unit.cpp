@@ -317,6 +317,15 @@ TEST_F(TestControlUnitFixture, DisplayOnScreenWithoutModificationFlagIsFalse) {
   EXPECT_EQ(registers[0xF], 0);
 }
 
+TEST_F(TestControlUnitFixture, StoreDelayTimerRegisterValue) {
+  registers[1] = 0x3;
+  delay_timer_reg = 0x5;
+
+  ctrl_unit.storeDelayTimer(RegisterId(1));
+
+  EXPECT_EQ(registers[1], 5);
+}
+
 TEST_F(TestControlUnitFixture, CheckIfKeyPressedFalseCase) {
   registers[1] = 0x1;
   pc = 0x2;

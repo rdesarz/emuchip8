@@ -213,7 +213,7 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
       uint16_t postfix = instruction & MASK_BYTE;
       switch (postfix) {
         case POSTFIX_STORE_DELAY_TIMER:
-          // TODO(Romain Desarzens) : implement
+          m_ctrl_unit->storeDelayTimer(RegisterId(instruction & MASK_X_REG));
           break;
         case POSTFIX_WAIT_FOR_KEY_PRESS:
           m_ctrl_unit->waitForKeyPressed(RegisterId(instruction & MASK_X_REG));
