@@ -192,7 +192,7 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
           m_ctrl_unit->clearDisplay();
           break;
         case POSTFIX_RET_FROM_SUBROUTINE:
-          // TODO(Romain Desarzens) : implement
+          m_ctrl_unit->returnFromSubroutine();
           break;
       }
     } break;
