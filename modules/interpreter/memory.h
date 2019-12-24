@@ -33,6 +33,25 @@
 
 namespace chip8 {
 
+extern const std::size_t SPRITE_OFFSET;
+
+extern const std::size_t ZERO_SPRITE_OFFSET;
+extern const std::size_t ONE_SPRITE_OFFSET;
+extern const std::size_t TWO_SPRITE_OFFSET;
+extern const std::size_t THREE_SPRITE_OFFSET;
+extern const std::size_t FOUR_SPRITE_OFFSET;
+extern const std::size_t FIVE_SPRITE_OFFSET;
+extern const std::size_t SIX_SPRITE_OFFSET;
+extern const std::size_t SEVEN_SPRITE_OFFSET;
+extern const std::size_t EIGHT_SPRITE_OFFSET;
+extern const std::size_t NINE_SPRITE_OFFSET;
+extern const std::size_t A_SPRITE_OFFSET;
+extern const std::size_t B_SPRITE_OFFSET;
+extern const std::size_t C_SPRITE_OFFSET;
+extern const std::size_t D_SPRITE_OFFSET;
+extern const std::size_t E_SPRITE_OFFSET;
+extern const std::size_t F_SPRITE_OFFSET;
+
 template <typename MemoryUnit, std::size_t MemorySize>
 class GenericMemory {
  public:
