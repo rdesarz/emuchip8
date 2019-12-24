@@ -222,8 +222,7 @@ void ControlUnitImpl::addToIndexReg(RegisterId reg_x) {
 }
 
 void ControlUnitImpl::setIndexRegToSpriteLocation(RegisterId reg_x) {
-  // TODO(Romain Desarzens) : implement when the hexadecimal font will be
-  // implemented
+  m_index_reg = SPRITE_OFFSET * m_registers[reg_x];
 }
 
 void ControlUnitImpl::storeBCDRepresentation(RegisterId reg_x) {

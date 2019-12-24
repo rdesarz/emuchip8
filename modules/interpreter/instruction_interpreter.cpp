@@ -93,6 +93,17 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
   uint16_t prefix = instruction & MASK_PREFIX;
 
   switch (prefix) {
+    case PREFIX_SYS_INST: {
+      uint16_t postfix = instruction & MASK_BYTE;
+      switch (postfix) {
+        case POSTFIX_CLEAR_DISPLAY:
+          m_ctrl_unit->clearDisplay();
+          break;
+        case POSTFIX_RET_FROM_SUBROUTINE:
+          m_ctrl_unit->returnFromSubroutine();
+          break;
+      }
+    } break;
     case PREFIX_JUMP:
       m_ctrl_unit->jumpToLocation(instruction & MASK_ADDRESS);
       break;
@@ -184,18 +195,6 @@ void InstructionInterpreter::interpret(uint16_t instruction) {
       }
       break;
     }
-
-    case PREFIX_SYS_INST: {
-      uint16_t postfix = instruction & MASK_BYTE;
-      switch (postfix) {
-        case POSTFIX_CLEAR_DISPLAY:
-          m_ctrl_unit->clearDisplay();
-          break;
-        case POSTFIX_RET_FROM_SUBROUTINE:
-          m_ctrl_unit->returnFromSubroutine();
-          break;
-      }
-    } break;
     case PREFIX_KEYS: {
       uint16_t postfix = instruction & MASK_BYTE;
       switch (postfix) {

@@ -447,3 +447,12 @@ TEST_F(TestControlUnitFixture, readMultipleRegisters) {
   EXPECT_EQ(registers[1], 2);
   EXPECT_EQ(registers[2], 3);
 }
+
+TEST_F(TestControlUnitFixture, setSpriteLocation) {
+  index_reg = 0x2;
+  registers[2] = 0xA;
+
+  ctrl_unit.setIndexRegToSpriteLocation(RegisterId(2));
+
+  EXPECT_EQ(index_reg, A_SPRITE_OFFSET);
+}
