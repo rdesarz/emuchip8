@@ -44,7 +44,8 @@ ControlUnitImpl::ControlUnitImpl(
       m_registers(registers),
       m_ram(ram),
       m_display_ctrler(display_ctrler),
-      m_ui_ctrler(ui_ctrler) {}
+      m_ui_ctrler(ui_ctrler),
+      m_rand_num_generator(0, 256) {}
 
 void ControlUnitImpl::clearDisplay() { m_display_ctrler.clear(); }
 
@@ -158,9 +159,7 @@ void ControlUnitImpl::setPCToV0PlusValue(uint16_t value) {
 }
 
 void ControlUnitImpl::registerEqualRandomValue(uint8_t value, RegisterId reg) {
-  srand(time(NULL));
-  auto random_value = rand() % 256;
-  m_registers[reg] = (value & random_value);
+  m_registers[reg] = (value & m_rand_num_generator.generateNumber());
 }
 
 void ControlUnitImpl::displayOnScreen(uint16_t n_bytes_to_read,
