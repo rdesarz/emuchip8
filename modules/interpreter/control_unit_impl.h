@@ -26,6 +26,7 @@
 #ifndef MODULES_INTERPRETER_CONTROL_UNIT_IMPL_H_
 #define MODULES_INTERPRETER_CONTROL_UNIT_IMPL_H_
 
+#include <random>
 #include <vector>
 
 #include "display/display_controller.h"
@@ -34,6 +35,24 @@
 #include "interpreter/user_input.h"
 
 namespace chip8 {
+
+template <class Distribution>
+class RandomNumberGenerator {
+ public:
+  RandomNumberGenerator(int min_value, int max_value)
+      : m_random_engine(m_random_device()),
+        m_distribution(min_value, max_value) {}
+
+  int generateNumber() { return m_distribution(m_random_engine); }
+
+ private:
+  std::random_device m_random_device;
+  std::mt19937 m_random_engine;
+  Distribution m_distribution;
+};
+
+using UniformRandomNumberGenerator =
+    RandomNumberGenerator<std::uniform_int_distribution<int>>;
 
 class ControlUnitImpl : public ControlUnit {
  public:
@@ -123,6 +142,7 @@ class ControlUnitImpl : public ControlUnit {
   RAM& m_ram;
   DisplayController& m_display_ctrler;
   UserInputController& m_ui_ctrler;
+  UniformRandomNumberGenerator m_rand_num_generator;
 };
 
 }  // namespace chip8
