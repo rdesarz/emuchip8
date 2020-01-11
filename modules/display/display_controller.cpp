@@ -29,19 +29,18 @@
 
 namespace chip8 {
 
-DisplayController::DisplayController(DisplayModel& model,
-                                     std::shared_ptr<DisplayView> view)
+DisplayController::DisplayController(DisplayModel* model, DisplayView* view)
     : m_model(model), m_view(view) {}
 
 bool DisplayController::setPixel(std::size_t x, std::size_t y, uint8_t value) {
   // Crop if pixel is outside of the screen
-  x = x % m_model.getWidth();
+  x = x % m_model->getWidth();
 
   // Check if pixel is modified or not
-  uint8_t old_value = m_model.getPixelValue(x, y);
-  m_model.setPixelValue(x, y, old_value ^ value);
+  uint8_t old_value = m_model->getPixelValue(x, y);
+  m_model->setPixelValue(x, y, old_value ^ value);
 
-  return m_model.getPixelValue(x, y) != old_value;
+  return m_model->getPixelValue(x, y) != old_value;
 }
 
 bool DisplayController::setSprite(std::size_t x, std::size_t y,
@@ -54,6 +53,6 @@ bool DisplayController::setSprite(std::size_t x, std::size_t y,
   return any_pixel_modified;
 }
 
-void DisplayController::clear() { m_model.clear(); }
+void DisplayController::clear() { m_model->clear(); }
 
 }  // namespace chip8

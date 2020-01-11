@@ -27,17 +27,26 @@
 #define MODULES_INTERPRETER_EMULATOR_H_
 
 #include <istream>
+#include <memory>
 
 #include "interpreter/memory.h"
 #include "interpreter/rom_loader.h"
+
+#include "display/display_controller.h"
+#include "display/display_model.h"
+#include "display/display_view.h"
 
 namespace chip8 {
 
 class Emulator {
  public:
-  Emulator(std::istream& rom);
+  Emulator(std::istream& rom,
+           std::unique_ptr<DisplayController> display_controller);
+
+  void tick();
 
  private:
+  std::unique_ptr<DisplayController> m_display_controller;
   RAM m_ram;
 };
 

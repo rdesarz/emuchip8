@@ -27,8 +27,11 @@
 
 namespace chip8 {
 
-DisplayModelImpl::DisplayModelImpl(std::size_t width, std::size_t height)
-    : m_pixels(width, height) {
+static const int CHIP8_DISPLAY_WIDTH = 64;
+static const int CHIP8_DISPLAY_HEIGHT = 32;
+
+DisplayModelImpl::DisplayModelImpl()
+    : m_pixels(CHIP8_DISPLAY_WIDTH, CHIP8_DISPLAY_HEIGHT) {
   m_pixels.clear();
 }
 }  // namespace chip8

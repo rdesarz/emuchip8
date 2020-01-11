@@ -36,9 +36,9 @@ void SDLDisplayView::render() {
     return;
   }
 
-  for (std::size_t x = 0; x < m_model.getWidth(); ++x) {
-    for (std::size_t y = 0; y < m_model.getHeight(); ++y) {
-      if (m_model.getPixelValue(x, y) == 0) {
+  for (std::size_t x = 0; x < m_model->getWidth(); ++x) {
+    for (std::size_t y = 0; y < m_model->getHeight(); ++y) {
+      if (m_model->getPixelValue(x, y) == 0) {
         Pixel pixel(getRenderer(), Position(x, y), makeBlack(),
                     ScaleFactor(10));
         pixel.render();

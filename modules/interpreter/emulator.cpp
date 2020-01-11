@@ -27,6 +27,14 @@
 
 namespace chip8 {
 
-Emulator::Emulator(std::istream& rom) { loadProgram(m_ram, rom); }
+Emulator::Emulator(std::istream& rom,
+                   std::unique_ptr<DisplayController> display_controller)
+    : m_display_controller(std::move(display_controller)) {
+  loadProgram(m_ram, rom);
+}
+
+void Emulator::tick() {
+  m_display_controller->setPixel(std::rand() % 64, std::rand() % 32, 1);
+}
 
 }  // namespace chip8

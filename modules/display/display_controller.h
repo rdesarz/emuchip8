@@ -49,7 +49,7 @@ std::vector<SpriteType> makeSprite(uint8_t byte) {
 
 class DisplayController {
  public:
-  DisplayController(DisplayModel& model, std::shared_ptr<DisplayView> view);
+  DisplayController(DisplayModel* model, DisplayView* view);
   DisplayController(const DisplayController&) = delete;
   DisplayController(DisplayController&&) = delete;
   DisplayController& operator=(const DisplayController&) = delete;
@@ -63,8 +63,8 @@ class DisplayController {
   void clear();
 
  private:
-  DisplayModel& m_model;
-  std::shared_ptr<DisplayView> m_view;
+  DisplayModel* m_model;
+  DisplayView* m_view;
 };
 
 }  // namespace chip8

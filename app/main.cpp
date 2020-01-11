@@ -52,9 +52,6 @@ int main(int argc, char** argv) {
     return -1;
   }
 
-  // Load rom
-  Emulator emulator(rom_file);
-
   // Initialize input controller
   SDLInputToKeyMap key_to_map;
   SDLKeyboardUserInputController keyboard_ctrller(key_to_map);
@@ -62,15 +59,18 @@ int main(int argc, char** argv) {
   SDL_Event event;
 
   // Initialize display
-  DisplayModelImpl display_model(64, 32);
+  std::unique_ptr<DisplayModel> display_model(new DisplayModelImpl());
+  std::unique_ptr<SDLDisplayView> display_view(
+      new SDLDisplayView(display_model.get()));
+  std::unique_ptr<DisplayController> display_controller(
+      new DisplayController(display_model.get(), display_view.get()));
 
-  std::shared_ptr<SDLDisplayView> display_view(
-      new SDLDisplayView(display_model));
-
+  // Add the display element to the window
   Window main_window(640, 320, "Chip8 emulator");
-  main_window.attachNewComponent(display_view);
+  main_window.attachNewComponent(display_view.get());
 
-  DisplayController display_controller(display_model, display_view);
+  // Initialize emulator
+  Emulator emulator(rom_file, std::move(display_controller));
 
   // main loop
   while (!quit) {
@@ -85,13 +85,14 @@ int main(int argc, char** argv) {
       }
     }
 
-    // Short line to test keyboard input
-    if (keyboard_ctrller.getInputState(InputId::INPUT_0) == InputState::ON) {
-      std::cout << "0 Key pressed" << std::endl;
-      display_controller.clear();
-    }
+    // // Short line to test keyboard input
+    // if (keyboard_ctrller.getInputState(InputId::INPUT_0) == InputState::ON) {
+    //   std::cout << "0 Key pressed" << std::endl;
+    //   display_controller.clear();
+    // }
+    //
 
-    display_controller.setPixel(std::rand() % 64, std::rand() % 32, 1);
+    emulator.tick();
 
     main_window.update();
 
