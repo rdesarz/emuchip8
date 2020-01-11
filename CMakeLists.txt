@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.11)
 
 project(chip8_emulator)
 
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Running conan install
 include(${PROJECT_SOURCE_DIR}/conan.cmake)
@@ -52,8 +54,8 @@ target_link_libraries (clock CONAN_PKG::boost)
 add_library(rom_loader modules/interpreter/rom_loader.cpp)
 target_link_libraries (rom_loader CONAN_PKG::boost)
 
-add_library(instruction_interpreter modules/interpreter/instruction_interpreter.cpp)
-target_link_libraries (instruction_interpreter CONAN_PKG::boost)
+add_library(instruction_decoder modules/interpreter/instruction_decoder.cpp)
+target_link_libraries (instruction_decoder CONAN_PKG::boost)
 
 ## Executables
 add_executable(main app/main.cpp)
@@ -85,7 +87,7 @@ target_link_libraries( rom_loader_test CONAN_PKG::gtest pthread rom_loader)
 add_test( NAME rom_loader_test COMMAND rom_loader_test )
 gtest_discover_tests(rom_loader_test)
 
-add_executable( instruction_interpreter_test tests/TEST_instruction_interpreter.cpp )
-target_link_libraries( instruction_interpreter_test CONAN_PKG::gtest pthread instruction_interpreter)
-add_test( NAME instruction_interpreter_test COMMAND instruction_interpreter_test )
-gtest_discover_tests(instruction_interpreter_test)
+add_executable( instruction_decoder_test tests/TEST_instruction_decoder.cpp )
+target_link_libraries( instruction_decoder_test CONAN_PKG::gtest pthread instruction_decoder)
+add_test( NAME instruction_decoder_test COMMAND instruction_decoder_test )
+gtest_discover_tests(instruction_decoder_test)

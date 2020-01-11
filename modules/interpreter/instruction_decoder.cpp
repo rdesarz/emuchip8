@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "interpreter/instruction_interpreter.h"
+#include "interpreter/instruction_decoder.h"
 
 #include <cstdint>
 
@@ -86,10 +86,10 @@ static const uint16_t POSTFIX_STORE_BCD = 0x0033;
 static const uint16_t POSTFIX_STORE_REG_IN_MEM = 0x0055;
 static const uint16_t POSTFIX_READ_REG_TO_MEM = 0x0065;
 
-InstructionInterpreter::InstructionInterpreter(ControlUnit* ctrl_unit)
+InstructionDecoder::InstructionDecoder(ControlUnit* ctrl_unit)
     : m_ctrl_unit(ctrl_unit) {}
 
-void InstructionInterpreter::interpret(uint16_t instruction) {
+void InstructionDecoder::decode(uint16_t instruction) {
   uint16_t prefix = instruction & MASK_PREFIX;
 
   switch (prefix) {
