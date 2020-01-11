@@ -23,21 +23,21 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_INSTRUCTION_INTERPRETER_H_
-#define MODULES_INTERPRETER_INSTRUCTION_INTERPRETER_H_
+#ifndef MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
+#define MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
 
 #include "interpreter/control_unit.h"
 
 namespace chip8 {
 
-class InstructionInterpreter {
+class InstructionDecoder {
  public:
-  explicit InstructionInterpreter(ControlUnit* ctrl_unit);
-  void interpret(uint16_t instruction);
+  explicit InstructionDecoder(ControlUnit* ctrl_unit);
+  void decode(uint16_t instruction);
 
  private:
   ControlUnit* m_ctrl_unit;
 };
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_INSTRUCTION_INTERPRETER_H_
+#endif  // MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
