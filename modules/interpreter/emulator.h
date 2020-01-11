@@ -31,6 +31,7 @@
 
 #include "interpreter/memory.h"
 #include "interpreter/rom_loader.h"
+#include "interpreter/user_input.h"
 
 #include "display/display_controller.h"
 #include "display/display_model.h"
@@ -41,12 +42,14 @@ namespace chip8 {
 class Emulator {
  public:
   Emulator(std::istream& rom,
-           std::unique_ptr<DisplayController> display_controller);
+           std::unique_ptr<DisplayController> display_controller,
+           UserInputController* ui_controller);
 
   void tick();
 
  private:
   std::unique_ptr<DisplayController> m_display_controller;
+  UserInputController* m_ui_controller;
   RAM m_ram;
 };
 

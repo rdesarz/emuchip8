@@ -54,9 +54,7 @@ int main(int argc, char** argv) {
 
   // Initialize input controller
   SDLInputToKeyMap key_to_map;
-  SDLKeyboardUserInputController keyboard_ctrller(key_to_map);
-  bool quit = false;
-  SDL_Event event;
+  SDLKeyboardUserInputController keyboard_controller(key_to_map);
 
   // Initialize display
   std::unique_ptr<DisplayModel> display_model(new DisplayModelImpl());
@@ -70,13 +68,16 @@ int main(int argc, char** argv) {
   main_window.attachNewComponent(display_view.get());
 
   // Initialize emulator
-  Emulator emulator(rom_file, std::move(display_controller));
+  Emulator emulator(rom_file, std::move(display_controller),
+                    &keyboard_controller);
 
   // main loop
+  bool quit = false;
+  SDL_Event event;
   while (!quit) {
     if (SDL_PollEvent(&event) != 0) {
       // Process keyboard event
-      if (keyboard_ctrller.processEvent(event)) continue;
+      if (keyboard_controller.processEvent(event)) continue;
 
       switch (event.type) {
         case SDL_QUIT:
@@ -84,13 +85,6 @@ int main(int argc, char** argv) {
           break;
       }
     }
-
-    // // Short line to test keyboard input
-    // if (keyboard_ctrller.getInputState(InputId::INPUT_0) == InputState::ON) {
-    //   std::cout << "0 Key pressed" << std::endl;
-    //   display_controller.clear();
-    // }
-    //
 
     emulator.tick();
 
