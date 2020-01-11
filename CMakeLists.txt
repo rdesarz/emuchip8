@@ -25,7 +25,7 @@ add_library(memory modules/interpreter/memory.cpp)
 target_link_libraries (memory CONAN_PKG::boost)
 
 add_library(control_unit_impl modules/interpreter/control_unit_impl.cpp)
-target_link_libraries (control_unit_impl CONAN_PKG::boost)
+target_link_libraries (control_unit_impl memory CONAN_PKG::boost)
 
 add_library(user_input_impl modules/interpreter/user_input_impl.cpp)
 target_link_libraries (user_input_impl CONAN_PKG::boost CONAN_PKG::sdl2)
@@ -58,7 +58,7 @@ add_library(instruction_decoder modules/interpreter/instruction_decoder.cpp)
 target_link_libraries (instruction_decoder CONAN_PKG::boost)
 
 add_library(emulator modules/interpreter/emulator.cpp)
-target_link_libraries (emulator rom_loader clock)
+target_link_libraries (emulator rom_loader clock memory control_unit_impl)
 
 ## Executables
 add_executable(main app/main.cpp)

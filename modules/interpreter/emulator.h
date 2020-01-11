@@ -28,8 +28,10 @@
 
 #include <istream>
 #include <memory>
+#include <vector>
 
 #include "interpreter/clock.h"
+#include "interpreter/control_unit.h"
 #include "interpreter/memory.h"
 #include "interpreter/rom_loader.h"
 #include "interpreter/user_input.h"
@@ -52,9 +54,21 @@ class Emulator {
   void clockCycle();
 
  private:
+  Clock m_clock;
+
+  // Controllers
   std::unique_ptr<DisplayController> m_display_controller;
   UserInputController* m_ui_controller;
-  Clock m_clock;
+  std::unique_ptr<ControlUnit> m_ctrl_unit;
+
+  // Memory components
+  ProgramCounter m_pc;
+  StackPointer m_stack_ptr;
+  IndexRegister m_index_reg;
+  DelayTimerRegister m_delay_timer_reg;
+  SoundTimerRegister m_sound_timer_reg;
+  Stack m_stack;
+  std::vector<GeneralRegister> m_registers;
   RAM m_ram;
 };
 

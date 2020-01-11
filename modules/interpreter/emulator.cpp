@@ -26,6 +26,7 @@
 #include <iostream>
 #include <utility>
 
+#include "interpreter/control_unit_impl.h"
 #include "interpreter/emulator.h"
 
 namespace chip8 {
@@ -35,7 +36,12 @@ Emulator::Emulator(std::istream& rom,
                    UserInputController* ui_controller)
     : m_clock([]() { return std::chrono::system_clock::now(); }),
       m_display_controller(std::move(display_controller)),
-      m_ui_controller(ui_controller) {
+      m_ui_controller(ui_controller),
+      m_registers(16),
+      m_ctrl_unit(
+          new ControlUnitImpl(m_pc, m_stack_ptr, m_index_reg, m_delay_timer_reg,
+                              m_sound_timer_reg, m_stack, m_registers, m_ram,
+                              *m_display_controller, *m_ui_controller)) {
   loadProgram(m_ram, rom);
 
   // The clock cycle will be executed at 500Hz
