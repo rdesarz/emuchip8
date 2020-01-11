@@ -29,6 +29,7 @@
 #include <istream>
 #include <memory>
 
+#include "interpreter/clock.h"
 #include "interpreter/memory.h"
 #include "interpreter/rom_loader.h"
 #include "interpreter/user_input.h"
@@ -45,11 +46,15 @@ class Emulator {
            std::unique_ptr<DisplayController> display_controller,
            UserInputController* ui_controller);
 
-  void tick();
+  void update();
+
+ private:
+  void clockCycle();
 
  private:
   std::unique_ptr<DisplayController> m_display_controller;
   UserInputController* m_ui_controller;
+  Clock m_clock;
   RAM m_ram;
 };
 

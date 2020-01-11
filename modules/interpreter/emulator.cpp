@@ -24,6 +24,7 @@
  */
 
 #include <iostream>
+#include <utility>
 
 #include "interpreter/emulator.h"
 
@@ -32,12 +33,18 @@ namespace chip8 {
 Emulator::Emulator(std::istream& rom,
                    std::unique_ptr<DisplayController> display_controller,
                    UserInputController* ui_controller)
-    : m_display_controller(std::move(display_controller)),
+    : m_clock([]() { return std::chrono::system_clock::now(); }),
+      m_display_controller(std::move(display_controller)),
       m_ui_controller(ui_controller) {
   loadProgram(m_ram, rom);
+
+  // The clock cycle will be executed at 500Hz
+  m_clock.registerCallback([this]() { this->clockCycle(); }, 500);
 }
 
-void Emulator::tick() {
+void Emulator::update() { m_clock.tick(); }
+
+void Emulator::clockCycle() {
   // TODO(Romain Desarzens): remove those lines at end of the integration
   m_display_controller->setPixel(std::rand() % 64, std::rand() % 32, 1);
 

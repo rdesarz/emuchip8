@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
       }
     }
 
-    emulator.tick();
+    emulator.update();
 
     main_window.update();
 

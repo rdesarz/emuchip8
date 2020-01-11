@@ -55,4 +55,4 @@ class Clock {
 };
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_CLOCK_H
+#endif  // MODULES_INTERPRETER_CLOCK_H_

@@ -58,7 +58,7 @@ add_library(instruction_decoder modules/interpreter/instruction_decoder.cpp)
 target_link_libraries (instruction_decoder CONAN_PKG::boost)
 
 add_library(emulator modules/interpreter/emulator.cpp)
-target_link_libraries (emulator rom_loader)
+target_link_libraries (emulator rom_loader clock)
 
 ## Executables
 add_executable(main app/main.cpp)
