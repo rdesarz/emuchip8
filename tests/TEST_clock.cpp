@@ -31,13 +31,13 @@ using namespace chip8;
 
 TEST(Memory, callbackPeriodicCallRequired) {
   bool called = false;
-  std::chrono::nanoseconds current_time(0ns);
+  std::chrono::time_point<std::chrono::system_clock> current_time{};
   Clock clock([&current_time]() { return current_time; });
   bool callback_register_success =
       clock.registerCallback([&called]() { called = true; }, 1e6);
 
   // We fake to have reached the frequency of the callback
-  current_time = 1000ns;
+  current_time += 1000ns;
   clock.tick();
 
   EXPECT_EQ(called, true);
@@ -46,7 +46,7 @@ TEST(Memory, callbackPeriodicCallRequired) {
 
 TEST(Memory, callbackPeriodicCallNonRequired) {
   bool called = false;
-  std::chrono::nanoseconds current_time(1000ns);
+  std::chrono::time_point<std::chrono::system_clock> current_time{};
   Clock clock([&current_time]() { return current_time; });
   bool callback_register_success =
       clock.registerCallback([&called]() { called = true; }, 1e6);
@@ -58,10 +58,10 @@ TEST(Memory, callbackPeriodicCallNonRequired) {
 
 TEST(Memory, TestTwoConsecutiveCallSecondOneNotRequired) {
   bool called = false;
-  std::chrono::nanoseconds current_time(0ns);
+  std::chrono::time_point<std::chrono::system_clock> current_time{};
   Clock clock([&current_time]() { return current_time; });
   clock.registerCallback([&called]() { called = true; }, 1e6);
-  current_time = 1000ns;
+  current_time += 1000ns;
   clock.tick();
   called = false;
 

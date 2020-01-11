@@ -29,13 +29,17 @@ static const double SECOND_TO_NANOSECOND = 1e9;
 
 namespace chip8 {
 
-Clock::Clock(std::function<std::chrono::nanoseconds()> get_current_time_cb)
+Clock::Clock(
+    std::function<std::chrono::system_clock::time_point()> get_current_time_cb)
     : m_get_current_time(get_current_time_cb) {}
 
 bool Clock::registerCallback(std::function<void()> cb, double frequency) {
   if (m_get_current_time) {
-    m_callbacks.push_back(
-        PeriodicCallback{cb, frequency, m_get_current_time()});
+    m_callbacks.push_back(PeriodicCallback{
+        cb,
+        std::chrono::nanoseconds(
+            static_cast<uint64_t>(SECOND_TO_NANOSECOND / frequency)),
+        m_get_current_time()});
     return true;
   }
 
@@ -52,13 +56,10 @@ void Clock::tick() {
 }
 
 bool Clock::needsToBeCalled(const PeriodicCallback& periodic_cb) {
-  if ((m_get_current_time() - periodic_cb.last_call_timestamp) >=
-      std::chrono::nanoseconds(
-          static_cast<int64_t>(SECOND_TO_NANOSECOND / periodic_cb.frequency))) {
-    return true;
-  }
+  std::chrono::nanoseconds elapsed_time =
+      m_get_current_time() - periodic_cb.last_call_timestamp;
 
-  return false;
+  return elapsed_time >= periodic_cb.period;
 }
 
 }  // namespace chip8

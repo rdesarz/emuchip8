@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_CLOCK_H
-#define MODULES_INTERPRETER_CLOCK_H
+#ifndef MODULES_INTERPRETER_CLOCK_H_
+#define MODULES_INTERPRETER_CLOCK_H_
 
 // std
 #include <chrono>
@@ -35,13 +35,14 @@ namespace chip8 {
 
 struct PeriodicCallback {
   std::function<void()> callback;
-  double frequency;
-  std::chrono::nanoseconds last_call_timestamp;
+  std::chrono::nanoseconds period;
+  std::chrono::system_clock::time_point last_call_timestamp;
 };
 
 class Clock {
  public:
-  explicit Clock(std::function<std::chrono::nanoseconds()> get_current_time_cb);
+  explicit Clock(std::function<std::chrono::system_clock::time_point()>
+                     get_current_time_cb);
   bool registerCallback(std::function<void()> cb, double frequency);
   void tick();
 
@@ -50,8 +51,8 @@ class Clock {
 
  private:
   std::vector<PeriodicCallback> m_callbacks;
-  std::function<std::chrono::nanoseconds()> m_get_current_time;
+  std::function<std::chrono::system_clock::time_point()> m_get_current_time;
 };
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_CHIP_H_
+#endif  // MODULES_INTERPRETER_CLOCK_H
