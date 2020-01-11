@@ -65,21 +65,21 @@ void ControlUnitImpl::callSubroutineAt(uint16_t address) {
 void ControlUnitImpl::skipNextInstructionIfEqual(uint8_t value,
                                                  RegisterId reg) {
   if (m_registers[reg] == value) {
-    m_pc += 2;
+    m_pc += 4;
   }
 }
 
 void ControlUnitImpl::skipNextInstructionIfNotEqual(uint8_t value,
                                                     RegisterId reg) {
   if (m_registers[reg] != value) {
-    m_pc += 2;
+    m_pc += 4;
   }
 }
 
 void ControlUnitImpl::skipNextInstructionIfRegistersEqual(RegisterId reg_x,
                                                           RegisterId reg_y) {
   if (m_registers[reg_x] == m_registers[reg_y]) {
-    m_pc += 2;
+    m_pc += 4;
   }
 }
 
@@ -146,7 +146,7 @@ void ControlUnitImpl::shiftLeft(RegisterId reg) {
 void ControlUnitImpl::skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
                                                              RegisterId reg_y) {
   if (m_registers[reg_x] != m_registers[reg_y]) {
-    m_pc += 2;
+    m_pc += 4;
   }
 }
 
@@ -185,14 +185,14 @@ void ControlUnitImpl::storeDelayTimer(RegisterId reg_x) {
 void ControlUnitImpl::checkIfKeyPressed(RegisterId reg_x) {
   if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) ==
       InputState::ON) {
-    m_pc += 2;
+    m_pc += 4;
   }
 }
 
 void ControlUnitImpl::checkIfKeyNotPressed(RegisterId reg_x) {
   if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) !=
       InputState::ON) {
-    m_pc += 2;
+    m_pc += 4;
   }
 }
 
@@ -205,7 +205,7 @@ void ControlUnitImpl::waitForKeyPressed(RegisterId reg_x) {
     }
   }
 
-  --m_pc;
+  m_pc -= 2;
 }
 
 void ControlUnitImpl::setDelayTimerRegister(RegisterId reg_x) {

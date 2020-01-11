@@ -75,7 +75,7 @@ TEST_F(TestControlUnitFixture, jumpBecauseValueAndRegisterAreEqual) {
 
   ctrl_unit.skipNextInstructionIfEqual(0x2, RegisterId(1));
 
-  EXPECT_EQ(pc, 0x6);
+  EXPECT_EQ(pc, 0x8);
 }
 
 TEST_F(TestControlUnitFixture, jumpBecauseValueAndRegisterAreNotEqual) {
@@ -102,7 +102,7 @@ TEST_F(TestControlUnitFixture, DontJumpBecauseValueAndRegisterAreNotEqual) {
 
   ctrl_unit.skipNextInstructionIfNotEqual(0x2, RegisterId(1));
 
-  EXPECT_EQ(pc, 0x6);
+  EXPECT_EQ(pc, 0x8);
 }
 
 TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreEqual) {
@@ -112,7 +112,7 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreEqual) {
 
   ctrl_unit.skipNextInstructionIfRegistersEqual(RegisterId(0), RegisterId(1));
 
-  EXPECT_EQ(pc, 0x6);
+  EXPECT_EQ(pc, 0x8);
 }
 
 TEST_F(TestControlUnitFixture, StoreInRegister) {
@@ -250,7 +250,7 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreNotEqual) {
   ctrl_unit.skipNextInstructionIfRegistersNotEqual(RegisterId(0),
                                                    RegisterId(1));
 
-  EXPECT_EQ(pc, 0x6);
+  EXPECT_EQ(pc, 0x8);
 }
 
 TEST_F(TestControlUnitFixture, StoreInMemoryAddressRegister) {
@@ -342,7 +342,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyPressedTrueCase) {
 
   ctrl_unit.checkIfKeyPressed(RegisterId(1));
 
-  EXPECT_EQ(pc, 0x4);
+  EXPECT_EQ(pc, 0x6);
 }
 
 TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedFalseCase) {
@@ -351,7 +351,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedFalseCase) {
 
   ctrl_unit.checkIfKeyNotPressed(RegisterId(1));
 
-  EXPECT_EQ(pc, 0x4);
+  EXPECT_EQ(pc, 0x6);
 }
 
 TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedTrueCase) {
@@ -381,7 +381,7 @@ TEST_F(TestControlUnitFixture, WaitForKeyPressedFalseCase) {
 
   ctrl_unit.waitForKeyPressed(RegisterId(1));
 
-  EXPECT_EQ(pc, 0x1);
+  EXPECT_EQ(pc, 0x0);
 }
 
 TEST_F(TestControlUnitFixture, SetDelayTimerRegister) {
