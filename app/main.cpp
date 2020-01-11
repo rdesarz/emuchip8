@@ -23,8 +23,11 @@
  * SOFTWARE.
  */
 
+#include <fstream>
 #include <iostream>
 #include <optional>
+
+#include "interpreter/emulator.h"
 
 #include "interpreter/user_input.h"
 #include "interpreter/user_input_impl.h"
@@ -39,6 +42,19 @@
 using namespace chip8;
 
 int main(int argc, char** argv) {
+  // First program argument is the path to the ROM
+  std::ifstream rom_file;
+  if (argc > 1) {
+    rom_file.open(argv[1], std::ios_base::in | std::ios_base::binary);
+  } else {
+    std::cout << "No ROM file specified"
+              << "\n";
+    return -1;
+  }
+
+  // Load rom
+  Emulator emulator(rom_file);
+
   // Initialize input controller
   SDLInputToKeyMap key_to_map;
   SDLKeyboardUserInputController keyboard_ctrller(key_to_map);

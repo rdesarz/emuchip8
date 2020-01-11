@@ -57,9 +57,12 @@ target_link_libraries (rom_loader CONAN_PKG::boost)
 add_library(instruction_decoder modules/interpreter/instruction_decoder.cpp)
 target_link_libraries (instruction_decoder CONAN_PKG::boost)
 
+add_library(emulator modules/interpreter/emulator.cpp)
+target_link_libraries (emulator rom_loader)
+
 ## Executables
 add_executable(main app/main.cpp)
-target_link_libraries (main window display_model_impl display_view_impl display_controller user_input_impl CONAN_PKG::sdl2)
+target_link_libraries (main window display_model_impl display_view_impl display_controller user_input_impl emulator CONAN_PKG::sdl2)
 
 ## Unit tests
 add_executable( memory_test tests/TEST_memory.cpp )
