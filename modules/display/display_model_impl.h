@@ -36,7 +36,7 @@ namespace chip8 {
 
 class DisplayModelImpl : public DisplayModel {
  public:
-  DisplayModelImpl(std::size_t width, std::size_t height);
+  DisplayModelImpl();
 
   void setPixelValue(std::size_t x, std::size_t y, uint8_t value) override {
     m_pixels(x, y) = value;

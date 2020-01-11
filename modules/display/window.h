@@ -44,13 +44,13 @@ class Window {
   ~Window();
   void setBackgroundColor(Color color);
   void update();
-  void attachNewComponent(std::shared_ptr<WindowComponent> component) {
+  void attachNewComponent(WindowComponent* component) {
     component->assign_renderer(m_renderer);
-    m_components.push_back(std::move(component));
+    m_components.push_back(component);
   }
 
  private:
-  std::vector<std::shared_ptr<WindowComponent>> m_components;
+  std::vector<WindowComponent*> m_components;
   SDL_Window* m_window;
   SDL_Renderer* m_renderer;
 };

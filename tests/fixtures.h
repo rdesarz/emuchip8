@@ -43,10 +43,7 @@ namespace chip8 {
 
 class TestDisplayModel : public DisplayModel {
  public:
-  TestDisplayModel(std::size_t width, std::size_t height)
-      : m_pixels(width, height) {
-    m_pixels.clear();
-  }
+  TestDisplayModel() : m_pixels(64, 32) { m_pixels.clear(); }
 
   void setPixelValue(std::size_t x, std::size_t y, uint8_t value) override {
     m_pixels(x, y) = value;
@@ -73,20 +70,17 @@ class TestDisplayView : public DisplayView {
 
 class TestDisplayFixture : public ::testing::Test {
  protected:
-  TestDisplayFixture()
-      : model(64, 32), view(new TestDisplayView), display(model, view) {}
+  TestDisplayFixture() : display(&model, &view) {}
 
   TestDisplayModel model;
-  std::shared_ptr<TestDisplayView> view;
+  TestDisplayView view;
   DisplayController display;
 };
 
 class TestControlUnitFixture : public ::testing::Test {
  protected:
   TestControlUnitFixture()
-      : model(64, 32),
-        view(new TestDisplayView()),
-        display_ctrler(model, view),
+      : display_ctrler(&model, &view),
         ctrl_unit(pc, stack_ptr, index_reg, delay_timer_reg, sound_timer_reg,
                   stack, registers, ram, display_ctrler, ui_ctrler),
         registers(16) {}
@@ -100,7 +94,7 @@ class TestControlUnitFixture : public ::testing::Test {
   std::vector<GeneralRegister> registers;
   RAM ram;
   TestDisplayModel model;
-  std::shared_ptr<TestDisplayView> view;
+  TestDisplayView view;
   DisplayController display_ctrler;
   TestUserInputController ui_ctrler;
   ControlUnitImpl ctrl_unit;
