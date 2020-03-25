@@ -1,9 +1,8 @@
-# emuchip8
-A Chip8 emulator developped in C++
+# Emuchip8
+A simple Chip8 emulator developped in C++ using SDL library. 
 
 # Setup
 
-Go to your build folder
 ```
   conan install ../chip8_emulator
   cmake ../chip8_emulator
