@@ -23,13 +23,13 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_WINDOW_COMPONENT_H
-#define MODULES_DISPLAY_WINDOW_COMPONENT_H
+#ifndef MODULES_DISPLAY_WINDOW_COMPONENT_H_
+#define MODULES_DISPLAY_WINDOW_COMPONENT_H_
 
 #include <memory>
 #include <vector>
 
-#include <SDL.h>
+#include "SDL.h"
 
 namespace chip8 {
 
@@ -46,4 +46,4 @@ class WindowComponent {
 };
 
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_UTILITIES_H_
+#endif  // MODULES_DISPLAY_WINDOW_COMPONENT_H_

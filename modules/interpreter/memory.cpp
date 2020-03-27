@@ -105,8 +105,8 @@ std::ostream& operator<<(std::ostream& os, const RAM& ram) {
     }
 
     os << "0x" << std::setfill('0') << std::hex << std::setw(2)
-       << static_cast<unsigned int>(*(byte + 1)) << std::setfill('0')
-       << std::hex << std::setw(2) << static_cast<unsigned int>(*(byte)) << " ";
+       << static_cast<unsigned int>(*byte) << std::setfill('0')
+       << std::hex << std::setw(2) << static_cast<unsigned int>(*(byte+1)) << " ";
   }
 
   return os;
