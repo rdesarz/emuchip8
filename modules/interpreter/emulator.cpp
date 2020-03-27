@@ -42,7 +42,7 @@ Emulator::Emulator(std::istream& rom,
           new ControlUnitImpl(m_pc, m_stack_ptr, m_index_reg, m_delay_timer_reg,
                               m_sound_timer_reg, m_stack, m_registers, m_ram,
                               *m_display_controller, *m_ui_controller)) {
-  loadProgram(m_ram, rom);
+  loadProgramFromStream(m_ram, rom);
 
   // The clock cycle will be executed at 500Hz
   m_clock.registerCallback([this]() { this->clockCycle(); }, 500);
