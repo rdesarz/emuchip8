@@ -45,7 +45,7 @@ TEST(ROMLoader, testReadOneByteData) {
   input_stream << char(0x00) << char(0xE0);
   RAM ram;
 
-  loadProgram(ram, input_stream);
+  loadProgramFromStream(ram, input_stream);
 
   EXPECT_EQ(ram[0], 0x0);
   EXPECT_EQ(ram[0x201], 0xE0);
@@ -57,7 +57,7 @@ TEST(ROMLoader, testReadSimpleProgram) {
   std::copy(LOGO_EXAMPLE.begin(), LOGO_EXAMPLE.end(), input_stream_iter);
   RAM ram;
 
-  loadProgram(ram, input_stream);
+  loadProgramFromStream(ram, input_stream);
 
   EXPECT_EQ(ram[0], 0x0);
   EXPECT_EQ(ram[0x200], 0x00);
