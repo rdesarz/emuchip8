@@ -86,6 +86,14 @@ static const uint16_t POSTFIX_STORE_BCD = 0x0033;
 static const uint16_t POSTFIX_STORE_REG_IN_MEM = 0x0055;
 static const uint16_t POSTFIX_READ_REG_TO_MEM = 0x0065;
 
+RegisterId getRegX(uint16_t instruction) {
+  return RegisterId(16 >> (instruction & MASK_X_REG));
+}
+
+RegisterId getRegY(uint16_t instruction) {
+  return RegisterId(8 >> (instruction & MASK_Y_REG));
+}
+
 InstructionDecoder::InstructionDecoder(ControlUnit* ctrl_unit)
     : m_ctrl_unit(ctrl_unit) {}
 
@@ -119,22 +127,19 @@ void InstructionDecoder::decode(uint16_t instruction) {
           instruction & MASK_X_REG, RegisterId(instruction & MASK_BYTE));
       break;
     case PREFIX_SKIP_IF_REG_EQ:
-      m_ctrl_unit->skipNextInstructionIfRegistersEqual(
-          RegisterId(instruction & MASK_X_REG),
-          RegisterId(instruction & MASK_Y_REG));
+      m_ctrl_unit->skipNextInstructionIfRegistersEqual(getRegX(instruction),
+                                                       getRegY(instruction));
       break;
     case PREFIX_SET_REG:
       m_ctrl_unit->storeInRegister(instruction & MASK_BYTE,
-                                   RegisterId(instruction & MASK_X_REG));
+                                   getRegX(instruction));
       break;
     case PREFIX_ADD_REG:
-      m_ctrl_unit->addToRegister(instruction & MASK_BYTE,
-                                 RegisterId(instruction & MASK_X_REG));
+      m_ctrl_unit->addToRegister(instruction & MASK_BYTE, getRegX(instruction));
       break;
     case PREFIX_SKIP_IF_REG_NEQ:
-      m_ctrl_unit->skipNextInstructionIfRegistersNotEqual(
-          RegisterId(instruction & MASK_X_REG),
-          RegisterId(instruction & MASK_Y_REG));
+      m_ctrl_unit->skipNextInstructionIfRegistersNotEqual(getRegX(instruction),
+                                                          getRegY(instruction));
       break;
     case PREFIX_SET_INDEX:
       m_ctrl_unit->storeInMemoryAddressRegister(instruction & MASK_ADDRESS);
@@ -148,49 +153,41 @@ void InstructionDecoder::decode(uint16_t instruction) {
       break;
     case PREFIX_DISPLAY:
       m_ctrl_unit->displayOnScreen(instruction & MASK_NIBBLE,
-                                   RegisterId(instruction & MASK_X_REG),
-                                   RegisterId(instruction & MASK_Y_REG));
+                                   getRegX(instruction), getRegY(instruction));
       break;
     case PREFIX_STORE_REG: {
       uint16_t postfix = instruction & MASK_POSTFIX;
       switch (postfix) {
         case POSTFIX_STORE_REG_IN_REG:
-          m_ctrl_unit->storeRegisterInRegister(
-              RegisterId(instruction & MASK_X_REG),
-              RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->storeRegisterInRegister(getRegX(instruction),
+                                               getRegY(instruction));
           break;
         case POSTFIX_OR:
-          m_ctrl_unit->bitwiseOr(RegisterId(instruction & MASK_X_REG),
-                                 RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->bitwiseOr(getRegX(instruction), getRegY(instruction));
           break;
         case POSTFIX_AND:
-          m_ctrl_unit->bitwiseAnd(RegisterId(instruction & MASK_X_REG),
-                                  RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->bitwiseAnd(getRegX(instruction), getRegY(instruction));
           break;
         case POSTFIX_XOR:
-          m_ctrl_unit->bitwiseXor(RegisterId(instruction & MASK_X_REG),
-                                  RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->bitwiseXor(getRegX(instruction), getRegY(instruction));
           break;
         case POSTFIX_ADD_REG_TO_REG:
-          m_ctrl_unit->addRegisterToRegister(
-              RegisterId(instruction & MASK_X_REG),
-              RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->addRegisterToRegister(getRegX(instruction),
+                                             getRegY(instruction));
           break;
         case POSTFIX_SUB_REG_TO_REG:
-          m_ctrl_unit->subtractRegisterToRegister(
-              RegisterId(instruction & MASK_X_REG),
-              RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->subtractRegisterToRegister(getRegX(instruction),
+                                                  getRegY(instruction));
           break;
         case POSTFIX_SHR:
-          m_ctrl_unit->shiftRight(RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->shiftRight(getRegX(instruction));
           break;
         case POSTFIX_SUBN:
-          m_ctrl_unit->subtractRegisterToRegister(
-              RegisterId(instruction & MASK_Y_REG),
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->subtractRegisterToRegister(getRegY(instruction),
+                                                  getRegX(instruction));
           break;
         case POSTFIX_SHL:
-          m_ctrl_unit->shiftLeft(RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->shiftLeft(getRegX(instruction));
           break;
       }
       break;
@@ -199,11 +196,10 @@ void InstructionDecoder::decode(uint16_t instruction) {
       uint16_t postfix = instruction & MASK_BYTE;
       switch (postfix) {
         case POSTFIX_SKIP_NEXT_IF_PRESSED:
-          m_ctrl_unit->checkIfKeyPressed(RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->checkIfKeyPressed(getRegX(instruction));
           break;
         case POSTFIX_SKIP_NEXT_IF_NOT_PRESSED:
-          m_ctrl_unit->checkIfKeyNotPressed(
-              RegisterId(instruction & MASK_Y_REG));
+          m_ctrl_unit->checkIfKeyNotPressed(getRegY(instruction));
           break;
       }
       break;
@@ -212,37 +208,31 @@ void InstructionDecoder::decode(uint16_t instruction) {
       uint16_t postfix = instruction & MASK_BYTE;
       switch (postfix) {
         case POSTFIX_STORE_DELAY_TIMER:
-          m_ctrl_unit->storeDelayTimer(RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->storeDelayTimer(getRegX(instruction));
           break;
         case POSTFIX_WAIT_FOR_KEY_PRESS:
-          m_ctrl_unit->waitForKeyPressed(RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->waitForKeyPressed(getRegX(instruction));
           break;
         case POSTFIX_SET_DELAY_TIMER:
-          m_ctrl_unit->setDelayTimerRegister(
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->setDelayTimerRegister(getRegX(instruction));
           break;
         case POSTFIX_SET_SOUND_TIMER:
-          m_ctrl_unit->setSoundTimerRegister(
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->setSoundTimerRegister(getRegX(instruction));
           break;
         case POSTFIX_ADD_TO_INDEX:
-          m_ctrl_unit->addToIndexReg(RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->addToIndexReg(getRegX(instruction));
           break;
         case POSTFIX_SET_INDEX_TO_SPRITE_LOC:
-          m_ctrl_unit->setIndexRegToSpriteLocation(
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->setIndexRegToSpriteLocation(getRegX(instruction));
           break;
         case POSTFIX_STORE_BCD:
-          m_ctrl_unit->storeBCDRepresentation(
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->storeBCDRepresentation(getRegX(instruction));
           break;
         case POSTFIX_STORE_REG_IN_MEM:
-          m_ctrl_unit->storeMultipleRegister(
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->storeMultipleRegister(getRegX(instruction));
           break;
         case POSTFIX_READ_REG_TO_MEM:
-          m_ctrl_unit->readMultipleRegister(
-              RegisterId(instruction & MASK_X_REG));
+          m_ctrl_unit->readMultipleRegister(getRegX(instruction));
           break;
       }
       break;
