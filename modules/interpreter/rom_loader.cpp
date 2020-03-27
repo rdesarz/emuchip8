@@ -30,8 +30,26 @@
 
 namespace chip8 {
 
-void loadProgram(RAM& ram, std::istream& input_stream) {
-  std::copy(std::istream_iterator<uint8_t>(input_stream),
-            std::istream_iterator<uint8_t>(), ram.begin() + 0x200);
+bool loadProgramFromStream(RAM& ram, std::istream& input_stream) {
+  if (input_stream) {
+    // Get length of file:
+    input_stream.seekg (0, std::istream::end);
+    int length = input_stream.tellg();
+    input_stream.seekg (0, std::istream::beg);
+
+    std::cout << length;
+
+    char * buffer = new char [length];
+    input_stream.read (buffer,length);
+
+    // TODO: move memory to avoid huge copy
+    std::copy(buffer, buffer+length, ram.begin() + 0x200);
+
+    delete[] buffer;
+
+    return true;
+  }
+
+  return false;
 }
 }  // namespace chip8

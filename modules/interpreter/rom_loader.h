@@ -34,7 +34,7 @@
 
 namespace chip8 {
 
-void loadProgram(RAM& buffer, std::istream& input_stream);
+bool loadProgramFromStream(RAM& buffer, std::istream& input_stream);
 
 }  // namespace chip8
 #endif  // MODULES_INTERPRETER_ROM_LOADER_H_
