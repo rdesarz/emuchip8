@@ -43,14 +43,22 @@ using namespace chip8;
 
 int main(int argc, char** argv) {
   // First program argument is the path to the ROM
+  // std::cout.flags ( std::ios::right | std::ios::hex | std::ios::showbase );
   std::ifstream rom_file;
-  if (argc > 1) {
-    rom_file.open(argv[1], std::ios_base::in | std::ios_base::binary);
-  } else {
-    std::cout << "No ROM file specified"
-              << "\n";
-    return -1;
+  //if (argc > 1) {
+  rom_file.open("/home/lenovo/Projects/Chip8/chip8_emulator/tests/test.ch8",
+                std::ios_base::out | std::ios_base::binary);
+
+  if(!rom_file)
+  {
+    std::cout << "Cannot open file";
+    return 1;
   }
+  //} else {
+  // std::cout << "No ROM file specified"
+  //<< "\n";
+  // return -1;
+  //}
 
   // Initialize input controller
   SDLInputToKeyMap key_to_map;

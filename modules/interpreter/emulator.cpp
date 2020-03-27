@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#include <iomanip>
 #include <iostream>
 #include <utility>
 
@@ -31,34 +32,49 @@
 
 namespace chip8 {
 
-Emulator::Emulator(std::istream& rom,
+Emulator::Emulator(std::istream &rom,
                    std::unique_ptr<DisplayController> display_controller,
-                   UserInputController* ui_controller)
+                   UserInputController *ui_controller)
     : m_clock([]() { return std::chrono::system_clock::now(); }),
       m_display_controller(std::move(display_controller)),
       m_ui_controller(ui_controller),
       m_registers(16),
-      m_ctrl_unit(
-          new ControlUnitImpl(m_pc, m_stack_ptr, m_index_reg, m_delay_timer_reg,
-                              m_sound_timer_reg, m_stack, m_registers, m_ram,
-                              *m_display_controller, *m_ui_controller)) {
+      m_ctrl_unit(new ControlUnitImpl(m_pc, m_stack_ptr, m_index_reg,
+                                      m_delay_timer_reg, m_sound_timer_reg,
+                                      m_stack, m_registers, m_ram,
+                                      *m_display_controller, *m_ui_controller)),
+      m_instruction_decoder(m_ctrl_unit.get()) {
+
+  // TODO: throw exception if load fails
   loadProgramFromStream(m_ram, rom);
 
   // The clock cycle will be executed at 500Hz
   m_clock.registerCallback([this]() { this->clockCycle(); }, 500);
+
+  m_pc = 0x200;
+  m_stack_ptr = 0x0;
 }
 
 void Emulator::update() { m_clock.tick(); }
 
 void Emulator::clockCycle() {
-  // TODO(Romain Desarzens): remove those lines at end of the integration
-  m_display_controller->setPixel(std::rand() % 64, std::rand() % 32, 1);
+  // Fetch Opcode
+  std::uint16_t instruction = m_ram[m_pc] << 8 | m_ram[m_pc + 1];
+  // Dump instruction
+  std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4) << std::hex << instruction << "\n";
+  // Decode and execute instruction
+  m_instruction_decoder.decode(instruction);
+  // Increment PC
+  m_pc+=2;
 
-  // Check if the key 0 is pressed
-  if (m_ui_controller->getInputState(InputId::INPUT_0) == InputState::ON) {
-    std::cout << "0 Key pressed" << std::endl;
-    m_display_controller->clear();
-  }
+  // TODO(Romain Desarzens): remove those lines at end of the integration
+  // m_display_controller->setPixel(std::rand() % 64, std::rand() % 32, 1);
+
+  // // Check if the key 0 is pressed
+  // if (m_ui_controller->getInputState(InputId::INPUT_0) == InputState::ON) {
+  //   std::cout << "0 Key pressed" << std::endl;
+  //   m_display_controller->clear();
+  // }
 }
 
 }  // namespace chip8

@@ -32,6 +32,7 @@
 
 #include "interpreter/clock.h"
 #include "interpreter/control_unit.h"
+#include "interpreter/instruction_decoder.h"
 #include "interpreter/memory.h"
 #include "interpreter/rom_loader.h"
 #include "interpreter/user_input.h"
@@ -56,11 +57,6 @@ class Emulator {
  private:
   Clock m_clock;
 
-  // Controllers
-  std::unique_ptr<DisplayController> m_display_controller;
-  UserInputController* m_ui_controller;
-  std::unique_ptr<ControlUnit> m_ctrl_unit;
-
   // Memory components
   ProgramCounter m_pc;
   StackPointer m_stack_ptr;
@@ -70,6 +66,12 @@ class Emulator {
   Stack m_stack;
   std::vector<GeneralRegister> m_registers;
   RAM m_ram;
+
+  // Controllers
+  std::unique_ptr<DisplayController> m_display_controller;
+  UserInputController* m_ui_controller;
+  std::unique_ptr<ControlUnit> m_ctrl_unit;
+  InstructionDecoder m_instruction_decoder;
 };
 
 }  // namespace chip8
