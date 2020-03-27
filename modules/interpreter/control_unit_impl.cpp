@@ -114,17 +114,17 @@ void ControlUnitImpl::addRegisterToRegister(RegisterId reg_x,
                          static_cast<std::uint16_t>(m_registers[reg_y]);
 
   if (result <= std::numeric_limits<std::uint8_t>::max()) {
-    m_registers[reg_x] = static_cast<std::uint8_t>(result);
     m_registers[0xF] = 0;
   } else {
-    m_registers[reg_x] = static_cast<std::uint8_t>(result);
     m_registers[0xF] = 1;
   }
+
+  m_registers[reg_x] = static_cast<std::uint8_t>(result);
 }
 
 void ControlUnitImpl::subtractRegisterToRegister(RegisterId reg_x,
                                                  RegisterId reg_y) {
-  m_registers[0xF] = m_registers[reg_x] < m_registers[reg_y] ? 1 : 0;
+  m_registers[0xF] = m_registers[reg_x] > m_registers[reg_y] ? 1 : 0;
   m_registers[reg_x] = m_registers[reg_x] - m_registers[reg_y];
 }
 
@@ -234,7 +234,9 @@ void ControlUnitImpl::storeBCDRepresentation(RegisterId reg_x) {
 
 void ControlUnitImpl::storeMultipleRegister(RegisterId reg_x) {
   for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
-    m_ram[m_index_reg + reg_id] = m_registers[reg_id];
+    for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
+      m_ram[m_index_reg + reg_id] = m_registers[reg_id];
+    }
   }
 }
 
