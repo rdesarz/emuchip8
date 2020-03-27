@@ -55,7 +55,9 @@ TEST_F(TestControlUnitFixture, jumpToLocation) {
 
   ctrl_unit.jumpToLocation(0x12);
 
-  EXPECT_EQ(pc, 0x12);
+  // Jump right before the instruction because PC will be incremented during the
+  // loop
+  EXPECT_EQ(pc, 0x10);
 }
 
 TEST_F(TestControlUnitFixture, callSubroutineAt) {
@@ -64,7 +66,9 @@ TEST_F(TestControlUnitFixture, callSubroutineAt) {
 
   ctrl_unit.callSubroutineAt(0x12);
 
-  EXPECT_EQ(pc, 0x12);
+  // Jump right before the instruction because PC will be incremented during the
+  // loop
+  EXPECT_EQ(pc, 0x10);
   EXPECT_EQ(stack_ptr, 0x1);
   EXPECT_EQ(stack[stack_ptr], 0x4);
 }
@@ -75,7 +79,7 @@ TEST_F(TestControlUnitFixture, jumpBecauseValueAndRegisterAreEqual) {
 
   ctrl_unit.skipNextInstructionIfEqual(0x2, RegisterId(1));
 
-  EXPECT_EQ(pc, 0x8);
+  EXPECT_EQ(pc, 0x6);
 }
 
 TEST_F(TestControlUnitFixture, jumpBecauseValueAndRegisterAreNotEqual) {
@@ -102,7 +106,7 @@ TEST_F(TestControlUnitFixture, DontJumpBecauseValueAndRegisterAreNotEqual) {
 
   ctrl_unit.skipNextInstructionIfNotEqual(0x2, RegisterId(1));
 
-  EXPECT_EQ(pc, 0x8);
+  EXPECT_EQ(pc, 0x6);
 }
 
 TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreEqual) {
@@ -112,7 +116,7 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreEqual) {
 
   ctrl_unit.skipNextInstructionIfRegistersEqual(RegisterId(0), RegisterId(1));
 
-  EXPECT_EQ(pc, 0x8);
+  EXPECT_EQ(pc, 0x6);
 }
 
 TEST_F(TestControlUnitFixture, StoreInRegister) {
@@ -193,7 +197,7 @@ TEST_F(TestControlUnitFixture, subtractRegisterToRegisterNominal) {
   ctrl_unit.subtractRegisterToRegister(RegisterId(1), RegisterId(0));
 
   EXPECT_EQ(registers[1], 225);
-  EXPECT_EQ(registers[0xF], 0x0);
+  EXPECT_EQ(registers[0xF], 0x1);
 }
 
 TEST_F(TestControlUnitFixture, subtractRegisterToRegisterBelowZero) {
@@ -203,7 +207,7 @@ TEST_F(TestControlUnitFixture, subtractRegisterToRegisterBelowZero) {
   ctrl_unit.subtractRegisterToRegister(RegisterId(1), RegisterId(0));
 
   EXPECT_EQ(registers[1], static_cast<uint8_t>(20 - 245));
-  EXPECT_EQ(registers[0xF], 0x1);
+  EXPECT_EQ(registers[0xF], 0x0);
 }
 
 TEST_F(TestControlUnitFixture, shiftRightLSBZero) {
@@ -250,7 +254,7 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreNotEqual) {
   ctrl_unit.skipNextInstructionIfRegistersNotEqual(RegisterId(0),
                                                    RegisterId(1));
 
-  EXPECT_EQ(pc, 0x8);
+  EXPECT_EQ(pc, 0x6);
 }
 
 TEST_F(TestControlUnitFixture, StoreInMemoryAddressRegister) {
@@ -267,7 +271,7 @@ TEST_F(TestControlUnitFixture, SetPCToValuePlusV0) {
 
   ctrl_unit.setPCToV0PlusValue(0x2);
 
-  EXPECT_EQ(pc, 0x3);
+  EXPECT_EQ(pc, 0x1);
 }
 
 TEST_F(TestControlUnitFixture, DisplayOneByteOnScreen) {
@@ -291,8 +295,8 @@ TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
 
   ctrl_unit.displayOnScreen(3, RegisterId(0), RegisterId(1));
 
-  EXPECT_EQ(model.getPixelValue(column_t(24), row_t(0)), 0);
-  EXPECT_EQ(model.getPixelValue(column_t(25), row_t(0)), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(8), row_t(0)), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(1), row_t(3)), 0);
 }
 
 TEST_F(TestControlUnitFixture, DisplayEightSpritesOnScreen) {
@@ -305,8 +309,8 @@ TEST_F(TestControlUnitFixture, DisplayEightSpritesOnScreen) {
 
   ctrl_unit.displayOnScreen(8, RegisterId(0), RegisterId(1));
 
-  EXPECT_EQ(model.getPixelValue(column_t(24), row_t(0)), 1);
-  EXPECT_EQ(model.getPixelValue(column_t(25), row_t(0)), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(1), row_t(0)), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(1), row_t(7)), 1);
 }
 
 TEST_F(TestControlUnitFixture, DisplaySpriteOnScreenFlagIsTrue) {
@@ -356,7 +360,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyPressedTrueCase) {
 
   ctrl_unit.checkIfKeyPressed(RegisterId(1));
 
-  EXPECT_EQ(pc, 0x6);
+  EXPECT_EQ(pc, 0x4);
 }
 
 TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedFalseCase) {
@@ -365,7 +369,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedFalseCase) {
 
   ctrl_unit.checkIfKeyNotPressed(RegisterId(1));
 
-  EXPECT_EQ(pc, 0x6);
+  EXPECT_EQ(pc, 0x4);
 }
 
 TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedTrueCase) {

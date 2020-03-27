@@ -205,7 +205,7 @@ void ControlUnitImpl::waitForKeyPressed(RegisterId reg_x) {
     }
   }
 
-  m_pc -= 4;
+  m_pc -= 2;
 }
 
 void ControlUnitImpl::setDelayTimerRegister(RegisterId reg_x) {
