@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 #include <algorithm>
+#include <iomanip>
 
 #include "interpreter/memory.h"
 
@@ -93,6 +94,22 @@ void storeSpriteInMemory(RAM& ram) {
   std::copy(D_SPRITE.begin(), D_SPRITE.end(), ram.begin() + D_SPRITE_OFFSET);
   std::copy(E_SPRITE.begin(), E_SPRITE.end(), ram.begin() + E_SPRITE_OFFSET);
   std::copy(F_SPRITE.begin(), F_SPRITE.end(), ram.begin() + F_SPRITE_OFFSET);
+}
+
+std::ostream& operator<<(std::ostream& os, const RAM& ram) {
+  for (auto byte = ram.begin(); byte != ram.end();
+       byte += 2) {
+    // Show instructions by group of eight on each line and show memory address
+    if (std::distance(ram.begin(), byte) % 16 == 0) {
+      os << "\n" << std::dec << std::setw(8) << std::distance(ram.begin(), byte) << "  ";
+    }
+
+    os << "0x" << std::setfill('0') << std::hex << std::setw(2)
+       << static_cast<unsigned int>(*(byte + 1)) << std::setfill('0')
+       << std::hex << std::setw(2) << static_cast<unsigned int>(*(byte)) << " ";
+  }
+
+  return os;
 }
 
 }  // namespace chip8
