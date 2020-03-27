@@ -29,6 +29,16 @@
 
 namespace chip8 {
 
+std::vector<std::uint8_t> byteToSprite(uint8_t byte) {
+  std::vector<std::uint8_t> sprite(8);
+
+  for (std::uint8_t i = 0; i < 8; ++i) {
+    sprite[i] = ((static_cast<uint8_t>(1) << i) & byte) >> i;
+  }
+
+  return sprite;
+}
+
 DisplayController::DisplayController(DisplayModel* model, DisplayView* view)
     : m_model(model), m_view(view) {}
 

@@ -36,16 +36,7 @@
 namespace chip8 {
 
 // Generate a vector of bit representing a sprite
-template <typename SpriteType>
-std::vector<SpriteType> makeSprite(uint8_t byte) {
-  std::vector<SpriteType> sprite(8);
-
-  for (std::size_t index = 0; index < 8; ++index) {
-    sprite[index] = ((1 << index) & byte) >> index;
-  }
-
-  return sprite;
-}
+std::vector<std::uint8_t> byteToSprite(uint8_t byte);
 
 class DisplayController {
  public:
