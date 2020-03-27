@@ -32,11 +32,11 @@
 using namespace chip8;
 
 TEST_F(TestControlUnitFixture, ClearDisplay) {
-  model.setPixelValue(0, 0, 1);
+  model.setPixelValue(column_t(0), row_t(0), 1);
 
   ctrl_unit.clearDisplay();
 
-  EXPECT_EQ(model.getPixelValue(0, 0), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(0), row_t(0)), 0);
 }
 
 TEST_F(TestControlUnitFixture, returnFromSubroutine) {
@@ -278,7 +278,7 @@ TEST_F(TestControlUnitFixture, DisplayOneByteOnScreen) {
 
   ctrl_unit.displayOnScreen(1, RegisterId(0), RegisterId(1));
 
-  EXPECT_EQ(model.getPixelValue(0, 0), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(0), row_t(0)), 1);
 }
 
 TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
@@ -291,8 +291,22 @@ TEST_F(TestControlUnitFixture, DisplaySeveralSpritesOnScreen) {
 
   ctrl_unit.displayOnScreen(3, RegisterId(0), RegisterId(1));
 
-  EXPECT_EQ(model.getPixelValue(0, 24), 0);
-  EXPECT_EQ(model.getPixelValue(0, 25), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(24), row_t(0)), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(25), row_t(0)), 0);
+}
+
+TEST_F(TestControlUnitFixture, DisplayEightSpritesOnScreen) {
+  for (std::size_t i = 0; i < 8; ++i) {
+    ram[i + 0x400] = 0b11111111;
+  }
+  index_reg = 0x400;
+  registers[0] = 0x0;
+  registers[1] = 0x0;
+
+  ctrl_unit.displayOnScreen(8, RegisterId(0), RegisterId(1));
+
+  EXPECT_EQ(model.getPixelValue(column_t(24), row_t(0)), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(25), row_t(0)), 1);
 }
 
 TEST_F(TestControlUnitFixture, DisplaySpriteOnScreenFlagIsTrue) {

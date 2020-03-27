@@ -42,22 +42,23 @@ std::vector<std::uint8_t> byteToSprite(uint8_t byte) {
 DisplayController::DisplayController(DisplayModel* model, DisplayView* view)
     : m_model(model), m_view(view) {}
 
-bool DisplayController::setPixel(std::size_t x, std::size_t y, uint8_t value) {
+bool DisplayController::setPixel(column_t col, row_t row,
+                                 uint8_t value) {
   // Crop if pixel is outside of the screen
-  x = x % m_model->getWidth();
+  col = col % m_model->getWidth();
 
   // Check if pixel is modified or not
-  uint8_t old_value = m_model->getPixelValue(x, y);
-  m_model->setPixelValue(x, y, old_value ^ value);
+  uint8_t old_value = m_model->getPixelValue(column_t(col), row_t(row));
+  m_model->setPixelValue(column_t(col), row_t(row), old_value ^ value);
 
-  return m_model->getPixelValue(x, y) != old_value;
+  return m_model->getPixelValue(column_t(col), row_t(row)) != old_value;
 }
 
-bool DisplayController::setSprite(std::size_t x, std::size_t y,
+bool DisplayController::setSprite(column_t col, row_t row,
                                   std::vector<uint8_t> sprite) {
   bool any_pixel_modified = false;
   for (uint8_t i = 0; i < 8; ++i) {
-    any_pixel_modified |= setPixel(x + i, y, sprite[i]);
+    any_pixel_modified |= setPixel(column_t(col + i), row, sprite[i]);
   }
 
   return any_pixel_modified;

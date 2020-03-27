@@ -37,55 +37,64 @@
 using namespace chip8;
 
 TEST_F(TestDisplayFixture, SetPixelValue) {
-  display.setPixel(1, 1, 1);
+  display.setPixel(column_t(1), row_t(1), 1);
 
-  EXPECT_EQ(model.getPixelValue(1, 1), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(1), row_t(1)), 1);
 }
 
 TEST_F(TestDisplayFixture, SetSpriteValue) {
-  display.setPixel(1, 1, 1);
+  display.setPixel(column_t(1), row_t(1), 1);
 
-  EXPECT_EQ(model.getPixelValue(1, 1), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(1), row_t(1)), 1);
 }
 
 TEST_F(TestDisplayFixture, TestModifiedPixelFlag) {
-  auto modified = display.setPixel(1, 1, 1);
+  auto modified = display.setPixel(column_t(1), row_t(1), 1);
 
   EXPECT_EQ(modified, true);
 }
 
 TEST_F(TestDisplayFixture, TestNonModifiedPixelFlag) {
-  display.setPixel(1, 1, 1);
+  display.setPixel(column_t(1), row_t(1), 1);
 
-  auto modified = display.setPixel(1, 1, 0);
+  auto modified = display.setPixel(column_t(1), row_t(1), 0);
 
   EXPECT_EQ(modified, false);
 }
 
 TEST_F(TestDisplayFixture, TestModifiedSpriteFlag) {
-  auto modified = display.setSprite(1, 1, makeSprite<uint8_t>(0b11111111));
+  auto modified = display.setSprite(column_t(1), row_t(1), byteToSprite(0b11111111));
 
   EXPECT_EQ(modified, true);
 }
 
 TEST_F(TestDisplayFixture, TestNonModifiedSpriteFlag) {
-  auto modified = display.setSprite(1, 1, makeSprite<uint8_t>(0b000000000));
+  auto modified = display.setSprite(column_t(1), row_t(1), byteToSprite(0b000000000));
 
   EXPECT_EQ(modified, false);
 }
 
 TEST_F(TestDisplayFixture, TestSpriteOutsideOfScreen) {
-  display.setSprite(63, 1, makeSprite<uint8_t>(0b11111111));
+  display.setSprite(column_t(63), row_t(1), byteToSprite(0b11111111));
 
-  EXPECT_EQ(model.getPixelValue(0, 1), 1);
-  EXPECT_EQ(model.getPixelValue(6, 1), 1);
-  EXPECT_EQ(model.getPixelValue(7, 1), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(0), row_t(1)), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(6), row_t(1)), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(7), row_t(1)), 0);
 }
 
 TEST_F(TestDisplayFixture, TestClearDisplay) {
-  display.setPixel(1, 1, 1);
+  display.setPixel(column_t(1), row_t(1), 1);
 
   display.clear();
 
-  EXPECT_EQ(model.getPixelValue(1, 1), 0);
+  EXPECT_EQ(model.getPixelValue(column_t(1), row_t(1)), 0);
+}
+
+TEST_F(TestDisplayFixture, TestMakeSprite) {
+  uint8_t byte = 0b11111111;
+
+  auto result = byteToSprite(byte);
+
+  EXPECT_EQ(result[7], 1);
+  EXPECT_EQ(result[0], 1);
 }

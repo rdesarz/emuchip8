@@ -167,7 +167,7 @@ void ControlUnitImpl::displayOnScreen(uint16_t n_bytes_to_read,
   bool any_pixel_modified = false;
   for (uint16_t i = 0; i < n_bytes_to_read; ++i) {
     any_pixel_modified |= m_display_ctrler.setSprite(
-        m_registers[reg_x], m_registers[reg_y] + 8 * i,
+        column_t(m_registers[reg_x]), row_t(m_registers[reg_y] + i),
         byteToSprite(m_ram[m_index_reg + i]));
   }
 

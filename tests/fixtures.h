@@ -45,12 +45,12 @@ class TestDisplayModel : public DisplayModel {
  public:
   TestDisplayModel() : m_pixels(64, 32) { m_pixels.clear(); }
 
-  void setPixelValue(std::size_t x, std::size_t y, uint8_t value) override {
-    m_pixels(x, y) = value;
+  void setPixelValue(column_t col, row_t row, uint8_t value) override {
+    m_pixels(col, row) = value;
   }
 
-  uint8_t getPixelValue(std::size_t x, std::size_t y) const override {
-    return m_pixels(x, y);
+  uint8_t getPixelValue(column_t col, row_t row) const override {
+    return m_pixels(col, row);
   }
 
   void clear() override { m_pixels.clear(); }

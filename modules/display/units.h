@@ -23,21 +23,16 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_DISPLAY_MODEL_H_
-#define MODULES_DISPLAY_DISPLAY_MODEL_H_
+#ifndef CHIP8_EMULATOR_UNITS_H
+#define CHIP8_EMULATOR_UNITS_H
 
-#include "display/units.h"
+#include "boost/serialization/strong_typedef.hpp"
 
 namespace chip8 {
 
-class DisplayModel {
- public:
-  virtual void setPixelValue(column_t col, row_t row, uint8_t value) = 0;
-  virtual uint8_t getPixelValue(column_t col, row_t row) const = 0;
-  virtual void clear() = 0;
-  virtual std::size_t getWidth() const = 0;
-  virtual std::size_t getHeight() const = 0;
-};
+BOOST_STRONG_TYPEDEF(std::size_t, row_t);
+BOOST_STRONG_TYPEDEF(std::size_t, column_t);
 
-}  // namespace chip8
-#endif  // MODULES_DISPLAY_DISPLAY_MODEL_H_
+}
+
+#endif  // CHIP8_EMULATOR_UNITS_H

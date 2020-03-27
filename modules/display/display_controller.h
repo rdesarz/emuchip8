@@ -32,6 +32,7 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include "display/display_model.h"
 #include "display/display_view.h"
+#include "display/units.h"
 
 namespace chip8 {
 
@@ -47,9 +48,9 @@ class DisplayController {
   DisplayController& operator=(DisplayController&&) = delete;
 
   // Set a pixel value following the logic of the chip 8 emulator
-  bool setPixel(std::size_t x, std::size_t y, uint8_t value);
+  bool setPixel(column_t col, row_t row, uint8_t value);
   // Set a sprite value following the logic of the chip 8 emulator
-  bool setSprite(std::size_t x, std::size_t y, std::vector<uint8_t> sprite);
+  bool setSprite(column_t col, row_t row, std::vector<uint8_t> sprite);
   // Clear the complete display
   void clear();
 
