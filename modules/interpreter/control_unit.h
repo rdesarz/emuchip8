@@ -34,7 +34,7 @@
 
 namespace chip8 {
 
-BOOST_STRONG_TYPEDEF(std::size_t, RegisterId)
+BOOST_STRONG_TYPEDEF(std::uint16_t, RegisterId)
 
 class ControlUnit {
  public:

@@ -87,11 +87,11 @@ static const uint16_t POSTFIX_STORE_REG_IN_MEM = 0x0055;
 static const uint16_t POSTFIX_READ_REG_TO_MEM = 0x0065;
 
 RegisterId getRegX(uint16_t instruction) {
-  return RegisterId(16 >> (instruction & MASK_X_REG));
+  return RegisterId((instruction & MASK_X_REG) >> 8);
 }
 
 RegisterId getRegY(uint16_t instruction) {
-  return RegisterId(8 >> (instruction & MASK_Y_REG));
+  return RegisterId((instruction & MASK_Y_REG) >> 4);
 }
 
 InstructionDecoder::InstructionDecoder(ControlUnit* ctrl_unit)
