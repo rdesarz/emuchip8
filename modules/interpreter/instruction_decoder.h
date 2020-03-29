@@ -31,8 +31,8 @@
 
 namespace chip8 {
 
-RegisterId getRegX(instruction_t instruction);
-RegisterId getRegY(instruction_t instruction);
+register_id_t getRegX(instruction_t instruction);
+register_id_t getRegY(instruction_t instruction);
 byte_t getLastByte(instruction_t instruction);
 nibble_t getLastNibble(instruction_t instruction);
 address_t getAddress(instruction_t instruction);

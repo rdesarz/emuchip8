@@ -39,61 +39,63 @@ struct MockControlUnit : public ControlUnit {
 
   void callSubroutineAt(address_t address) override { id_called_function = 2; }
 
-  void skipNextInstructionIfEqual(byte_t value, RegisterId reg) override {
+  void skipNextInstructionIfEqual(byte_t value, register_id_t reg) override {
     id_called_function = 3;
   }
 
-  void skipNextInstructionIfNotEqual(byte_t value, RegisterId reg) override {
+  void skipNextInstructionIfNotEqual(byte_t value, register_id_t reg) override {
     id_called_function = 4;
   }
 
-  void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
-                                           RegisterId reg_y) override {
+  void skipNextInstructionIfRegistersEqual(register_id_t reg_x,
+                                           register_id_t reg_y) override {
     id_called_function = 5;
   }
 
-  void storeInRegister(byte_t value, RegisterId reg) override {
+  void storeInRegister(byte_t value, register_id_t reg) override {
     id_called_function = 6;
   }
 
-  void addToRegister(byte_t value, RegisterId reg) override {
+  void addToRegister(byte_t value, register_id_t reg) override {
     id_called_function = 7;
   }
 
-  void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) override {
+  void storeRegisterInRegister(register_id_t reg_x,
+                               register_id_t reg_y) override {
     id_called_function = 8;
   }
 
-  void bitwiseOr(RegisterId reg_x, RegisterId reg_y) override {
+  void bitwiseOr(register_id_t reg_x, register_id_t reg_y) override {
     id_called_function = 9;
   }
 
-  void bitwiseAnd(RegisterId reg_x, RegisterId reg_y) override {
+  void bitwiseAnd(register_id_t reg_x, register_id_t reg_y) override {
     id_called_function = 10;
   }
 
-  void bitwiseXor(RegisterId reg_x, RegisterId reg_y) override {
+  void bitwiseXor(register_id_t reg_x, register_id_t reg_y) override {
     id_called_function = 11;
   }
 
-  void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {
+  void addRegisterToRegister(register_id_t reg_x,
+                             register_id_t reg_y) override {
     id_called_function = 12;
   }
 
-  void subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) override {
+  void subtractRegYToRegX(register_id_t reg_x, register_id_t reg_y) override {
     id_called_function = 13;
   }
 
-  void subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) override {
+  void subtractRegXToRegY(register_id_t reg_x, register_id_t reg_y) override {
     id_called_function = 32;
   }
 
-  void shiftRight(RegisterId reg) override { id_called_function = 14; }
+  void shiftRight(register_id_t reg) override { id_called_function = 14; }
 
-  void shiftLeft(RegisterId reg) override { id_called_function = 15; }
+  void shiftLeft(register_id_t reg) override { id_called_function = 15; }
 
-  void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
-                                              RegisterId reg_y) override {
+  void skipNextInstructionIfRegistersNotEqual(register_id_t reg_x,
+                                              register_id_t reg_y) override {
     id_called_function = 16;
   }
 
@@ -103,44 +105,44 @@ struct MockControlUnit : public ControlUnit {
 
   void setPCToV0PlusValue(address_t value) override { id_called_function = 18; }
 
-  void registerEqualRandomValue(uint8_t value, RegisterId reg) override {
+  void registerEqualRandomValue(uint8_t value, register_id_t reg) override {
     id_called_function = 19;
   }
 
-  void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
-                       RegisterId reg_y) override {
+  void displayOnScreen(uint16_t n_bytes_to_read, register_id_t reg_x,
+                       register_id_t reg_y) override {
     id_called_function = 20;
   }
 
-  void storeDelayTimer(RegisterId reg_x) override { id_called_function = 31; }
+  void storeDelayTimer(register_id_t reg_x) override { id_called_function = 31; }
 
-  void checkIfKeyPressed(RegisterId reg_x) override { id_called_function = 21; }
+  void checkIfKeyPressed(register_id_t reg_x) override { id_called_function = 21; }
 
-  void checkIfKeyNotPressed(RegisterId reg_x) override {
+  void checkIfKeyNotPressed(register_id_t reg_x) override {
     id_called_function = 22;
   }
 
-  void waitForKeyPressed(RegisterId reg_x) override { id_called_function = 23; }
+  void waitForKeyPressed(register_id_t reg_x) override { id_called_function = 23; }
 
-  void setDelayTimerRegister(RegisterId reg_x) { id_called_function = 24; }
+  void setDelayTimerRegister(register_id_t reg_x) { id_called_function = 24; }
 
-  void setSoundTimerRegister(RegisterId reg_x) { id_called_function = 25; }
+  void setSoundTimerRegister(register_id_t reg_x) { id_called_function = 25; }
 
-  void addToIndexReg(RegisterId reg_x) override { id_called_function = 26; }
+  void addToIndexReg(register_id_t reg_x) override { id_called_function = 26; }
 
-  void setIndexRegToSpriteLocation(RegisterId reg_x) override {
+  void setIndexRegToSpriteLocation(register_id_t reg_x) override {
     id_called_function = 27;
   }
 
-  void storeBCDRepresentation(RegisterId reg_x) override {
+  void storeBCDRepresentation(register_id_t reg_x) override {
     id_called_function = 28;
   }
 
-  void storeMultipleRegister(RegisterId reg_x) override {
+  void storeMultipleRegister(register_id_t reg_x) override {
     id_called_function = 29;
   }
 
-  void readMultipleRegister(RegisterId reg_x) override {
+  void readMultipleRegister(register_id_t reg_x) override {
     id_called_function = 30;
   }
 

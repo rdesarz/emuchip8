@@ -63,53 +63,53 @@ void ControlUnitImpl::callSubroutineAt(address_t address) {
 }
 
 void ControlUnitImpl::skipNextInstructionIfEqual(byte_t value,
-                                                 RegisterId reg) {
+                                                 register_id_t reg) {
   if (m_registers[reg] == value) {
     m_pc += 2;
   }
 }
 
 void ControlUnitImpl::skipNextInstructionIfNotEqual(byte_t value,
-                                                    RegisterId reg) {
+                                                    register_id_t reg) {
   if (m_registers[reg] != value) {
     m_pc += 2;
   }
 }
 
-void ControlUnitImpl::skipNextInstructionIfRegistersEqual(RegisterId reg_x,
-                                                          RegisterId reg_y) {
+void ControlUnitImpl::skipNextInstructionIfRegistersEqual(register_id_t reg_x,
+                                                          register_id_t reg_y) {
   if (m_registers[reg_x] == m_registers[reg_y]) {
     m_pc += 2;
   }
 }
 
-void ControlUnitImpl::storeInRegister(byte_t value, RegisterId reg) {
+void ControlUnitImpl::storeInRegister(byte_t value, register_id_t reg) {
   m_registers[reg] = value;
 }
 
-void ControlUnitImpl::addToRegister(byte_t value, RegisterId reg) {
+void ControlUnitImpl::addToRegister(byte_t value, register_id_t reg) {
   m_registers[reg] += value;
 }
 
-void ControlUnitImpl::storeRegisterInRegister(RegisterId reg_x,
-                                              RegisterId reg_y) {
+void ControlUnitImpl::storeRegisterInRegister(register_id_t reg_x,
+                                              register_id_t reg_y) {
   m_registers[reg_x] = m_registers[reg_y];
 }
 
-void ControlUnitImpl::bitwiseOr(RegisterId reg_x, RegisterId reg_y) {
+void ControlUnitImpl::bitwiseOr(register_id_t reg_x, register_id_t reg_y) {
   m_registers[reg_x] = (m_registers[reg_x] | m_registers[reg_y]);
 }
 
-void ControlUnitImpl::bitwiseAnd(RegisterId reg_x, RegisterId reg_y) {
+void ControlUnitImpl::bitwiseAnd(register_id_t reg_x, register_id_t reg_y) {
   m_registers[reg_x] = (m_registers[reg_x] & m_registers[reg_y]);
 }
 
-void ControlUnitImpl::bitwiseXor(RegisterId reg_x, RegisterId reg_y) {
+void ControlUnitImpl::bitwiseXor(register_id_t reg_x, register_id_t reg_y) {
   m_registers[reg_x] = (m_registers[reg_x] ^ m_registers[reg_y]);
 }
 
-void ControlUnitImpl::addRegisterToRegister(RegisterId reg_x,
-                                            RegisterId reg_y) {
+void ControlUnitImpl::addRegisterToRegister(register_id_t reg_x,
+                                            register_id_t reg_y) {
   std::uint16_t result = static_cast<std::uint16_t>(m_registers[reg_x]) +
                          static_cast<std::uint16_t>(m_registers[reg_y]);
 
@@ -122,22 +122,24 @@ void ControlUnitImpl::addRegisterToRegister(RegisterId reg_x,
   m_registers[reg_x] = static_cast<std::uint8_t>(result);
 }
 
-void ControlUnitImpl::subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) {
+void ControlUnitImpl::subtractRegYToRegX(register_id_t reg_x,
+                                         register_id_t reg_y) {
   m_registers[0xF] = m_registers[reg_x] > m_registers[reg_y] ? 1 : 0;
   m_registers[reg_x] = m_registers[reg_x] - m_registers[reg_y];
 }
 
-void ControlUnitImpl::subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) {
+void ControlUnitImpl::subtractRegXToRegY(register_id_t reg_x,
+                                         register_id_t reg_y) {
   m_registers[0xF] = m_registers[reg_y] > m_registers[reg_x] ? 1 : 0;
   m_registers[reg_x] = m_registers[reg_y] - m_registers[reg_x];
 }
 
-void ControlUnitImpl::shiftRight(RegisterId reg) {
+void ControlUnitImpl::shiftRight(register_id_t reg) {
   m_registers[0xF] = (m_registers[reg] & 0b00000001);
   m_registers[reg] = m_registers[reg] >> 1;
 }
 
-void ControlUnitImpl::shiftLeft(RegisterId reg) {
+void ControlUnitImpl::shiftLeft(register_id_t reg) {
   if (m_registers[reg] & 0b10000000) {
     m_registers[0xF] = 1;
   } else {
@@ -147,8 +149,8 @@ void ControlUnitImpl::shiftLeft(RegisterId reg) {
   m_registers[reg] = m_registers[reg] << 1;
 }
 
-void ControlUnitImpl::skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
-                                                             RegisterId reg_y) {
+void ControlUnitImpl::skipNextInstructionIfRegistersNotEqual(
+    register_id_t reg_x, register_id_t reg_y) {
   if (m_registers[reg_x] != m_registers[reg_y]) {
     m_pc += 2;
   }
@@ -162,12 +164,14 @@ void ControlUnitImpl::setPCToV0PlusValue(address_t value) {
   m_pc = value + m_registers[0] - 2;
 }
 
-void ControlUnitImpl::registerEqualRandomValue(uint8_t value, RegisterId reg) {
+void ControlUnitImpl::registerEqualRandomValue(uint8_t value,
+                                               register_id_t reg) {
   m_registers[reg] = (value & m_rand_num_generator.generateNumber());
 }
 
 void ControlUnitImpl::displayOnScreen(uint16_t n_bytes_to_read,
-                                      RegisterId reg_x, RegisterId reg_y) {
+                                      register_id_t reg_x,
+                                      register_id_t reg_y) {
   bool any_pixel_modified = false;
   for (uint16_t i = 0; i < n_bytes_to_read; ++i) {
     any_pixel_modified |= m_display_ctrler.setSprite(
@@ -182,25 +186,25 @@ void ControlUnitImpl::displayOnScreen(uint16_t n_bytes_to_read,
   }
 }
 
-void ControlUnitImpl::storeDelayTimer(RegisterId reg_x) {
+void ControlUnitImpl::storeDelayTimer(register_id_t reg_x) {
   m_registers[reg_x] = m_delay_timer_reg;
 }
 
-void ControlUnitImpl::checkIfKeyPressed(RegisterId reg_x) {
+void ControlUnitImpl::checkIfKeyPressed(register_id_t reg_x) {
   if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) ==
       InputState::ON) {
     m_pc += 2;
   }
 }
 
-void ControlUnitImpl::checkIfKeyNotPressed(RegisterId reg_x) {
+void ControlUnitImpl::checkIfKeyNotPressed(register_id_t reg_x) {
   if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) !=
       InputState::ON) {
     m_pc += 2;
   }
 }
 
-void ControlUnitImpl::waitForKeyPressed(RegisterId reg_x) {
+void ControlUnitImpl::waitForKeyPressed(register_id_t reg_x) {
   for (std::size_t index = 0;
        index < static_cast<std::size_t>(InputId::INPUT_SIZE); ++index) {
     if (m_ui_ctrler.getInputState(toInputId(index)) == InputState::ON) {
@@ -212,23 +216,23 @@ void ControlUnitImpl::waitForKeyPressed(RegisterId reg_x) {
   m_pc -= 2;
 }
 
-void ControlUnitImpl::setDelayTimerRegister(RegisterId reg_x) {
+void ControlUnitImpl::setDelayTimerRegister(register_id_t reg_x) {
   m_delay_timer_reg = m_registers[reg_x];
 }
 
-void ControlUnitImpl::setSoundTimerRegister(RegisterId reg_x) {
+void ControlUnitImpl::setSoundTimerRegister(register_id_t reg_x) {
   m_sound_timer_reg = m_registers[reg_x];
 }
 
-void ControlUnitImpl::addToIndexReg(RegisterId reg_x) {
+void ControlUnitImpl::addToIndexReg(register_id_t reg_x) {
   m_index_reg += m_registers[reg_x];
 }
 
-void ControlUnitImpl::setIndexRegToSpriteLocation(RegisterId reg_x) {
+void ControlUnitImpl::setIndexRegToSpriteLocation(register_id_t reg_x) {
   m_index_reg = SPRITE_OFFSET * m_registers[reg_x];
 }
 
-void ControlUnitImpl::storeBCDRepresentation(RegisterId reg_x) {
+void ControlUnitImpl::storeBCDRepresentation(register_id_t reg_x) {
   m_ram[m_index_reg] = m_registers[reg_x] % 10;
   m_ram[m_index_reg + 1] = (m_registers[reg_x] % 100 - m_ram[m_index_reg]) / 10;
   m_ram[m_index_reg + 2] = (m_registers[reg_x] % 1000 -
@@ -236,16 +240,16 @@ void ControlUnitImpl::storeBCDRepresentation(RegisterId reg_x) {
                            100;
 }
 
-void ControlUnitImpl::storeMultipleRegister(RegisterId reg_x) {
-  for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
-    for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
+void ControlUnitImpl::storeMultipleRegister(register_id_t reg_x) {
+  for (register_id_t reg_id(0); reg_id <= reg_x; ++reg_id) {
+    for (register_id_t reg_id(0); reg_id <= reg_x; ++reg_id) {
       m_ram[m_index_reg + reg_id] = m_registers[reg_id];
     }
   }
 }
 
-void ControlUnitImpl::readMultipleRegister(RegisterId reg_x) {
-  for (RegisterId reg_id(0); reg_id <= reg_x; ++reg_id) {
+void ControlUnitImpl::readMultipleRegister(register_id_t reg_x) {
+  for (register_id_t reg_id(0); reg_id <= reg_x; ++reg_id) {
     m_registers[reg_id] = m_ram[reg_id + m_index_reg];
   }
 }

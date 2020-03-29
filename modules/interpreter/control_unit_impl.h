@@ -70,68 +70,69 @@ class ControlUnitImpl : public ControlUnit {
 
   void callSubroutineAt(address_t address) override;
 
-  void skipNextInstructionIfEqual(byte_t value, RegisterId reg) override;
+  void skipNextInstructionIfEqual(byte_t value, register_id_t reg) override;
 
-  void skipNextInstructionIfNotEqual(byte_t value, RegisterId reg) override;
+  void skipNextInstructionIfNotEqual(byte_t value, register_id_t reg) override;
 
-  void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
-                                           RegisterId reg_y) override;
+  void skipNextInstructionIfRegistersEqual(register_id_t reg_x,
+                                           register_id_t reg_y) override;
 
-  void storeInRegister(byte_t value, RegisterId reg) override;
+  void storeInRegister(byte_t value, register_id_t reg) override;
 
-  void addToRegister(byte_t value, RegisterId reg) override;
+  void addToRegister(byte_t value, register_id_t reg) override;
 
-  void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) override;
+  void storeRegisterInRegister(register_id_t reg_x,
+                               register_id_t reg_y) override;
 
-  void bitwiseOr(RegisterId reg_x, RegisterId reg_y) override;
+  void bitwiseOr(register_id_t reg_x, register_id_t reg_y) override;
 
-  void bitwiseAnd(RegisterId reg_x, RegisterId reg_y) override;
+  void bitwiseAnd(register_id_t reg_x, register_id_t reg_y) override;
 
-  void bitwiseXor(RegisterId reg_x, RegisterId reg_y) override;
+  void bitwiseXor(register_id_t reg_x, register_id_t reg_y) override;
 
-  void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override;
+  void addRegisterToRegister(register_id_t reg_x, register_id_t reg_y) override;
 
-  void subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) override;
+  void subtractRegYToRegX(register_id_t reg_x, register_id_t reg_y) override;
 
-  void subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) override;
+  void subtractRegXToRegY(register_id_t reg_x, register_id_t reg_y) override;
 
-  void shiftRight(RegisterId reg) override;
+  void shiftRight(register_id_t reg) override;
 
-  void shiftLeft(RegisterId reg) override;
+  void shiftLeft(register_id_t reg) override;
 
-  void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
-                                              RegisterId reg_y) override;
+  void skipNextInstructionIfRegistersNotEqual(register_id_t reg_x,
+                                              register_id_t reg_y) override;
 
   void storeInMemoryAddressRegister(address_t value) override;
 
   void setPCToV0PlusValue(address_t value) override;
 
-  void registerEqualRandomValue(uint8_t value, RegisterId reg) override;
+  void registerEqualRandomValue(uint8_t value, register_id_t reg) override;
 
-  void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
-                       RegisterId reg_y) override;
+  void displayOnScreen(uint16_t n_bytes_to_read, register_id_t reg_x,
+                       register_id_t reg_y) override;
 
-  void storeDelayTimer(RegisterId reg_x) override;
+  void storeDelayTimer(register_id_t reg_x) override;
 
-  void checkIfKeyPressed(RegisterId reg_x) override;
+  void checkIfKeyPressed(register_id_t reg_x) override;
 
-  void checkIfKeyNotPressed(RegisterId reg_x) override;
+  void checkIfKeyNotPressed(register_id_t reg_x) override;
 
-  void waitForKeyPressed(RegisterId reg_x) override;
+  void waitForKeyPressed(register_id_t reg_x) override;
 
-  void setDelayTimerRegister(RegisterId reg_x) override;
+  void setDelayTimerRegister(register_id_t reg_x) override;
 
-  void setSoundTimerRegister(RegisterId reg_x) override;
+  void setSoundTimerRegister(register_id_t reg_x) override;
 
-  void addToIndexReg(RegisterId reg_x) override;
+  void addToIndexReg(register_id_t reg_x) override;
 
-  void setIndexRegToSpriteLocation(RegisterId reg_x) override;
+  void setIndexRegToSpriteLocation(register_id_t reg_x) override;
 
-  void storeBCDRepresentation(RegisterId reg_x) override;
+  void storeBCDRepresentation(register_id_t reg_x) override;
 
-  void storeMultipleRegister(RegisterId reg_x) override;
+  void storeMultipleRegister(register_id_t reg_x) override;
 
-  void readMultipleRegister(RegisterId reg_x) override;
+  void readMultipleRegister(register_id_t reg_x) override;
 
  private:
   ProgramCounter& m_pc;

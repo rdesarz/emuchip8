@@ -34,7 +34,7 @@
 
 namespace chip8 {
 
-BOOST_STRONG_TYPEDEF(std::uint16_t, RegisterId)
+BOOST_STRONG_TYPEDEF(std::uint16_t, register_id_t)
 
 class ControlUnit {
  public:
@@ -46,68 +46,71 @@ class ControlUnit {
 
   virtual void callSubroutineAt(address_t address) = 0;
 
-  virtual void skipNextInstructionIfEqual(byte_t value, RegisterId reg) = 0;
+  virtual void skipNextInstructionIfEqual(byte_t value, register_id_t reg) = 0;
 
-  virtual void skipNextInstructionIfNotEqual(byte_t value, RegisterId reg) = 0;
+  virtual void skipNextInstructionIfNotEqual(byte_t value,
+                                             register_id_t reg) = 0;
 
-  virtual void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
-                                                   RegisterId reg_y) = 0;
+  virtual void skipNextInstructionIfRegistersEqual(register_id_t reg_x,
+                                                   register_id_t reg_y) = 0;
 
-  virtual void storeInRegister(byte_t value, RegisterId reg) = 0;
+  virtual void storeInRegister(byte_t value, register_id_t reg) = 0;
 
-  virtual void addToRegister(byte_t value, RegisterId reg) = 0;
+  virtual void addToRegister(byte_t value, register_id_t reg) = 0;
 
-  virtual void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void storeRegisterInRegister(register_id_t reg_x,
+                                       register_id_t reg_y) = 0;
 
-  virtual void bitwiseOr(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void bitwiseOr(register_id_t reg_x, register_id_t reg_y) = 0;
 
-  virtual void bitwiseAnd(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void bitwiseAnd(register_id_t reg_x, register_id_t reg_y) = 0;
 
-  virtual void bitwiseXor(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void bitwiseXor(register_id_t reg_x, register_id_t reg_y) = 0;
 
-  virtual void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void addRegisterToRegister(register_id_t reg_x,
+                                     register_id_t reg_y) = 0;
 
-  virtual void subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void subtractRegYToRegX(register_id_t reg_x, register_id_t reg_y) = 0;
 
-  virtual void subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) = 0;
+  virtual void subtractRegXToRegY(register_id_t reg_x, register_id_t reg_y) = 0;
 
-  virtual void shiftRight(RegisterId reg) = 0;
+  virtual void shiftRight(register_id_t reg) = 0;
 
-  virtual void shiftLeft(RegisterId reg) = 0;
+  virtual void shiftLeft(register_id_t reg) = 0;
 
-  virtual void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
-                                                      RegisterId reg_y) = 0;
+  virtual void skipNextInstructionIfRegistersNotEqual(register_id_t reg_x,
+                                                      register_id_t reg_y) = 0;
 
   virtual void storeInMemoryAddressRegister(address_t value) = 0;
 
   virtual void setPCToV0PlusValue(address_t value) = 0;
 
-  virtual void registerEqualRandomValue(uint8_t value, RegisterId reg) = 0;
+  virtual void registerEqualRandomValue(uint8_t value, register_id_t reg) = 0;
 
-  virtual void displayOnScreen(uint16_t n_bytes_to_read, RegisterId reg_x,
-                               RegisterId reg_y) = 0;
+  virtual void displayOnScreen(uint16_t n_bytes_to_read, register_id_t reg_x,
+                               register_id_t reg_y) = 0;
 
-  virtual void storeDelayTimer(RegisterId reg_x) = 0;
+  virtual void storeDelayTimer(register_id_t reg_x) = 0;
 
-  virtual void checkIfKeyPressed(RegisterId reg_x) = 0;
+  virtual void checkIfKeyPressed(register_id_t reg_x) = 0;
 
-  virtual void checkIfKeyNotPressed(RegisterId reg_x) = 0;
+  virtual void checkIfKeyNotPressed(register_id_t reg_x) = 0;
 
-  virtual void waitForKeyPressed(RegisterId reg_x) = 0;
+  virtual void waitForKeyPressed(register_id_t reg_x) = 0;
 
-  virtual void setDelayTimerRegister(RegisterId reg_x) = 0;
+  virtual void setDelayTimerRegister(register_id_t reg_x) = 0;
 
-  virtual void setSoundTimerRegister(RegisterId reg_x) = 0;
+  virtual void setSoundTimerRegister(register_id_t reg_x) = 0;
 
-  virtual void addToIndexReg(RegisterId reg_x) = 0;
+  virtual void addToIndexReg(register_id_t reg_x) = 0;
 
-  virtual void setIndexRegToSpriteLocation(RegisterId reg_x) = 0;
+  virtual void setIndexRegToSpriteLocation(register_id_t reg_x) = 0;
 
-  virtual void storeBCDRepresentation(RegisterId reg_x) = 0;
+  virtual void storeBCDRepresentation(register_id_t reg_x) = 0;
 
-  virtual void storeMultipleRegister(RegisterId reg_x) = 0;
+  virtual void storeMultipleRegister(register_id_t reg_x) = 0;
 
-  virtual void readMultipleRegister(RegisterId reg_x) = 0;
+  virtual void readMultipleRegister(register_id_t reg_x) = 0;
 };
 
 }  // namespace chip8

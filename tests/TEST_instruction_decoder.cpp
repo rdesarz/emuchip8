@@ -248,7 +248,7 @@ TEST(getSubPartOfInstruction, getRegX) {
 
   auto result = getRegX(instruction);
 
-  EXPECT_EQ(RegisterId(0x8), result);
+  EXPECT_EQ(register_id_t(0x8), result);
 }
 
 TEST(getSubPartOfInstruction, getRegY) {
@@ -256,7 +256,7 @@ TEST(getSubPartOfInstruction, getRegY) {
 
   auto result = getRegY(instruction);
 
-  EXPECT_EQ(RegisterId(0x8), result);
+  EXPECT_EQ(register_id_t(0x8), result);
 }
 
 TEST(getSubPartOfInstruction, getLastByte) {

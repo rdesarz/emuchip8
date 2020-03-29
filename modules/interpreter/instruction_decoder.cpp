@@ -85,12 +85,12 @@ static const uint16_t POSTFIX_STORE_BCD = 0x0033;
 static const uint16_t POSTFIX_STORE_REG_IN_MEM = 0x0055;
 static const uint16_t POSTFIX_READ_REG_TO_MEM = 0x0065;
 
-RegisterId getRegX(instruction_t instruction) {
-  return RegisterId((instruction & MASK_X_REG) >> 8);
+register_id_t getRegX(instruction_t instruction) {
+  return register_id_t((instruction & MASK_X_REG) >> 8);
 }
 
-RegisterId getRegY(instruction_t instruction) {
-  return RegisterId((instruction & MASK_Y_REG) >> 4);
+register_id_t getRegY(instruction_t instruction) {
+  return register_id_t((instruction & MASK_Y_REG) >> 4);
 }
 
 byte_t getLastByte(instruction_t instruction) {
@@ -131,11 +131,11 @@ void InstructionDecoder::decode(instruction_t instruction) {
       break;
     case PREFIX_SKIP_IF_EQ_VALUE:
       m_ctrl_unit->skipNextInstructionIfEqual(
-          getLastByte(instruction), RegisterId(getRegX(instruction)));
+          getLastByte(instruction), register_id_t(getRegX(instruction)));
       break;
     case PREFIX_SKIP_IF_NEQ_VALUE:
       m_ctrl_unit->skipNextInstructionIfNotEqual(
-          getLastByte(instruction), RegisterId(getRegX(instruction)));
+          getLastByte(instruction), register_id_t(getRegX(instruction)));
       break;
     case PREFIX_SKIP_IF_REG_EQ:
       m_ctrl_unit->skipNextInstructionIfRegistersEqual(getRegX(instruction),
@@ -160,7 +160,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
       break;
     case PREFIX_RANDOM:
       m_ctrl_unit->registerEqualRandomValue(
-          getLastByte(instruction), RegisterId(getRegX(instruction)));
+          getLastByte(instruction), register_id_t(getRegX(instruction)));
       break;
     case PREFIX_DISPLAY:
       m_ctrl_unit->displayOnScreen(getLastNibble(instruction),
