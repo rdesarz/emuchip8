@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
 
     main_window.update();
 
-    SDL_Delay(20);
+    SDL_Delay(1);
   }
 
   return 0;
