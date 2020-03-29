@@ -33,7 +33,7 @@ std::vector<std::uint8_t> byteToSprite(uint8_t byte) {
   std::vector<std::uint8_t> sprite(8);
 
   for (std::uint8_t i = 0; i < 8; ++i) {
-    sprite[i] = ((static_cast<uint8_t>(1) << i) & byte) >> i;
+    sprite[7-i] = ((static_cast<uint8_t>(1) << i) & byte) >> i;
   }
 
   return sprite;
@@ -49,7 +49,7 @@ bool DisplayController::setPixel(column_t col, row_t row,
 
   // Check if pixel is modified or not
   uint8_t old_value = m_model->getPixelValue(column_t(col), row_t(row));
-  m_model->setPixelValue(column_t(col), row_t(row), old_value ^ value);
+  m_model->setPixelValue(column_t(col), row_t(row), (old_value ^ value) & 0x1);
 
   return m_model->getPixelValue(column_t(col), row_t(row)) != old_value;
 }

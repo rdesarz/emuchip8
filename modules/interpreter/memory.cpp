@@ -101,7 +101,7 @@ std::ostream& operator<<(std::ostream& os, const RAM& ram) {
        byte += 2) {
     // Show instructions by group of eight on each line and show memory address
     if (std::distance(ram.begin(), byte) % 16 == 0) {
-      os << "\n" << std::dec << std::setw(8) << std::distance(ram.begin(), byte) << "  ";
+      os << "\n" << std::hex << std::setw(8) << std::distance(ram.begin(), byte) << "  ";
     }
 
     os << "0x" << std::setfill('0') << std::hex << std::setw(2)

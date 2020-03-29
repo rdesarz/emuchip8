@@ -61,20 +61,11 @@ void Emulator::clockCycle() {
   // Fetch Opcode
   instruction_t instruction{static_cast<uint16_t>(m_ram[m_pc] << 8 | m_ram[m_pc + 1]) };
   // Dump instruction
-  std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4) << std::hex << instruction << "\n";
+  // std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4) << std::hex << instruction << "\n";
   // Decode and execute instruction
   m_instruction_decoder.decode(instruction);
   // Increment PC
   m_pc+=2;
-
-  // TODO(Romain Desarzens): remove those lines at end of the integration
-  // m_display_controller->setPixel(std::rand() % 64, std::rand() % 32, 1);
-
-  // // Check if the key 0 is pressed
-  // if (m_ui_controller->getInputState(InputId::INPUT_0) == InputState::ON) {
-  //   std::cout << "0 Key pressed" << std::endl;
-  //   m_display_controller->clear();
-  // }
 }
 
 }  // namespace chip8
