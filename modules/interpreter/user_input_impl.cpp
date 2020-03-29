@@ -30,22 +30,22 @@ namespace chip8 {
 SDLInputToKeyMap::SDLInputToKeyMap() {
   // TODO(Romain Desarzens) : make the mapping between keys and
   // input dynamic
-  m_input_to_key[InputId::INPUT_0] = SDLK_0;
+  m_input_to_key[InputId::INPUT_0] = SDLK_x;
   m_input_to_key[InputId::INPUT_1] = SDLK_1;
   m_input_to_key[InputId::INPUT_2] = SDLK_2;
   m_input_to_key[InputId::INPUT_3] = SDLK_3;
-  m_input_to_key[InputId::INPUT_4] = SDLK_4;
-  m_input_to_key[InputId::INPUT_5] = SDLK_5;
-  m_input_to_key[InputId::INPUT_6] = SDLK_6;
-  m_input_to_key[InputId::INPUT_7] = SDLK_7;
-  m_input_to_key[InputId::INPUT_8] = SDLK_8;
-  m_input_to_key[InputId::INPUT_9] = SDLK_9;
-  m_input_to_key[InputId::INPUT_A] = SDLK_q;
-  m_input_to_key[InputId::INPUT_B] = SDLK_w;
-  m_input_to_key[InputId::INPUT_C] = SDLK_e;
+  m_input_to_key[InputId::INPUT_4] = SDLK_q;
+  m_input_to_key[InputId::INPUT_5] = SDLK_w;
+  m_input_to_key[InputId::INPUT_6] = SDLK_e;
+  m_input_to_key[InputId::INPUT_7] = SDLK_a;
+  m_input_to_key[InputId::INPUT_8] = SDLK_s;
+  m_input_to_key[InputId::INPUT_9] = SDLK_d;
+  m_input_to_key[InputId::INPUT_A] = SDLK_y;
+  m_input_to_key[InputId::INPUT_B] = SDLK_c;
+  m_input_to_key[InputId::INPUT_C] = SDLK_4;
   m_input_to_key[InputId::INPUT_D] = SDLK_r;
-  m_input_to_key[InputId::INPUT_E] = SDLK_t;
-  m_input_to_key[InputId::INPUT_F] = SDLK_z;
+  m_input_to_key[InputId::INPUT_E] = SDLK_f;
+  m_input_to_key[InputId::INPUT_F] = SDLK_v;
 }
 
 std::optional<SDL_Keycode> SDLInputToKeyMap::toKey(InputId input_id) const {
@@ -59,22 +59,22 @@ std::optional<SDL_Keycode> SDLInputToKeyMap::toKey(InputId input_id) const {
 SDLKeyboardUserInputController::SDLKeyboardUserInputController(
     const SDLInputToKeyMap& input_to_key_map)
     : m_input_to_key_map(input_to_key_map) {
-  m_keys_state[SDLK_0] = InputState::OFF;
+  m_keys_state[SDLK_x] = InputState::OFF;
   m_keys_state[SDLK_1] = InputState::OFF;
   m_keys_state[SDLK_2] = InputState::OFF;
   m_keys_state[SDLK_3] = InputState::OFF;
-  m_keys_state[SDLK_4] = InputState::OFF;
-  m_keys_state[SDLK_5] = InputState::OFF;
-  m_keys_state[SDLK_6] = InputState::OFF;
-  m_keys_state[SDLK_7] = InputState::OFF;
-  m_keys_state[SDLK_8] = InputState::OFF;
-  m_keys_state[SDLK_9] = InputState::OFF;
   m_keys_state[SDLK_q] = InputState::OFF;
   m_keys_state[SDLK_w] = InputState::OFF;
   m_keys_state[SDLK_e] = InputState::OFF;
+  m_keys_state[SDLK_a] = InputState::OFF;
+  m_keys_state[SDLK_s] = InputState::OFF;
+  m_keys_state[SDLK_d] = InputState::OFF;
+  m_keys_state[SDLK_y] = InputState::OFF;
+  m_keys_state[SDLK_c] = InputState::OFF;
+  m_keys_state[SDLK_4] = InputState::OFF;
   m_keys_state[SDLK_r] = InputState::OFF;
-  m_keys_state[SDLK_t] = InputState::OFF;
-  m_keys_state[SDLK_z] = InputState::OFF;
+  m_keys_state[SDLK_f] = InputState::OFF;
+  m_keys_state[SDLK_v] = InputState::OFF;
 }
 
 bool SDLKeyboardUserInputController::processEvent(const SDL_Event& event) {
