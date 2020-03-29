@@ -190,21 +190,41 @@ TEST_F(TestControlUnitFixture, addRegisterToRegisterAboveLimit) {
   EXPECT_EQ(registers[0xF], 0x1);
 }
 
-TEST_F(TestControlUnitFixture, subtractRegisterToRegisterNominal) {
+TEST_F(TestControlUnitFixture, subtractRegYToRegXNominal) {
   registers[0] = 20;
   registers[1] = 245;
 
-  ctrl_unit.subtractRegisterToRegister(RegisterId(1), RegisterId(0));
+  ctrl_unit.subtractRegYToRegX(RegisterId(1), RegisterId(0));
 
   EXPECT_EQ(registers[1], 225);
   EXPECT_EQ(registers[0xF], 0x1);
 }
 
-TEST_F(TestControlUnitFixture, subtractRegisterToRegisterBelowZero) {
+TEST_F(TestControlUnitFixture, subtractRegYToRegXBelowZero) {
   registers[0] = 245;
   registers[1] = 20;
 
-  ctrl_unit.subtractRegisterToRegister(RegisterId(1), RegisterId(0));
+  ctrl_unit.subtractRegYToRegX(RegisterId(1), RegisterId(0));
+
+  EXPECT_EQ(registers[1], static_cast<uint8_t>(20 - 245));
+  EXPECT_EQ(registers[0xF], 0x0);
+}
+
+TEST_F(TestControlUnitFixture, subtractRegXToRegYNominal) {
+  registers[0] = 245;
+  registers[1] = 20;
+
+  ctrl_unit.subtractRegXToRegY(RegisterId(1), RegisterId(0));
+
+  EXPECT_EQ(registers[1], 225);
+  EXPECT_EQ(registers[0xF], 0x1);
+}
+
+TEST_F(TestControlUnitFixture, subtractRegXToRegYBelowZero) {
+  registers[0] = 20;
+  registers[1] = 245;
+
+  ctrl_unit.subtractRegXToRegY(RegisterId(1), RegisterId(0));
 
   EXPECT_EQ(registers[1], static_cast<uint8_t>(20 - 245));
   EXPECT_EQ(registers[0xF], 0x0);

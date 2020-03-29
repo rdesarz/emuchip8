@@ -136,7 +136,7 @@ TEST_F(TestInstructionInterpreterFixture, InterpretShiftRight) {
 TEST_F(TestInstructionInterpreterFixture, InterpretSubRegYToRegX) {
   instruction_decoder.decode(0x8007);
 
-  EXPECT_EQ(mock_ctrl_unit.id_called_function, 13);
+  EXPECT_EQ(mock_ctrl_unit.id_called_function, 32);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretShiftLeft) {

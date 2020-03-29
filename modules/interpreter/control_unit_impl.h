@@ -91,7 +91,9 @@ class ControlUnitImpl : public ControlUnit {
 
   void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override;
 
-  void subtractRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override;
+  void subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) override;
+
+  void subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) override;
 
   void shiftRight(RegisterId reg) override;
 

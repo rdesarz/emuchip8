@@ -176,15 +176,15 @@ void InstructionDecoder::decode(uint16_t instruction) {
                                              getRegY(instruction));
           break;
         case POSTFIX_SUB_REG_TO_REG:
-          m_ctrl_unit->subtractRegisterToRegister(getRegX(instruction),
-                                                  getRegY(instruction));
+          m_ctrl_unit->subtractRegYToRegX(getRegX(instruction),
+                                          getRegY(instruction));
           break;
         case POSTFIX_SHR:
           m_ctrl_unit->shiftRight(getRegX(instruction));
           break;
         case POSTFIX_SUBN:
-          m_ctrl_unit->subtractRegisterToRegister(getRegY(instruction),
-                                                  getRegX(instruction));
+          m_ctrl_unit->subtractRegXToRegY(getRegX(instruction),
+                                          getRegY(instruction));
           break;
         case POSTFIX_SHL:
           m_ctrl_unit->shiftLeft(getRegX(instruction));

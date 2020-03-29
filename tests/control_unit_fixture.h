@@ -80,8 +80,12 @@ struct MockControlUnit : public ControlUnit {
     id_called_function = 12;
   }
 
-  void subtractRegisterToRegister(RegisterId reg_x, RegisterId reg_y) override {
+  void subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) override {
     id_called_function = 13;
+  }
+
+  void subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) override {
+    id_called_function = 32;
   }
 
   void shiftRight(RegisterId reg) override { id_called_function = 14; }

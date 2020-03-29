@@ -122,10 +122,14 @@ void ControlUnitImpl::addRegisterToRegister(RegisterId reg_x,
   m_registers[reg_x] = static_cast<std::uint8_t>(result);
 }
 
-void ControlUnitImpl::subtractRegisterToRegister(RegisterId reg_x,
-                                                 RegisterId reg_y) {
+void ControlUnitImpl::subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) {
   m_registers[0xF] = m_registers[reg_x] > m_registers[reg_y] ? 1 : 0;
   m_registers[reg_x] = m_registers[reg_x] - m_registers[reg_y];
+}
+
+void ControlUnitImpl::subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) {
+  m_registers[0xF] = m_registers[reg_y] > m_registers[reg_x] ? 1 : 0;
+  m_registers[reg_x] = m_registers[reg_y] - m_registers[reg_x];
 }
 
 void ControlUnitImpl::shiftRight(RegisterId reg) {

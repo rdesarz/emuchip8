@@ -67,8 +67,9 @@ class ControlUnit {
 
   virtual void addRegisterToRegister(RegisterId reg_x, RegisterId reg_y) = 0;
 
-  virtual void subtractRegisterToRegister(RegisterId reg_x,
-                                          RegisterId reg_y) = 0;
+  virtual void subtractRegYToRegX(RegisterId reg_x, RegisterId reg_y) = 0;
+
+  virtual void subtractRegXToRegY(RegisterId reg_x, RegisterId reg_y) = 0;
 
   virtual void shiftRight(RegisterId reg) = 0;
 
