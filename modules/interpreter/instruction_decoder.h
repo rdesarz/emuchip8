@@ -30,6 +30,9 @@
 
 namespace chip8 {
 
+RegisterId getRegX(uint16_t instruction);
+RegisterId getRegY(uint16_t instruction);
+
 class InstructionDecoder {
  public:
   explicit InstructionDecoder(ControlUnit* ctrl_unit);

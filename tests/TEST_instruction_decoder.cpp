@@ -242,3 +242,19 @@ TEST_F(TestInstructionInterpreterFixture, StoreDelayTimer) {
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 31);
 }
+
+TEST(getRegister, getRegX) {
+  uint16_t instruction = 0x1811;
+
+  auto result = getRegX(instruction);
+
+  EXPECT_EQ(RegisterId(0x8), result);
+}
+
+TEST(getRegister, getRegY) {
+  uint16_t instruction = 0x1181;
+
+  auto result = getRegY(instruction);
+
+  EXPECT_EQ(RegisterId(0x8), result);
+}
