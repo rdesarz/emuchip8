@@ -41,13 +41,13 @@ BOOST_STRONG_TYPEDEF(std::size_t, Height);
 
 class Position {
  public:
-  explicit Position(std::size_t x, std::size_t y) : m_x(x), m_y(y) {}
-  std::size_t x() { return m_x; }
-  std::size_t y() { return m_y; }
+  explicit Position(std::size_t col, std::size_t row) : m_col(col), m_row(row) {}
+  std::size_t row() { return m_row; }
+  std::size_t col() { return m_col; }
 
  private:
-  std::size_t m_x;
-  std::size_t m_y;
+  std::size_t m_col;
+  std::size_t m_row;
 };
 
 BOOST_STRONG_TYPEDEF(std::uint64_t, ScaleFactor);

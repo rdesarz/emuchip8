@@ -27,8 +27,8 @@ namespace chip8 {
 namespace pixel {
 
 void Pixel::render() {
-  m_rect.x = m_position.x() * m_scale_factor;
-  m_rect.y = m_position.y() * m_scale_factor;
+  m_rect.x = m_position.col() * m_scale_factor;
+  m_rect.y = m_position.row() * m_scale_factor;
   m_rect.w = m_scale_factor;
   m_rect.h = m_scale_factor;
   SDL_SetRenderDrawColor(m_renderer, m_color.red(), m_color.green(),

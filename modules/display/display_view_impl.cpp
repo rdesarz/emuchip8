@@ -36,14 +36,14 @@ void SDLDisplayView::render() {
     return;
   }
 
-  for (std::size_t x = 0; x < m_model->getWidth(); ++x) {
-    for (std::size_t y = 0; y < m_model->getHeight(); ++y) {
-      if (m_model->getPixelValue(column_t(x), row_t(y)) == 0) {
-        Pixel pixel(getRenderer(), Position(x, y), makeBlack(),
+  for (std::size_t col = 0; col < m_model->getWidth(); ++col) {
+    for (std::size_t row = 0; row < m_model->getHeight(); ++row) {
+      if (m_model->getPixelValue(column_t(col), row_t(row)) == 0) {
+        Pixel pixel(getRenderer(), Position(col, row), makeBlack(),
                     ScaleFactor(10));
         pixel.render();
       } else {
-        Pixel pixel(getRenderer(), Position(x, y), makeWhite(),
+        Pixel pixel(getRenderer(), Position(col, row), makeWhite(),
                     ScaleFactor(10));
         pixel.render();
       }
