@@ -32,6 +32,7 @@ namespace chip8 {
 
 BOOST_STRONG_TYPEDEF(std::size_t, row_t);
 BOOST_STRONG_TYPEDEF(std::size_t, column_t);
+BOOST_STRONG_TYPEDEF(uint16_t, instruction_t);
 
 }
 

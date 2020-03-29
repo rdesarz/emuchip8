@@ -59,7 +59,7 @@ void Emulator::update() { m_clock.tick(); }
 
 void Emulator::clockCycle() {
   // Fetch Opcode
-  std::uint16_t instruction = m_ram[m_pc] << 8 | m_ram[m_pc + 1];
+  instruction_t instruction{static_cast<uint16_t>(m_ram[m_pc] << 8 | m_ram[m_pc + 1]) };
   // Dump instruction
   std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4) << std::hex << instruction << "\n";
   // Decode and execute instruction

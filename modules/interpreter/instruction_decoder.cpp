@@ -85,30 +85,30 @@ static const uint16_t POSTFIX_STORE_BCD = 0x0033;
 static const uint16_t POSTFIX_STORE_REG_IN_MEM = 0x0055;
 static const uint16_t POSTFIX_READ_REG_TO_MEM = 0x0065;
 
-RegisterId getRegX(uint16_t instruction) {
+RegisterId getRegX(instruction_t instruction) {
   return RegisterId((instruction & MASK_X_REG) >> 8);
 }
 
-RegisterId getRegY(uint16_t instruction) {
+RegisterId getRegY(instruction_t instruction) {
   return RegisterId((instruction & MASK_Y_REG) >> 4);
 }
 
-uint8_t getLastByte(uint16_t instruction) {
+uint8_t getLastByte(instruction_t instruction) {
   return static_cast<uint8_t>(instruction & MASK_BYTE);
 }
 
-uint8_t getLastNibble(uint16_t instruction) {
+uint8_t getLastNibble(instruction_t instruction) {
   return static_cast<uint8_t>(instruction & MASK_NIBBLE);
 }
 
-uint16_t getAddress(uint16_t instruction) {
+uint16_t getAddress(instruction_t instruction) {
   return instruction & MASK_ADDRESS;
 }
 
 InstructionDecoder::InstructionDecoder(ControlUnit* ctrl_unit)
     : m_ctrl_unit(ctrl_unit) {}
 
-void InstructionDecoder::decode(uint16_t instruction) {
+void InstructionDecoder::decode(instruction_t instruction) {
   uint16_t prefix = instruction & MASK_PREFIX;
 
   switch (prefix) {

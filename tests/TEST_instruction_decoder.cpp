@@ -39,212 +39,212 @@ class TestInstructionInterpreterFixture : public ::testing::Test {
 };
 
 TEST_F(TestInstructionInterpreterFixture, ClearDisplay) {
-  instruction_decoder.decode(0x00E0);
+  instruction_decoder.decode(instruction_t(0x00E0));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, -1);
 }
 
 TEST_F(TestInstructionInterpreterFixture, ReturnFromSubroutine) {
-  instruction_decoder.decode(0x00EE);
+  instruction_decoder.decode(instruction_t(0x00EE));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 0);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretJumpInstruction) {
-  instruction_decoder.decode(0x1001);
+  instruction_decoder.decode(instruction_t(0x1001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 1);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretCallInstruction) {
-  instruction_decoder.decode(0x2001);
+  instruction_decoder.decode(instruction_t(0x2001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 2);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSkipNextInstructionIfEq) {
-  instruction_decoder.decode(0x3001);
+  instruction_decoder.decode(instruction_t(0x3001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 3);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSkipNextInstructionIfNotEq) {
-  instruction_decoder.decode(0x4001);
+  instruction_decoder.decode(instruction_t(0x4001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 4);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSkipNextInstructionIfRegEq) {
-  instruction_decoder.decode(0x5001);
+  instruction_decoder.decode(instruction_t(0x5001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 5);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretStoreInRegister) {
-  instruction_decoder.decode(0x6001);
+  instruction_decoder.decode(instruction_t(0x6001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 6);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretAddToRegister) {
-  instruction_decoder.decode(0x7001);
+  instruction_decoder.decode(instruction_t(0x7001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 7);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretStoreRegInReg) {
-  instruction_decoder.decode(0x8000);
+  instruction_decoder.decode(instruction_t(0x8000));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 8);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretBitwiseOr) {
-  instruction_decoder.decode(0x8001);
+  instruction_decoder.decode(instruction_t(0x8001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 9);
 }
 TEST_F(TestInstructionInterpreterFixture, InterpretBitwiseAnd) {
-  instruction_decoder.decode(0x8002);
+  instruction_decoder.decode(instruction_t(0x8002));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 10);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretBitwiseXor) {
-  instruction_decoder.decode(0x8003);
+  instruction_decoder.decode(instruction_t(0x8003));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 11);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretAddRegToReg) {
-  instruction_decoder.decode(0x8004);
+  instruction_decoder.decode(instruction_t(0x8004));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 12);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSubRegXToRegY) {
-  instruction_decoder.decode(0x8005);
+  instruction_decoder.decode(instruction_t(0x8005));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 13);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretShiftRight) {
-  instruction_decoder.decode(0x8006);
+  instruction_decoder.decode(instruction_t(0x8006));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 14);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSubRegYToRegX) {
-  instruction_decoder.decode(0x8007);
+  instruction_decoder.decode(instruction_t(0x8007));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 32);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretShiftLeft) {
-  instruction_decoder.decode(0x800E);
+  instruction_decoder.decode(instruction_t(0x800E));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 15);
 }
 
 TEST_F(TestInstructionInterpreterFixture,
        skipNextInstructionIfRegistersNotEqual) {
-  instruction_decoder.decode(0x9000);
+  instruction_decoder.decode(instruction_t(0x9000));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 16);
 }
 
 TEST_F(TestInstructionInterpreterFixture,
        InterpretStoreInMemoryAddressRegister) {
-  instruction_decoder.decode(0xA001);
+  instruction_decoder.decode(instruction_t(0xA001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 17);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSetPCToV0PlusValue) {
-  instruction_decoder.decode(0xB001);
+  instruction_decoder.decode(instruction_t(0xB001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 18);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretRandomInstruction) {
-  instruction_decoder.decode(0xC001);
+  instruction_decoder.decode(instruction_t(0xC001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 19);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretDisplayOnScreen) {
-  instruction_decoder.decode(0xD001);
+  instruction_decoder.decode(instruction_t(0xD001));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 20);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretCheckIfKeyPressed) {
-  instruction_decoder.decode(0xE19E);
+  instruction_decoder.decode(instruction_t(0xE19E));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 21);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretCheckIfKeyNotPressed) {
-  instruction_decoder.decode(0xE1A1);
+  instruction_decoder.decode(instruction_t(0xE1A1));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 22);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretWaitForKeyPressed) {
-  instruction_decoder.decode(0xF10A);
+  instruction_decoder.decode(instruction_t(0xF10A));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 23);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSetDelayTimer) {
-  instruction_decoder.decode(0xF115);
+  instruction_decoder.decode(instruction_t(0xF115));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 24);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretSetSoundTimer) {
-  instruction_decoder.decode(0xF118);
+  instruction_decoder.decode(instruction_t(0xF118));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 25);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretAddToIndex) {
-  instruction_decoder.decode(0xF11E);
+  instruction_decoder.decode(instruction_t(0xF11E));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 26);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretStoreSprite) {
-  instruction_decoder.decode(0xF129);
+  instruction_decoder.decode(instruction_t(0xF129));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 27);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretStoreBCD) {
-  instruction_decoder.decode(0xF133);
+  instruction_decoder.decode(instruction_t(0xF133));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 28);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretStoreMultipleReg) {
-  instruction_decoder.decode(0xF155);
+  instruction_decoder.decode(instruction_t(0xF155));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 29);
 }
 
 TEST_F(TestInstructionInterpreterFixture, InterpretReadMultipleReg) {
-  instruction_decoder.decode(0xF165);
+  instruction_decoder.decode(instruction_t(0xF165));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 30);
 }
 
 TEST_F(TestInstructionInterpreterFixture, StoreDelayTimer) {
-  instruction_decoder.decode(0xF107);
+  instruction_decoder.decode(instruction_t(0xF107));
 
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 31);
 }
 
 TEST(getSubPartOfInstruction, getRegX) {
-  uint16_t instruction = 0x1811;
+  instruction_t instruction{0x1811};
 
   auto result = getRegX(instruction);
 
@@ -252,7 +252,7 @@ TEST(getSubPartOfInstruction, getRegX) {
 }
 
 TEST(getSubPartOfInstruction, getRegY) {
-  uint16_t instruction = 0x1181;
+  instruction_t instruction{0x1181};
 
   auto result = getRegY(instruction);
 
@@ -260,7 +260,7 @@ TEST(getSubPartOfInstruction, getRegY) {
 }
 
 TEST(getSubPartOfInstruction, getLastByte) {
-  uint16_t instruction = 0xFF89;
+  instruction_t instruction{0xFF89};
 
   auto result = getLastByte(instruction);
 
@@ -268,7 +268,7 @@ TEST(getSubPartOfInstruction, getLastByte) {
 }
 
 TEST(getSubPartOfInstruction, getLastNibble) {
-  uint16_t instruction = 0xFF89;
+  instruction_t instruction{0xFF89};
 
   auto result = getLastNibble(instruction);
 
@@ -276,7 +276,7 @@ TEST(getSubPartOfInstruction, getLastNibble) {
 }
 
 TEST(getSubPartOfInstruction, getAddress) {
-  uint16_t instruction = 0xF189;
+  instruction_t instruction{0xF189};
 
   auto result = getAddress(instruction);
 
