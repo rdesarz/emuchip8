@@ -66,20 +66,20 @@ class ControlUnitImpl : public ControlUnit {
 
   void returnFromSubroutine() override;
 
-  void jumpToLocation(uint16_t address) override;
+  void jumpToLocation(address_t address) override;
 
-  void callSubroutineAt(uint16_t address) override;
+  void callSubroutineAt(address_t address) override;
 
-  void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) override;
+  void skipNextInstructionIfEqual(byte_t value, RegisterId reg) override;
 
-  void skipNextInstructionIfNotEqual(uint8_t value, RegisterId reg) override;
+  void skipNextInstructionIfNotEqual(byte_t value, RegisterId reg) override;
 
   void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
                                            RegisterId reg_y) override;
 
-  void storeInRegister(uint8_t value, RegisterId reg) override;
+  void storeInRegister(byte_t value, RegisterId reg) override;
 
-  void addToRegister(uint8_t value, RegisterId reg) override;
+  void addToRegister(byte_t value, RegisterId reg) override;
 
   void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) override;
 
@@ -102,9 +102,9 @@ class ControlUnitImpl : public ControlUnit {
   void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
                                               RegisterId reg_y) override;
 
-  void storeInMemoryAddressRegister(uint16_t value) override;
+  void storeInMemoryAddressRegister(address_t value) override;
 
-  void setPCToV0PlusValue(uint16_t value) override;
+  void setPCToV0PlusValue(address_t value) override;
 
   void registerEqualRandomValue(uint8_t value, RegisterId reg) override;
 

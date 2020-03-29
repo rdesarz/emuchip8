@@ -33,9 +33,9 @@ namespace chip8 {
 
 RegisterId getRegX(instruction_t instruction);
 RegisterId getRegY(instruction_t instruction);
-uint8_t getLastByte(instruction_t instruction);
-uint8_t getLastNibble(instruction_t instruction);
-uint16_t getAddress(instruction_t instruction);
+byte_t getLastByte(instruction_t instruction);
+nibble_t getLastNibble(instruction_t instruction);
+address_t getAddress(instruction_t instruction);
 
 class InstructionDecoder {
  public:

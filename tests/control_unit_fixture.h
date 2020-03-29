@@ -35,15 +35,15 @@ struct MockControlUnit : public ControlUnit {
 
   void returnFromSubroutine() override { id_called_function = 0; }
 
-  void jumpToLocation(uint16_t address) override { id_called_function = 1; }
+  void jumpToLocation(address_t address) override { id_called_function = 1; }
 
-  void callSubroutineAt(uint16_t address) override { id_called_function = 2; }
+  void callSubroutineAt(address_t address) override { id_called_function = 2; }
 
-  void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) override {
+  void skipNextInstructionIfEqual(byte_t value, RegisterId reg) override {
     id_called_function = 3;
   }
 
-  void skipNextInstructionIfNotEqual(uint8_t value, RegisterId reg) override {
+  void skipNextInstructionIfNotEqual(byte_t value, RegisterId reg) override {
     id_called_function = 4;
   }
 
@@ -52,11 +52,11 @@ struct MockControlUnit : public ControlUnit {
     id_called_function = 5;
   }
 
-  void storeInRegister(uint8_t value, RegisterId reg) override {
+  void storeInRegister(byte_t value, RegisterId reg) override {
     id_called_function = 6;
   }
 
-  void addToRegister(uint8_t value, RegisterId reg) override {
+  void addToRegister(byte_t value, RegisterId reg) override {
     id_called_function = 7;
   }
 
@@ -97,11 +97,11 @@ struct MockControlUnit : public ControlUnit {
     id_called_function = 16;
   }
 
-  void storeInMemoryAddressRegister(uint16_t value) override {
+  void storeInMemoryAddressRegister(address_t value) override {
     id_called_function = 17;
   }
 
-  void setPCToV0PlusValue(uint16_t value) override { id_called_function = 18; }
+  void setPCToV0PlusValue(address_t value) override { id_called_function = 18; }
 
   void registerEqualRandomValue(uint8_t value, RegisterId reg) override {
     id_called_function = 19;

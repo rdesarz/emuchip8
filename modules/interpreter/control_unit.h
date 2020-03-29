@@ -42,20 +42,20 @@ class ControlUnit {
 
   virtual void returnFromSubroutine() = 0;
 
-  virtual void jumpToLocation(uint16_t address) = 0;
+  virtual void jumpToLocation(address_t address) = 0;
 
-  virtual void callSubroutineAt(uint16_t address) = 0;
+  virtual void callSubroutineAt(address_t address) = 0;
 
-  virtual void skipNextInstructionIfEqual(uint8_t value, RegisterId reg) = 0;
+  virtual void skipNextInstructionIfEqual(byte_t value, RegisterId reg) = 0;
 
-  virtual void skipNextInstructionIfNotEqual(uint8_t value, RegisterId reg) = 0;
+  virtual void skipNextInstructionIfNotEqual(byte_t value, RegisterId reg) = 0;
 
   virtual void skipNextInstructionIfRegistersEqual(RegisterId reg_x,
                                                    RegisterId reg_y) = 0;
 
-  virtual void storeInRegister(uint8_t value, RegisterId reg) = 0;
+  virtual void storeInRegister(byte_t value, RegisterId reg) = 0;
 
-  virtual void addToRegister(uint8_t value, RegisterId reg) = 0;
+  virtual void addToRegister(byte_t value, RegisterId reg) = 0;
 
   virtual void storeRegisterInRegister(RegisterId reg_x, RegisterId reg_y) = 0;
 
@@ -78,9 +78,9 @@ class ControlUnit {
   virtual void skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
                                                       RegisterId reg_y) = 0;
 
-  virtual void storeInMemoryAddressRegister(uint16_t value) = 0;
+  virtual void storeInMemoryAddressRegister(address_t value) = 0;
 
-  virtual void setPCToV0PlusValue(uint16_t value) = 0;
+  virtual void setPCToV0PlusValue(address_t value) = 0;
 
   virtual void registerEqualRandomValue(uint8_t value, RegisterId reg) = 0;
 

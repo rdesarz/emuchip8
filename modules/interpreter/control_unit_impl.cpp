@@ -54,22 +54,22 @@ void ControlUnitImpl::returnFromSubroutine() {
   --m_stack_ptr;
 }
 
-void ControlUnitImpl::jumpToLocation(uint16_t address) { m_pc = address - 2; }
+void ControlUnitImpl::jumpToLocation(address_t address) { m_pc = address - 2; }
 
-void ControlUnitImpl::callSubroutineAt(uint16_t address) {
+void ControlUnitImpl::callSubroutineAt(address_t address) {
   ++m_stack_ptr;
   m_stack[m_stack_ptr] = m_pc;
   m_pc = address - 2;
 }
 
-void ControlUnitImpl::skipNextInstructionIfEqual(uint8_t value,
+void ControlUnitImpl::skipNextInstructionIfEqual(byte_t value,
                                                  RegisterId reg) {
   if (m_registers[reg] == value) {
     m_pc += 2;
   }
 }
 
-void ControlUnitImpl::skipNextInstructionIfNotEqual(uint8_t value,
+void ControlUnitImpl::skipNextInstructionIfNotEqual(byte_t value,
                                                     RegisterId reg) {
   if (m_registers[reg] != value) {
     m_pc += 2;
@@ -83,11 +83,11 @@ void ControlUnitImpl::skipNextInstructionIfRegistersEqual(RegisterId reg_x,
   }
 }
 
-void ControlUnitImpl::storeInRegister(uint8_t value, RegisterId reg) {
+void ControlUnitImpl::storeInRegister(byte_t value, RegisterId reg) {
   m_registers[reg] = value;
 }
 
-void ControlUnitImpl::addToRegister(uint8_t value, RegisterId reg) {
+void ControlUnitImpl::addToRegister(byte_t value, RegisterId reg) {
   m_registers[reg] += value;
 }
 
@@ -154,11 +154,11 @@ void ControlUnitImpl::skipNextInstructionIfRegistersNotEqual(RegisterId reg_x,
   }
 }
 
-void ControlUnitImpl::storeInMemoryAddressRegister(uint16_t value) {
+void ControlUnitImpl::storeInMemoryAddressRegister(address_t value) {
   m_index_reg = value;
 }
 
-void ControlUnitImpl::setPCToV0PlusValue(uint16_t value) {
+void ControlUnitImpl::setPCToV0PlusValue(address_t value) {
   m_pc = value + m_registers[0] - 2;
 }
 

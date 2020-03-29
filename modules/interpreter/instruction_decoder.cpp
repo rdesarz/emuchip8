@@ -93,16 +93,16 @@ RegisterId getRegY(instruction_t instruction) {
   return RegisterId((instruction & MASK_Y_REG) >> 4);
 }
 
-uint8_t getLastByte(instruction_t instruction) {
-  return static_cast<uint8_t>(instruction & MASK_BYTE);
+byte_t getLastByte(instruction_t instruction) {
+  return byte_t{static_cast<uint8_t>(instruction & MASK_BYTE)};
 }
 
-uint8_t getLastNibble(instruction_t instruction) {
-  return static_cast<uint8_t>(instruction & MASK_NIBBLE);
+nibble_t getLastNibble(instruction_t instruction) {
+  return nibble_t{static_cast<uint8_t>(instruction & MASK_NIBBLE)};
 }
 
-uint16_t getAddress(instruction_t instruction) {
-  return instruction & MASK_ADDRESS;
+address_t getAddress(instruction_t instruction) {
+  return address_t{static_cast<uint16_t>(instruction & MASK_ADDRESS)};
 }
 
 InstructionDecoder::InstructionDecoder(ControlUnit* ctrl_unit)
@@ -113,7 +113,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
 
   switch (prefix) {
     case PREFIX_SYS_INST: {
-      uint16_t postfix = getLastByte(instruction);
+      byte_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_CLEAR_DISPLAY:
           m_ctrl_unit->clearDisplay();
@@ -167,7 +167,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
                                    getRegX(instruction), getRegY(instruction));
       break;
     case PREFIX_STORE_REG: {
-      uint16_t postfix = getLastNibble(instruction);
+      nibble_t postfix = getLastNibble(instruction);
       switch (postfix) {
         case POSTFIX_STORE_REG_IN_REG:
           m_ctrl_unit->storeRegisterInRegister(getRegX(instruction),
@@ -204,7 +204,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
       break;
     }
     case PREFIX_KEYS: {
-      uint16_t postfix = getLastByte(instruction);
+      byte_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_SKIP_NEXT_IF_PRESSED:
           m_ctrl_unit->checkIfKeyPressed(getRegX(instruction));
@@ -216,7 +216,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
       break;
     }
     case PREFIX_SINGLE_REG: {
-      uint16_t postfix = getLastByte(instruction);
+      byte_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_STORE_DELAY_TIMER:
           m_ctrl_unit->storeDelayTimer(getRegX(instruction));

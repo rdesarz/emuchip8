@@ -53,7 +53,7 @@ TEST_F(TestControlUnitFixture, returnFromSubroutine) {
 TEST_F(TestControlUnitFixture, jumpToLocation) {
   pc = 0x0;
 
-  ctrl_unit.jumpToLocation(0x12);
+  ctrl_unit.jumpToLocation(address_t(0x12));
 
   // Jump right before the instruction because PC will be incremented during the
   // loop
@@ -64,7 +64,7 @@ TEST_F(TestControlUnitFixture, callSubroutineAt) {
   pc = 0x4;
   stack_ptr = 0x0;
 
-  ctrl_unit.callSubroutineAt(0x12);
+  ctrl_unit.callSubroutineAt(address_t(0x12));
 
   // Jump right before the instruction because PC will be incremented during the
   // loop
@@ -77,7 +77,7 @@ TEST_F(TestControlUnitFixture, jumpBecauseValueAndRegisterAreEqual) {
   pc = 0x4;
   registers[1] = 0x2;
 
-  ctrl_unit.skipNextInstructionIfEqual(0x2, RegisterId(1));
+  ctrl_unit.skipNextInstructionIfEqual(byte_t(0x2), RegisterId(1));
 
   EXPECT_EQ(pc, 0x6);
 }
@@ -86,7 +86,7 @@ TEST_F(TestControlUnitFixture, jumpBecauseValueAndRegisterAreNotEqual) {
   pc = 0x4;
   registers[1] = 0x1;
 
-  ctrl_unit.skipNextInstructionIfEqual(0x2, RegisterId(1));
+  ctrl_unit.skipNextInstructionIfEqual(byte_t(0x2), RegisterId(1));
 
   EXPECT_EQ(pc, 0x4);
 }
@@ -95,7 +95,7 @@ TEST_F(TestControlUnitFixture, DontJumpBecauseValueAndRegisterAreEqual) {
   pc = 0x4;
   registers[1] = 0x2;
 
-  ctrl_unit.skipNextInstructionIfNotEqual(0x2, RegisterId(1));
+  ctrl_unit.skipNextInstructionIfNotEqual(byte_t(0x2), RegisterId(1));
 
   EXPECT_EQ(pc, 0x4);
 }
@@ -104,7 +104,7 @@ TEST_F(TestControlUnitFixture, DontJumpBecauseValueAndRegisterAreNotEqual) {
   pc = 0x4;
   registers[1] = 0x1;
 
-  ctrl_unit.skipNextInstructionIfNotEqual(0x2, RegisterId(1));
+  ctrl_unit.skipNextInstructionIfNotEqual(byte_t(0x2), RegisterId(1));
 
   EXPECT_EQ(pc, 0x6);
 }
@@ -120,7 +120,7 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreEqual) {
 }
 
 TEST_F(TestControlUnitFixture, StoreInRegister) {
-  ctrl_unit.storeInRegister(0x2, RegisterId(1));
+  ctrl_unit.storeInRegister(byte_t(0x2), RegisterId(1));
 
   EXPECT_EQ(registers[1], 0x2);
 }
@@ -128,7 +128,7 @@ TEST_F(TestControlUnitFixture, StoreInRegister) {
 TEST_F(TestControlUnitFixture, AddToRegister) {
   registers[1] = 0x2;
 
-  ctrl_unit.addToRegister(0x2, RegisterId(1));
+  ctrl_unit.addToRegister(byte_t(0x2), RegisterId(1));
 
   EXPECT_EQ(registers[1], 0x4);
 }
@@ -280,7 +280,7 @@ TEST_F(TestControlUnitFixture, JumpBecauseTwoRegistersAreNotEqual) {
 TEST_F(TestControlUnitFixture, StoreInMemoryAddressRegister) {
   index_reg = 0x14;
 
-  ctrl_unit.storeInMemoryAddressRegister(0x2);
+  ctrl_unit.storeInMemoryAddressRegister(address_t(0x2));
 
   EXPECT_EQ(index_reg, 0x2);
 }
@@ -289,7 +289,7 @@ TEST_F(TestControlUnitFixture, SetPCToValuePlusV0) {
   pc = 0x4;
   registers[0] = 0x1;
 
-  ctrl_unit.setPCToV0PlusValue(0x2);
+  ctrl_unit.setPCToV0PlusValue(address_t(0x2));
 
   EXPECT_EQ(pc, 0x1);
 }
