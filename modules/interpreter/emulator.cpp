@@ -44,28 +44,42 @@ Emulator::Emulator(std::istream &rom,
                                       m_stack, m_registers, m_ram,
                                       *m_display_controller, *m_ui_controller)),
       m_instruction_decoder(m_ctrl_unit.get()) {
-
+  // Load the program
   // TODO: throw exception if load fails
   loadProgramFromStream(m_ram, rom);
 
-  // The clock cycle will be executed at 500Hz
-  m_clock.registerCallback([this]() { this->clockCycle(); }, 500);
+  // Register callbacks that will drive the emulator
+  m_clock.registerCallback([this]() { this->clockCycle(); }, 600);
+  m_clock.registerCallback([this]() { this->decrementDelayTimer(); }, 60);
 
+  // Init components
   m_pc = 0x200;
   m_stack_ptr = 0x0;
+  m_delay_timer_reg = 0x0;
 }
 
 void Emulator::update() { m_clock.tick(); }
 
+void Emulator::decrementDelayTimer() {
+  if (m_delay_timer_reg != 0) {
+    --m_delay_timer_reg;
+  }
+}
+
 void Emulator::clockCycle() {
   // Fetch Opcode
-  instruction_t instruction{static_cast<uint16_t>(m_ram[m_pc] << 8 | m_ram[m_pc + 1]) };
+  instruction_t instruction{
+      static_cast<uint16_t>(m_ram[m_pc] << 8 | m_ram[m_pc + 1])};
+
   // Dump instruction
-  // std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4) << std::hex << instruction << "\n";
+  // std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4)
+  // << std::hex << instruction << "\n";
+
   // Decode and execute instruction
   m_instruction_decoder.decode(instruction);
+
   // Increment PC
-  m_pc+=2;
+  m_pc += 2;
 }
 
 }  // namespace chip8

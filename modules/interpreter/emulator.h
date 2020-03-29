@@ -53,6 +53,7 @@ class Emulator {
 
  private:
   void clockCycle();
+  void decrementDelayTimer();
 
  private:
   Clock m_clock;
