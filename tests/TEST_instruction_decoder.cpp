@@ -243,7 +243,7 @@ TEST_F(TestInstructionInterpreterFixture, StoreDelayTimer) {
   EXPECT_EQ(mock_ctrl_unit.id_called_function, 31);
 }
 
-TEST(getRegister, getRegX) {
+TEST(getSubPartOfInstruction, getRegX) {
   uint16_t instruction = 0x1811;
 
   auto result = getRegX(instruction);
@@ -251,10 +251,34 @@ TEST(getRegister, getRegX) {
   EXPECT_EQ(RegisterId(0x8), result);
 }
 
-TEST(getRegister, getRegY) {
+TEST(getSubPartOfInstruction, getRegY) {
   uint16_t instruction = 0x1181;
 
   auto result = getRegY(instruction);
 
   EXPECT_EQ(RegisterId(0x8), result);
+}
+
+TEST(getSubPartOfInstruction, getLastByte) {
+  uint16_t instruction = 0xFF89;
+
+  auto result = getLastByte(instruction);
+
+  EXPECT_EQ(result, 0x89);
+}
+
+TEST(getSubPartOfInstruction, getLastNibble) {
+  uint16_t instruction = 0xFF89;
+
+  auto result = getLastNibble(instruction);
+
+  EXPECT_EQ(result, 0x9);
+}
+
+TEST(getSubPartOfInstruction, getAddress) {
+  uint16_t instruction = 0xF189;
+
+  auto result = getAddress(instruction);
+
+  EXPECT_EQ(result, 0x189);
 }

@@ -31,7 +31,6 @@ namespace chip8 {
 
 // Mask
 static const uint16_t MASK_PREFIX = 0xF000;
-static const uint16_t MASK_POSTFIX = 0x000F;
 static const uint16_t MASK_ADDRESS = 0x0FFF;
 static const uint16_t MASK_X_REG = 0x0F00;
 static const uint16_t MASK_Y_REG = 0x00F0;
@@ -94,6 +93,18 @@ RegisterId getRegY(uint16_t instruction) {
   return RegisterId((instruction & MASK_Y_REG) >> 4);
 }
 
+uint8_t getLastByte(uint16_t instruction) {
+  return static_cast<uint8_t>(instruction & MASK_BYTE);
+}
+
+uint8_t getLastNibble(uint16_t instruction) {
+  return static_cast<uint8_t>(instruction & MASK_NIBBLE);
+}
+
+uint16_t getAddress(uint16_t instruction) {
+  return instruction & MASK_ADDRESS;
+}
+
 InstructionDecoder::InstructionDecoder(ControlUnit* ctrl_unit)
     : m_ctrl_unit(ctrl_unit) {}
 
@@ -102,7 +113,7 @@ void InstructionDecoder::decode(uint16_t instruction) {
 
   switch (prefix) {
     case PREFIX_SYS_INST: {
-      uint16_t postfix = instruction & MASK_BYTE;
+      uint16_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_CLEAR_DISPLAY:
           m_ctrl_unit->clearDisplay();
@@ -113,50 +124,50 @@ void InstructionDecoder::decode(uint16_t instruction) {
       }
     } break;
     case PREFIX_JUMP:
-      m_ctrl_unit->jumpToLocation(instruction & MASK_ADDRESS);
+      m_ctrl_unit->jumpToLocation(getAddress(instruction));
       break;
     case PREFIX_CALL:
-      m_ctrl_unit->callSubroutineAt(instruction & MASK_ADDRESS);
+      m_ctrl_unit->callSubroutineAt(getAddress(instruction));
       break;
     case PREFIX_SKIP_IF_EQ_VALUE:
       m_ctrl_unit->skipNextInstructionIfEqual(
-          instruction & MASK_X_REG, RegisterId(instruction & MASK_BYTE));
+          getLastByte(instruction), RegisterId(getRegX(instruction)));
       break;
     case PREFIX_SKIP_IF_NEQ_VALUE:
       m_ctrl_unit->skipNextInstructionIfNotEqual(
-          instruction & MASK_X_REG, RegisterId(instruction & MASK_BYTE));
+          getLastByte(instruction), RegisterId(getRegX(instruction)));
       break;
     case PREFIX_SKIP_IF_REG_EQ:
       m_ctrl_unit->skipNextInstructionIfRegistersEqual(getRegX(instruction),
                                                        getRegY(instruction));
       break;
     case PREFIX_SET_REG:
-      m_ctrl_unit->storeInRegister(instruction & MASK_BYTE,
+      m_ctrl_unit->storeInRegister(getLastByte(instruction),
                                    getRegX(instruction));
       break;
     case PREFIX_ADD_REG:
-      m_ctrl_unit->addToRegister(instruction & MASK_BYTE, getRegX(instruction));
+      m_ctrl_unit->addToRegister(getLastByte(instruction), getRegX(instruction));
       break;
     case PREFIX_SKIP_IF_REG_NEQ:
       m_ctrl_unit->skipNextInstructionIfRegistersNotEqual(getRegX(instruction),
                                                           getRegY(instruction));
       break;
     case PREFIX_SET_INDEX:
-      m_ctrl_unit->storeInMemoryAddressRegister(instruction & MASK_ADDRESS);
+      m_ctrl_unit->storeInMemoryAddressRegister(getAddress(instruction));
       break;
     case PREFIX_JUMP_OFFSET:
-      m_ctrl_unit->setPCToV0PlusValue(instruction & MASK_ADDRESS);
+      m_ctrl_unit->setPCToV0PlusValue(getAddress(instruction));
       break;
     case PREFIX_RANDOM:
       m_ctrl_unit->registerEqualRandomValue(
-          instruction & MASK_X_REG, RegisterId(instruction & MASK_BYTE));
+          getLastByte(instruction), RegisterId(getRegX(instruction)));
       break;
     case PREFIX_DISPLAY:
-      m_ctrl_unit->displayOnScreen(instruction & MASK_NIBBLE,
+      m_ctrl_unit->displayOnScreen(getLastNibble(instruction),
                                    getRegX(instruction), getRegY(instruction));
       break;
     case PREFIX_STORE_REG: {
-      uint16_t postfix = instruction & MASK_POSTFIX;
+      uint16_t postfix = getLastNibble(instruction);
       switch (postfix) {
         case POSTFIX_STORE_REG_IN_REG:
           m_ctrl_unit->storeRegisterInRegister(getRegX(instruction),
@@ -193,7 +204,7 @@ void InstructionDecoder::decode(uint16_t instruction) {
       break;
     }
     case PREFIX_KEYS: {
-      uint16_t postfix = instruction & MASK_BYTE;
+      uint16_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_SKIP_NEXT_IF_PRESSED:
           m_ctrl_unit->checkIfKeyPressed(getRegX(instruction));
@@ -205,7 +216,7 @@ void InstructionDecoder::decode(uint16_t instruction) {
       break;
     }
     case PREFIX_SINGLE_REG: {
-      uint16_t postfix = instruction & MASK_BYTE;
+      uint16_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_STORE_DELAY_TIMER:
           m_ctrl_unit->storeDelayTimer(getRegX(instruction));
