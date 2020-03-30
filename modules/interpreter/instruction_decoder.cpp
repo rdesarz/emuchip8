@@ -210,7 +210,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
           m_ctrl_unit->skipNextInstructionIfKeyPressed(getRegX(instruction));
           break;
         case POSTFIX_SKIP_NEXT_IF_NOT_PRESSED:
-          m_ctrl_unit->skipNextInstructionIfKeyNotPressed(getRegY(instruction));
+          m_ctrl_unit->skipNextInstructionIfKeyNotPressed(getRegX(instruction));
           break;
       }
       break;
