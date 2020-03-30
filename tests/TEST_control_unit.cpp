@@ -463,6 +463,7 @@ TEST_F(TestControlUnitFixture, storeBCDRepresentation) {
 
 TEST_F(TestControlUnitFixture, storeMultipleRegisters) {
   index_reg = 0x450;
+  ram[0x453] = 42;
   registers[0] = 1;
   registers[1] = 2;
   registers[2] = 3;
@@ -472,6 +473,7 @@ TEST_F(TestControlUnitFixture, storeMultipleRegisters) {
   EXPECT_EQ(ram[0x450], 1);
   EXPECT_EQ(ram[0x451], 2);
   EXPECT_EQ(ram[0x452], 3);
+  EXPECT_EQ(ram[0x453], 42);
 }
 
 TEST_F(TestControlUnitFixture, readMultipleRegisters) {

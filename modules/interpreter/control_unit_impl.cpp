@@ -242,9 +242,7 @@ void ControlUnitImpl::storeBCDRepresentation(register_id_t reg_x) {
 
 void ControlUnitImpl::storeMultipleRegister(register_id_t reg_x) {
   for (register_id_t reg_id(0); reg_id <= reg_x; ++reg_id) {
-    for (register_id_t reg_id(0); reg_id <= reg_x; ++reg_id) {
-      m_ram[m_index_reg + reg_id] = m_registers[reg_id];
-    }
+    m_ram[m_index_reg + reg_id] = m_registers[reg_id];
   }
 }
 
