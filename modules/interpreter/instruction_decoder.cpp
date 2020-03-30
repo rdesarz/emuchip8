@@ -207,10 +207,10 @@ void InstructionDecoder::decode(instruction_t instruction) {
       byte_t postfix = getLastByte(instruction);
       switch (postfix) {
         case POSTFIX_SKIP_NEXT_IF_PRESSED:
-          m_ctrl_unit->checkIfKeyPressed(getRegX(instruction));
+          m_ctrl_unit->skipNextInstructionIfKeyPressed(getRegX(instruction));
           break;
         case POSTFIX_SKIP_NEXT_IF_NOT_PRESSED:
-          m_ctrl_unit->checkIfKeyNotPressed(getRegY(instruction));
+          m_ctrl_unit->skipNextInstructionIfKeyNotPressed(getRegY(instruction));
           break;
       }
       break;

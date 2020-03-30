@@ -92,9 +92,9 @@ class ControlUnit {
 
   virtual void storeDelayTimer(register_id_t reg_x) = 0;
 
-  virtual void checkIfKeyPressed(register_id_t reg_x) = 0;
+  virtual void skipNextInstructionIfKeyPressed(register_id_t reg_x) = 0;
 
-  virtual void checkIfKeyNotPressed(register_id_t reg_x) = 0;
+  virtual void skipNextInstructionIfKeyNotPressed(register_id_t reg_x) = 0;
 
   virtual void waitForKeyPressed(register_id_t reg_x) = 0;
 

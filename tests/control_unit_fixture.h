@@ -116,9 +116,9 @@ struct MockControlUnit : public ControlUnit {
 
   void storeDelayTimer(register_id_t reg_x) override { id_called_function = 31; }
 
-  void checkIfKeyPressed(register_id_t reg_x) override { id_called_function = 21; }
+  void skipNextInstructionIfKeyPressed(register_id_t reg_x) override { id_called_function = 21; }
 
-  void checkIfKeyNotPressed(register_id_t reg_x) override {
+  void skipNextInstructionIfKeyNotPressed(register_id_t reg_x) override {
     id_called_function = 22;
   }
 

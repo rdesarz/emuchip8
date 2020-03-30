@@ -369,7 +369,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyPressedFalseCase) {
   registers[1] = 0x1;
   pc = 0x2;
 
-  ctrl_unit.checkIfKeyPressed(register_id_t(1));
+  ctrl_unit.skipNextInstructionIfKeyPressed(register_id_t(1));
 
   EXPECT_EQ(pc, 0x2);
 }
@@ -379,7 +379,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyPressedTrueCase) {
   pc = 0x2;
   ui_ctrler.setInputState(InputId::INPUT_1, InputState::ON);
 
-  ctrl_unit.checkIfKeyPressed(register_id_t(1));
+  ctrl_unit.skipNextInstructionIfKeyPressed(register_id_t(1));
 
   EXPECT_EQ(pc, 0x4);
 }
@@ -388,7 +388,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedFalseCase) {
   registers[1] = 0x1;
   pc = 0x2;
 
-  ctrl_unit.checkIfKeyNotPressed(register_id_t(1));
+  ctrl_unit.skipNextInstructionIfKeyNotPressed(register_id_t(1));
 
   EXPECT_EQ(pc, 0x4);
 }
@@ -398,7 +398,7 @@ TEST_F(TestControlUnitFixture, CheckIfKeyNotPressedTrueCase) {
   pc = 0x2;
   ui_ctrler.setInputState(InputId::INPUT_1, InputState::ON);
 
-  ctrl_unit.checkIfKeyNotPressed(register_id_t(1));
+  ctrl_unit.skipNextInstructionIfKeyNotPressed(register_id_t(1));
 
   EXPECT_EQ(pc, 0x2);
 }

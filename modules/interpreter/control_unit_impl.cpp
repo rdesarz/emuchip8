@@ -190,16 +190,16 @@ void ControlUnitImpl::storeDelayTimer(register_id_t reg_x) {
   m_registers[reg_x] = m_delay_timer_reg;
 }
 
-void ControlUnitImpl::checkIfKeyPressed(register_id_t reg_x) {
+void ControlUnitImpl::skipNextInstructionIfKeyPressed(register_id_t reg_x) {
   if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) ==
       InputState::ON) {
     m_pc += 2;
   }
 }
 
-void ControlUnitImpl::checkIfKeyNotPressed(register_id_t reg_x) {
-  if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) !=
-      InputState::ON) {
+void ControlUnitImpl::skipNextInstructionIfKeyNotPressed(register_id_t reg_x) {
+  if (m_ui_ctrler.getInputState(toInputId(m_registers[reg_x])) ==
+      InputState::OFF) {
     m_pc += 2;
   }
 }

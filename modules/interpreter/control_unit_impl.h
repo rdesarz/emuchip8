@@ -114,9 +114,9 @@ class ControlUnitImpl : public ControlUnit {
 
   void storeDelayTimer(register_id_t reg_x) override;
 
-  void checkIfKeyPressed(register_id_t reg_x) override;
+  void skipNextInstructionIfKeyPressed(register_id_t reg_x) override;
 
-  void checkIfKeyNotPressed(register_id_t reg_x) override;
+  void skipNextInstructionIfKeyNotPressed(register_id_t reg_x) override;
 
   void waitForKeyPressed(register_id_t reg_x) override;
 
