@@ -45,7 +45,7 @@ ControlUnitImpl::ControlUnitImpl(
       m_ram(ram),
       m_display_ctrler(display_ctrler),
       m_ui_ctrler(ui_ctrler),
-      m_rand_num_generator(0, 256) {}
+      m_rand_num_generator(0, 255) {}
 
 void ControlUnitImpl::clearDisplay() { m_display_ctrler.clear(); }
 

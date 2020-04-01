@@ -131,11 +131,11 @@ void InstructionDecoder::decode(instruction_t instruction) {
       break;
     case PREFIX_SKIP_IF_EQ_VALUE:
       m_ctrl_unit->skipNextInstructionIfEqual(
-          getLastByte(instruction), register_id_t(getRegX(instruction)));
+          getLastByte(instruction), getRegX(instruction));
       break;
     case PREFIX_SKIP_IF_NEQ_VALUE:
       m_ctrl_unit->skipNextInstructionIfNotEqual(
-          getLastByte(instruction), register_id_t(getRegX(instruction)));
+          getLastByte(instruction), getRegX(instruction));
       break;
     case PREFIX_SKIP_IF_REG_EQ:
       m_ctrl_unit->skipNextInstructionIfRegistersEqual(getRegX(instruction),
@@ -160,7 +160,7 @@ void InstructionDecoder::decode(instruction_t instruction) {
       break;
     case PREFIX_RANDOM:
       m_ctrl_unit->registerEqualRandomValue(
-          getLastByte(instruction), register_id_t(getRegX(instruction)));
+          getLastByte(instruction), getRegX(instruction));
       break;
     case PREFIX_DISPLAY:
       m_ctrl_unit->displayOnScreen(getLastNibble(instruction),

@@ -497,3 +497,17 @@ TEST_F(TestControlUnitFixture, setSpriteLocation) {
 
   EXPECT_EQ(index_reg, A_SPRITE_OFFSET);
 }
+
+TEST(TestUniformRandomGeneration, checkMean) {
+  UniformRandomNumberGenerator rand_generator(0, 10);
+
+  // If we generate enough numbers the mean of the generated samples should be
+  // half of the interval. It is only a rough mean of testing my random number
+  // generation
+  int sum = 0;
+  for (int i = 0; i < 1000; ++i) {
+    sum += rand_generator.generateNumber();
+  }
+
+  EXPECT_NEAR(static_cast<double>(sum) / 1000, 5, 0.3);
+}

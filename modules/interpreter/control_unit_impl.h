@@ -52,7 +52,7 @@ class RandomNumberGenerator {
 };
 
 using UniformRandomNumberGenerator =
-    RandomNumberGenerator<std::uniform_int_distribution<int>>;
+    RandomNumberGenerator<std::uniform_int_distribution<uint8_t>>;
 
 class ControlUnitImpl : public ControlUnit {
  public:
