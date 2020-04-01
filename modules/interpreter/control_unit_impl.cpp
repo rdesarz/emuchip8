@@ -233,11 +233,12 @@ void ControlUnitImpl::setIndexRegToSpriteLocation(register_id_t reg_x) {
 }
 
 void ControlUnitImpl::storeBCDRepresentation(register_id_t reg_x) {
-  m_ram[m_index_reg] = m_registers[reg_x] % 10;
-  m_ram[m_index_reg + 1] = (m_registers[reg_x] % 100 - m_ram[m_index_reg]) / 10;
-  m_ram[m_index_reg + 2] = (m_registers[reg_x] % 1000 -
-                            m_ram[m_index_reg + 1] * 10 - m_ram[m_index_reg]) /
-                           100;
+  m_ram[m_index_reg + 2] = m_registers[reg_x] % 10;
+  m_ram[m_index_reg + 1] =
+      (m_registers[reg_x] % 100 - m_ram[m_index_reg + 2]) / 10;
+  m_ram[m_index_reg] = (m_registers[reg_x] % 1000 -
+                        m_ram[m_index_reg + 1] * 10 - m_ram[m_index_reg + 2]) /
+                       100;
 }
 
 void ControlUnitImpl::storeMultipleRegister(register_id_t reg_x) {

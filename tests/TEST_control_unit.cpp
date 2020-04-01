@@ -456,9 +456,9 @@ TEST_F(TestControlUnitFixture, storeBCDRepresentation) {
 
   ctrl_unit.storeBCDRepresentation(register_id_t(1));
 
-  EXPECT_EQ(ram[0x450], 3);
+  EXPECT_EQ(ram[0x450], 1);
   EXPECT_EQ(ram[0x451], 2);
-  EXPECT_EQ(ram[0x452], 1);
+  EXPECT_EQ(ram[0x452], 3);
 }
 
 TEST_F(TestControlUnitFixture, storeMultipleRegisters) {
