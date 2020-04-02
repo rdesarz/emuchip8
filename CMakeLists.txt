@@ -1,99 +1,62 @@
-cmake_minimum_required(VERSION 3.07)
+cmake_minimum_required(VERSION 3.12)
 
-project(chip8_emulator)
+project(emuchip8)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-   message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-   file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.15/conan.cmake"
-       "${CMAKE_BINARY_DIR}/conan.cmake")
-endif()
+if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+    message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+    file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.15/conan.cmake"
+            "${CMAKE_BINARY_DIR}/conan.cmake")
+endif ()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_cmake_run(CONANFILE
-                conanfile.txt 
-                BASIC_SETUP CMAKE_TARGETS)
+        conanfile.txt
+        BASIC_SETUP CMAKE_TARGETS)
 
 include(GoogleTest)
 include(CTest)
 
-## Add include directories
-include_directories("${PROJECT_SOURCE_DIR}/modules/")
-include_directories("${PROJECT_SOURCE_DIR}/tests/")
-
 ## Libraries
-add_library(memory modules/interpreter/memory.cpp)
-target_link_libraries (memory CONAN_PKG::boost)
+add_library(lib_emulator
+        modules/interpreter/emulator.cpp
+        modules/interpreter/control_unit_impl.cpp
+        modules/interpreter/memory.cpp
+        modules/interpreter/clock.cpp
+        modules/interpreter/rom_loader.cpp
+        modules/interpreter/instruction_decoder.cpp
+        modules/display/display_controller.cpp)
+target_include_directories(lib_emulator PUBLIC ${PROJECT_SOURCE_DIR}/modules/)
+target_link_libraries(lib_emulator PRIVATE CONAN_PKG::boost)
+target_compile_features(lib_emulator PRIVATE cxx_std_17)
 
-add_library(control_unit_impl modules/interpreter/control_unit_impl.cpp)
-target_link_libraries (control_unit_impl memory CONAN_PKG::boost)
+add_library(lib_display
+        modules/display/display_model_impl.cpp
+        modules/display/utilities.cpp
+        modules/display/pixel.cpp
+        modules/display/display_view_impl.cpp
+        modules/display/window.cpp)
+target_include_directories(lib_display PRIVATE ${PROJECT_SOURCE_DIR}/modules/)
+target_link_libraries(lib_display PUBLIC CONAN_PKG::sdl2 PRIVATE CONAN_PKG::boost)
+target_compile_features(lib_display PRIVATE cxx_std_17)
 
 add_library(user_input_impl modules/interpreter/user_input_impl.cpp)
-target_link_libraries (user_input_impl CONAN_PKG::boost CONAN_PKG::sdl2)
-
-add_library(utilities modules/display/utilities.cpp)
-target_link_libraries (utilities CONAN_PKG::boost)
-
-add_library(pixel modules/display/pixel.cpp)
-target_link_libraries (pixel utilities CONAN_PKG::boost CONAN_PKG::sdl2)
-
-add_library(display_model_impl modules/display/display_model_impl.cpp)
-target_link_libraries (display_model_impl CONAN_PKG::boost)
-
-add_library(display_view_impl modules/display/display_view_impl.cpp)
-target_link_libraries (display_view_impl pixel CONAN_PKG::boost CONAN_PKG::sdl2)
-
-add_library(display_controller modules/display/display_controller.cpp)
-target_link_libraries (display_controller CONAN_PKG::boost)
-
-add_library(window modules/display/window.cpp)
-target_link_libraries (window CONAN_PKG::boost CONAN_PKG::sdl2)
-
-add_library(clock modules/interpreter/clock.cpp)
-target_link_libraries (clock CONAN_PKG::boost)
-
-add_library(rom_loader modules/interpreter/rom_loader.cpp)
-target_link_libraries (rom_loader CONAN_PKG::boost)
-
-add_library(instruction_decoder modules/interpreter/instruction_decoder.cpp)
-target_link_libraries (instruction_decoder CONAN_PKG::boost)
-
-add_library(emulator modules/interpreter/emulator.cpp)
-target_link_libraries (emulator rom_loader clock memory control_unit_impl instruction_decoder)
+target_include_directories(user_input_impl PRIVATE ${PROJECT_SOURCE_DIR}/modules/)
+target_link_libraries(user_input_impl PUBLIC CONAN_PKG::sdl2 PRIVATE CONAN_PKG::boost)
+target_compile_features(user_input_impl PUBLIC cxx_std_17)
 
 ## Executables
-add_executable(main app/main.cpp)
-target_link_libraries (main window display_model_impl display_view_impl display_controller user_input_impl emulator CONAN_PKG::sdl2)
+add_executable(emuchip8 app/main.cpp)
+target_link_libraries(emuchip8 lib_display user_input_impl lib_emulator CONAN_PKG::sdl2)
+target_include_directories(emuchip8 PRIVATE ${PROJECT_SOURCE_DIR}/modules/)
 
 ## Unit tests
-add_executable( memory_test tests/TEST_memory.cpp )
-target_link_libraries( memory_test CONAN_PKG::gtest pthread memory display_controller)
-add_test( NAME memory_test COMMAND memory_test )
-gtest_discover_tests(memory_test)
-
-add_executable( control_unit_test tests/TEST_control_unit.cpp )
-target_link_libraries( control_unit_test CONAN_PKG::gtest control_unit_impl pthread user_input_impl memory display_controller)
-add_test( NAME control_unit_test COMMAND control_unit_test )
-gtest_discover_tests(control_unit_test)
- 
-add_executable( display_test tests/TEST_display.cpp )
-target_link_libraries( display_test CONAN_PKG::gtest pthread memory display_model_impl display_view_impl display_controller)
-add_test( NAME display_test COMMAND display_test )
-gtest_discover_tests(display_test)
-
-add_executable( clock_test tests/TEST_clock.cpp )
-target_link_libraries( clock_test CONAN_PKG::gtest pthread clock)
-add_test( NAME clock_test COMMAND clock_test )
-gtest_discover_tests(clock_test)
-
-add_executable( rom_loader_test tests/TEST_rom_loader.cpp )
-target_link_libraries( rom_loader_test CONAN_PKG::gtest pthread rom_loader)
-add_test( NAME rom_loader_test COMMAND rom_loader_test )
-gtest_discover_tests(rom_loader_test)
-
-add_executable( instruction_decoder_test tests/TEST_instruction_decoder.cpp )
-target_link_libraries( instruction_decoder_test CONAN_PKG::gtest pthread instruction_decoder)
-add_test( NAME instruction_decoder_test COMMAND instruction_decoder_test )
-gtest_discover_tests(instruction_decoder_test)
+add_executable(test_lib_emulator
+        tests/TEST_memory.cpp
+        tests/TEST_control_unit.cpp
+        tests/TEST_display.cpp
+        tests/TEST_clock.cpp
+        tests/TEST_rom_loader.cpp
+        tests/TEST_instruction_decoder.cpp)
+target_link_libraries(test_lib_emulator CONAN_PKG::gtest pthread lib_emulator user_input_impl)
+target_compile_features(test_lib_emulator PUBLIC cxx_std_17)
+add_test(NAME test_lib_emulator COMMAND test_lib_emulator)
+gtest_discover_tests(test_lib_emulator)
