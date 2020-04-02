@@ -25,7 +25,7 @@ add_library(lib_emulator
         modules/interpreter/instruction_decoder.cpp
         modules/display/display_controller.cpp)
 target_include_directories(lib_emulator PUBLIC ${PROJECT_SOURCE_DIR}/modules/)
-target_link_libraries(lib_emulator PRIVATE CONAN_PKG::boost)
+target_link_libraries(lib_emulator PUBLIC CONAN_PKG::boost)
 target_compile_features(lib_emulator PRIVATE cxx_std_17)
 
 add_library(lib_display
@@ -35,18 +35,17 @@ add_library(lib_display
         modules/display/display_view_impl.cpp
         modules/display/window.cpp)
 target_include_directories(lib_display PRIVATE ${PROJECT_SOURCE_DIR}/modules/)
-target_link_libraries(lib_display PUBLIC CONAN_PKG::sdl2 PRIVATE CONAN_PKG::boost)
+target_link_libraries(lib_display PUBLIC CONAN_PKG::sdl2 CONAN_PKG::boost)
 target_compile_features(lib_display PRIVATE cxx_std_17)
 
 add_library(user_input_impl modules/interpreter/user_input_impl.cpp)
 target_include_directories(user_input_impl PRIVATE ${PROJECT_SOURCE_DIR}/modules/)
-target_link_libraries(user_input_impl PUBLIC CONAN_PKG::sdl2 PRIVATE CONAN_PKG::boost)
+target_link_libraries(user_input_impl PUBLIC CONAN_PKG::sdl2 CONAN_PKG::boost)
 target_compile_features(user_input_impl PUBLIC cxx_std_17)
 
 ## Executables
 add_executable(emuchip8 app/main.cpp)
 target_link_libraries(emuchip8 lib_display user_input_impl lib_emulator CONAN_PKG::sdl2)
-target_include_directories(emuchip8 PRIVATE ${PROJECT_SOURCE_DIR}/modules/)
 
 ## Unit tests
 add_executable(test_lib_emulator
