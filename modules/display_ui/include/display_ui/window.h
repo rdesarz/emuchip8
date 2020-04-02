@@ -23,43 +23,37 @@
  * SOFTWARE.
  */
 
-#include "clock.h"
+#ifndef MODULES_DISPLAY_WINDOW_H_
+#define MODULES_DISPLAY_WINDOW_H_
 
-static const double SECOND_TO_NANOSECOND = 1e9;
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "SDL2/SDL.h"
+
+#include "utilities.h"
+#include "window_component.h"
 
 namespace chip8 {
 
-Clock::Clock(
-    std::function<std::chrono::system_clock::time_point()> get_current_time_cb)
-    : m_get_current_time(get_current_time_cb) {}
-
-bool Clock::registerCallback(std::function<void()> cb, double frequency) {
-  if (m_get_current_time) {
-    m_callbacks.push_back(PeriodicCallback{
-        cb,
-        std::chrono::nanoseconds(
-            static_cast<uint64_t>(SECOND_TO_NANOSECOND / frequency)),
-        m_get_current_time()});
-    return true;
+class Window {
+ public:
+  Window(std::size_t width, std::size_t height, const std::string& label);
+  ~Window();
+  void setBackgroundColor(Color color);
+  void update();
+  void attachNewComponent(WindowComponent* component) {
+    component->assign_renderer(m_renderer);
+    m_components.push_back(component);
   }
 
-  return false;
-}
-
-void Clock::tick() {
-  for (auto& callback : m_callbacks) {
-    if (needsToBeCalled(callback)) {
-      callback.callback();
-      callback.last_call_timestamp = m_get_current_time();
-    }
-  }
-}
-
-bool Clock::needsToBeCalled(const PeriodicCallback& periodic_cb) {
-  std::chrono::nanoseconds elapsed_time =
-      m_get_current_time() - periodic_cb.last_call_timestamp;
-
-  return elapsed_time >= periodic_cb.period;
-}
+ private:
+  std::vector<WindowComponent*> m_components;
+  SDL_Window* m_window;
+  SDL_Renderer* m_renderer;
+};
 
 }  // namespace chip8
+#endif  // MODULES_DISPLAY_UTILITIES_H_

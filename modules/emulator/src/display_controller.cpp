@@ -23,33 +23,47 @@
  * SOFTWARE.
  */
 
-#include "rom_loader.h"
+#include <memory>
 
-#include <algorithm>
-#include <iterator>
+#include "emulator/display_controller.h"
 
 namespace chip8 {
 
-bool loadProgramFromStream(RAM& ram, std::istream& input_stream) {
-  if (input_stream) {
-    // Get length of file:
-    input_stream.seekg (0, std::istream::end);
-    int length = input_stream.tellg();
-    input_stream.seekg (0, std::istream::beg);
+std::vector<std::uint8_t> byteToSprite(uint8_t byte) {
+  std::vector<std::uint8_t> sprite(8);
 
-    std::cout << length;
-
-    char * buffer = new char [length];
-    input_stream.read (buffer,length);
-
-    // TODO: move memory to avoid huge copy
-    std::copy(buffer, buffer+length, ram.begin() + 0x200);
-
-    delete[] buffer;
-
-    return true;
+  for (std::uint8_t i = 0; i < 8; ++i) {
+    sprite[7-i] = ((static_cast<uint8_t>(1) << i) & byte) >> i;
   }
 
-  return false;
+  return sprite;
 }
+
+DisplayController::DisplayController(DisplayModel* model, DisplayView* view)
+    : m_model(model), m_view(view) {}
+
+bool DisplayController::setPixel(column_t col, row_t row,
+                                 uint8_t value) {
+  // Crop if pixel is outside of the screen
+  col = col % m_model->getWidth();
+
+  // Check if pixel is modified or not
+  uint8_t old_value = m_model->getPixelValue(column_t(col), row_t(row));
+  m_model->setPixelValue(column_t(col), row_t(row), (old_value ^ value) & 0x1);
+
+  return m_model->getPixelValue(column_t(col), row_t(row)) != old_value;
+}
+
+bool DisplayController::setSprite(column_t col, row_t row,
+                                  std::vector<uint8_t> sprite) {
+  bool any_pixel_modified = false;
+  for (uint8_t i = 0; i < 8; ++i) {
+    any_pixel_modified |= setPixel(column_t(col + i), row, sprite[i]);
+  }
+
+  return any_pixel_modified;
+}
+
+void DisplayController::clear() { m_model->clear(); }
+
 }  // namespace chip8

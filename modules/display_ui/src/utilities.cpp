@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "utilities.h"
+#include "display_ui/utilities.h"
 
 namespace chip8 {
 

@@ -26,8 +26,8 @@
 #ifndef MODULES_DISPLAY_PIXEL_H_
 #define MODULES_DISPLAY_PIXEL_H_
 
-#include <SDL.h>
-#include <SDL_rect.h>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_rect.h"
 #include "boost/serialization/strong_typedef.hpp"
 
 #include "utilities.h"

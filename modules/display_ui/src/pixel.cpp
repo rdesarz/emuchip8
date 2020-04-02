@@ -21,7 +21,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "pixel.h"
+#include "display_ui/pixel.h"
 
 namespace chip8 {
 namespace pixel {

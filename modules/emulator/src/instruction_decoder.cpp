@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "instruction_decoder.h"
+#include "emulator/instruction_decoder.h"
 
 #include <cstdint>
 

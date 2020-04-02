@@ -25,7 +25,7 @@
 #include <algorithm>
 #include <iomanip>
 
-#include "memory.h"
+#include "emulator/memory.h"
 
 namespace chip8 {
 

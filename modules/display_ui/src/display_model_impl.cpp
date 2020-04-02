@@ -23,30 +23,15 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_DISPLAY_VIEW_IMPL_H_
-#define MODULES_DISPLAY_DISPLAY_VIEW_IMPL_H_
-
-#include <vector>
-
-#include <SDL.h>
-#include <SDL_rect.h>
-#include <boost/numeric/ublas/matrix.hpp>
-
-#include "pixel.h"
-#include "window_component.h"
-#include <emulator/display_model.h>
-#include <emulator/display_view.h>
+#include "display_ui/display_model_impl.h"
 
 namespace chip8 {
 
-class SDLDisplayView : public DisplayView, public WindowComponent {
- public:
-  explicit SDLDisplayView(const DisplayModel* model) : m_model(model) {}
-  void render() override;
+static const int CHIP8_DISPLAY_WIDTH = 64;
+static const int CHIP8_DISPLAY_HEIGHT = 32;
 
- private:
-  const DisplayModel* m_model;
-};
-
+DisplayModelImpl::DisplayModelImpl()
+    : m_pixels(CHIP8_DISPLAY_WIDTH, CHIP8_DISPLAY_HEIGHT) {
+  m_pixels.clear();
+}
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_DISPLAY_VIEW_IMPL_H_

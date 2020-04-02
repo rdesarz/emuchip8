@@ -23,41 +23,33 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_USER_INPUT_IMPL_H_
-#define MODULES_INTERPRETER_USER_INPUT_IMPL_H_
+#include "emulator/rom_loader.h"
 
-#include <unordered_map>
-
-#include <SDL.h>
-
-#include "emulator/user_input.h"
+#include <algorithm>
+#include <iterator>
 
 namespace chip8 {
 
-// Map a Chip8 input to a SDL keycode
-class SDLInputToKeyMap {
- public:
-  SDLInputToKeyMap();
-  std::optional<SDL_Keycode> toKey(InputId input_id) const;
+bool loadProgramFromStream(RAM& ram, std::istream& input_stream) {
+  if (input_stream) {
+    // Get length of file:
+    input_stream.seekg (0, std::istream::end);
+    int length = input_stream.tellg();
+    input_stream.seekg (0, std::istream::beg);
 
- private:
-  std::unordered_map<InputId, SDL_Keycode> m_input_to_key;
-};
+    std::cout << length;
 
-// SDL User input controller
-class SDLKeyboardUserInputController : public UserInputController {
- public:
-  explicit SDLKeyboardUserInputController(
-      const SDLInputToKeyMap& key_to_input_map);
-  bool processEvent(const SDL_Event& event);
-  std::optional<InputState> getInputState(InputId input_id) override;
+    char * buffer = new char [length];
+    input_stream.read (buffer,length);
 
- private:
-  std::unordered_map<SDL_Keycode, InputState> m_keys_state;
-  const SDLInputToKeyMap& m_input_to_key_map;
-};
+    // TODO: move memory to avoid huge copy
+    std::copy(buffer, buffer+length, ram.begin() + 0x200);
 
+    delete[] buffer;
 
+    return true;
+  }
 
+  return false;
+}
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_USER_INPUT_IMPL_H_

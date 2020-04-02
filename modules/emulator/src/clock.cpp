@@ -23,47 +23,43 @@
  * SOFTWARE.
  */
 
-#include <memory>
+#include "emulator/clock.h"
 
-#include "display_controller.h"
+static const double SECOND_TO_NANOSECOND = 1e9;
 
 namespace chip8 {
 
-std::vector<std::uint8_t> byteToSprite(uint8_t byte) {
-  std::vector<std::uint8_t> sprite(8);
+Clock::Clock(
+    std::function<std::chrono::system_clock::time_point()> get_current_time_cb)
+    : m_get_current_time(get_current_time_cb) {}
 
-  for (std::uint8_t i = 0; i < 8; ++i) {
-    sprite[7-i] = ((static_cast<uint8_t>(1) << i) & byte) >> i;
+bool Clock::registerCallback(std::function<void()> cb, double frequency) {
+  if (m_get_current_time) {
+    m_callbacks.push_back(PeriodicCallback{
+        cb,
+        std::chrono::nanoseconds(
+            static_cast<uint64_t>(SECOND_TO_NANOSECOND / frequency)),
+        m_get_current_time()});
+    return true;
   }
 
-  return sprite;
+  return false;
 }
 
-DisplayController::DisplayController(DisplayModel* model, DisplayView* view)
-    : m_model(model), m_view(view) {}
-
-bool DisplayController::setPixel(column_t col, row_t row,
-                                 uint8_t value) {
-  // Crop if pixel is outside of the screen
-  col = col % m_model->getWidth();
-
-  // Check if pixel is modified or not
-  uint8_t old_value = m_model->getPixelValue(column_t(col), row_t(row));
-  m_model->setPixelValue(column_t(col), row_t(row), (old_value ^ value) & 0x1);
-
-  return m_model->getPixelValue(column_t(col), row_t(row)) != old_value;
-}
-
-bool DisplayController::setSprite(column_t col, row_t row,
-                                  std::vector<uint8_t> sprite) {
-  bool any_pixel_modified = false;
-  for (uint8_t i = 0; i < 8; ++i) {
-    any_pixel_modified |= setPixel(column_t(col + i), row, sprite[i]);
+void Clock::tick() {
+  for (auto& callback : m_callbacks) {
+    if (needsToBeCalled(callback)) {
+      callback.callback();
+      callback.last_call_timestamp = m_get_current_time();
+    }
   }
-
-  return any_pixel_modified;
 }
 
-void DisplayController::clear() { m_model->clear(); }
+bool Clock::needsToBeCalled(const PeriodicCallback& periodic_cb) {
+  std::chrono::nanoseconds elapsed_time =
+      m_get_current_time() - periodic_cb.last_call_timestamp;
+
+  return elapsed_time >= periodic_cb.period;
+}
 
 }  // namespace chip8

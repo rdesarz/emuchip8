@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "control_unit_impl.h"
+#include "emulator/control_unit_impl.h"
 
 #include <cstdlib>
 #include <limits>

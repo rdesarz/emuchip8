@@ -23,31 +23,41 @@
  * SOFTWARE.
  */
 
-#include "display_view_impl.h"
+#ifndef MODULES_INTERPRETER_USER_INPUT_IMPL_H_
+#define MODULES_INTERPRETER_USER_INPUT_IMPL_H_
 
-#include <vector>
+#include <unordered_map>
 
-using namespace chip8::pixel;
+#include "SDL2/SDL.h"
+
+#include "emulator/user_input.h"
 
 namespace chip8 {
 
-void SDLDisplayView::render() {
-  if (getRenderer() == nullptr) {
-    return;
-  }
+// Map a Chip8 input to a SDL keycode
+class SDLInputToKeyMap {
+ public:
+  SDLInputToKeyMap();
+  std::optional<SDL_Keycode> toKey(InputId input_id) const;
 
-  for (std::size_t col = 0; col < m_model->getWidth(); ++col) {
-    for (std::size_t row = 0; row < m_model->getHeight(); ++row) {
-      if (m_model->getPixelValue(column_t(col), row_t(row)) == 0) {
-        Pixel pixel(getRenderer(), Position(col, row), makeBlack(),
-                    ScaleFactor(10));
-        pixel.render();
-      } else {
-        Pixel pixel(getRenderer(), Position(col, row), makeWhite(),
-                    ScaleFactor(10));
-        pixel.render();
-      }
-    }
-  }
-}
+ private:
+  std::unordered_map<InputId, SDL_Keycode> m_input_to_key;
+};
+
+// SDL User input controller
+class SDLKeyboardUserInputController : public UserInputController {
+ public:
+  explicit SDLKeyboardUserInputController(
+      const SDLInputToKeyMap& key_to_input_map);
+  bool processEvent(const SDL_Event& event);
+  std::optional<InputState> getInputState(InputId input_id) override;
+
+ private:
+  std::unordered_map<SDL_Keycode, InputState> m_keys_state;
+  const SDLInputToKeyMap& m_input_to_key_map;
+};
+
+
+
 }  // namespace chip8
+#endif  // MODULES_INTERPRETER_USER_INPUT_IMPL_H_

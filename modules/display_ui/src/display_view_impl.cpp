@@ -23,37 +23,31 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_WINDOW_H_
-#define MODULES_DISPLAY_WINDOW_H_
+#include "display_ui/display_view_impl.h"
 
-#include <memory>
-#include <string>
-#include <utility>
 #include <vector>
 
-#include <SDL.h>
-
-#include "utilities.h"
-#include "window_component.h"
+using namespace chip8::pixel;
 
 namespace chip8 {
 
-class Window {
- public:
-  Window(std::size_t width, std::size_t height, const std::string& label);
-  ~Window();
-  void setBackgroundColor(Color color);
-  void update();
-  void attachNewComponent(WindowComponent* component) {
-    component->assign_renderer(m_renderer);
-    m_components.push_back(component);
+void SDLDisplayView::render() {
+  if (getRenderer() == nullptr) {
+    return;
   }
 
- private:
-  std::vector<WindowComponent*> m_components;
-  SDL_Window* m_window;
-  SDL_Renderer* m_renderer;
-};
-
+  for (std::size_t col = 0; col < m_model->getWidth(); ++col) {
+    for (std::size_t row = 0; row < m_model->getHeight(); ++row) {
+      if (m_model->getPixelValue(column_t(col), row_t(row)) == 0) {
+        Pixel pixel(getRenderer(), Position(col, row), makeBlack(),
+                    ScaleFactor(10));
+        pixel.render();
+      } else {
+        Pixel pixel(getRenderer(), Position(col, row), makeWhite(),
+                    ScaleFactor(10));
+        pixel.render();
+      }
+    }
+  }
+}
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_UTILITIES_H_

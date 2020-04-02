@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "user_input_impl.h"
+#include "display_ui/user_input_impl.h"
 
 namespace chip8 {
 
