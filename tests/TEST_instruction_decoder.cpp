@@ -26,7 +26,7 @@
 #include "gtest/gtest.h"
 
 #include "control_unit_fixture.h"
-#include "interpreter/instruction_decoder.h"
+#include "emulator/instruction_decoder.h"
 
 using namespace chip8;
 

@@ -26,7 +26,7 @@
 #ifndef TESTS_CONTROL_UNIT_FIXTURES_H_
 #define TESTS_CONTROL_UNIT_FIXTURES_H_
 
-#include "interpreter/control_unit.h"
+#include "emulator/control_unit.h"
 
 namespace chip8 {
 

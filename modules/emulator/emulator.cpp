@@ -27,8 +27,8 @@
 #include <iostream>
 #include <utility>
 
-#include "interpreter/control_unit_impl.h"
-#include "interpreter/emulator.h"
+#include "control_unit_impl.h"
+#include "emulator.h"
 
 namespace chip8 {
 

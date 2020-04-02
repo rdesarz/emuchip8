@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "interpreter/control_unit_impl.h"
+#include "control_unit_impl.h"
 
 #include <cstdlib>
 #include <limits>

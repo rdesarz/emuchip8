@@ -23,15 +23,41 @@
  * SOFTWARE.
  */
 
-#include "display/display_model_impl.h"
+#ifndef MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
+#define MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
+
+#include <memory>
+#include <vector>
+
+#include <boost/numeric/ublas/matrix.hpp>
+#include "display_model.h"
+#include "display_view.h"
+#include "units.h"
 
 namespace chip8 {
 
-static const int CHIP8_DISPLAY_WIDTH = 64;
-static const int CHIP8_DISPLAY_HEIGHT = 32;
+// Generate a vector of bit representing a sprite
+std::vector<std::uint8_t> byteToSprite(uint8_t byte);
 
-DisplayModelImpl::DisplayModelImpl()
-    : m_pixels(CHIP8_DISPLAY_WIDTH, CHIP8_DISPLAY_HEIGHT) {
-  m_pixels.clear();
-}
+class DisplayController {
+ public:
+  DisplayController(DisplayModel* model, DisplayView* view);
+  DisplayController(const DisplayController&) = delete;
+  DisplayController(DisplayController&&) = delete;
+  DisplayController& operator=(const DisplayController&) = delete;
+  DisplayController& operator=(DisplayController&&) = delete;
+
+  // Set a pixel value following the logic of the chip 8 emulator
+  bool setPixel(column_t col, row_t row, uint8_t value);
+  // Set a sprite value following the logic of the chip 8 emulator
+  bool setSprite(column_t col, row_t row, std::vector<uint8_t> sprite);
+  // Clear the complete display_ui
+  void clear();
+
+ private:
+  DisplayModel* m_model;
+  DisplayView* m_view;
+};
+
 }  // namespace chip8
+#endif  // MODULES_DISPLAY_DISPLAY_CONTROLLER_H_

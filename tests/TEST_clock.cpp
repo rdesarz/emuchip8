@@ -24,7 +24,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "interpreter/clock.h"
+#include "emulator/clock.h"
 
 using namespace std::chrono_literals;
 using namespace chip8;

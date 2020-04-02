@@ -23,21 +23,12 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_DISPLAY_MODEL_H_
-#define MODULES_DISPLAY_DISPLAY_MODEL_H_
-
-#include "display/units.h"
+#include "utilities.h"
 
 namespace chip8 {
 
-class DisplayModel {
- public:
-  virtual void setPixelValue(column_t col, row_t row, uint8_t value) = 0;
-  virtual uint8_t getPixelValue(column_t col, row_t row) const = 0;
-  virtual void clear() = 0;
-  virtual std::size_t getWidth() const = 0;
-  virtual std::size_t getHeight() const = 0;
-};
+Color makeBlack() { return Color(0, 0, 0, 255); }
+
+Color makeWhite() { return Color(255, 255, 255, 255); }
 
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_DISPLAY_MODEL_H_

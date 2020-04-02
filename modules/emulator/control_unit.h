@@ -29,8 +29,8 @@
 #include <vector>
 
 #include "display_controller.h"
-#include "interpreter/memory.h"
-#include "interpreter/user_input.h"
+#include "memory.h"
+#include "user_input.h"
 
 namespace chip8 {
 

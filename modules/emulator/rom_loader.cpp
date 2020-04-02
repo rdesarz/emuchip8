@@ -23,31 +23,33 @@
  * SOFTWARE.
  */
 
-#include "display/display_view_impl.h"
+#include "rom_loader.h"
 
-#include <vector>
-
-using namespace chip8::pixel;
+#include <algorithm>
+#include <iterator>
 
 namespace chip8 {
 
-void SDLDisplayView::render() {
-  if (getRenderer() == nullptr) {
-    return;
+bool loadProgramFromStream(RAM& ram, std::istream& input_stream) {
+  if (input_stream) {
+    // Get length of file:
+    input_stream.seekg (0, std::istream::end);
+    int length = input_stream.tellg();
+    input_stream.seekg (0, std::istream::beg);
+
+    std::cout << length;
+
+    char * buffer = new char [length];
+    input_stream.read (buffer,length);
+
+    // TODO: move memory to avoid huge copy
+    std::copy(buffer, buffer+length, ram.begin() + 0x200);
+
+    delete[] buffer;
+
+    return true;
   }
 
-  for (std::size_t col = 0; col < m_model->getWidth(); ++col) {
-    for (std::size_t row = 0; row < m_model->getHeight(); ++row) {
-      if (m_model->getPixelValue(column_t(col), row_t(row)) == 0) {
-        Pixel pixel(getRenderer(), Position(col, row), makeBlack(),
-                    ScaleFactor(10));
-        pixel.render();
-      } else {
-        Pixel pixel(getRenderer(), Position(col, row), makeWhite(),
-                    ScaleFactor(10));
-        pixel.render();
-      }
-    }
-  }
+  return false;
 }
 }  // namespace chip8

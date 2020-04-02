@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "interpreter/instruction_decoder.h"
+#include "instruction_decoder.h"
 
 #include <cstdint>
 

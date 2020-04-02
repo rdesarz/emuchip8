@@ -22,8 +22,8 @@
  */
 
 #include "gtest/gtest.h"
-#include "interpreter/memory.h"
-#include "interpreter/rom_loader.h"
+#include "emulator/memory.h"
+#include "emulator/rom_loader.h"
 
 using namespace chip8;
 

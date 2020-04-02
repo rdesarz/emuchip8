@@ -30,7 +30,7 @@
 
 #include <SDL.h>
 
-#include "interpreter/user_input.h"
+#include "emulator/user_input.h"
 
 namespace chip8 {
 

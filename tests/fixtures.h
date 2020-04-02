@@ -31,13 +31,13 @@
 
 #include "gtest/gtest.h"
 
-#include "interpreter/display_controller.h"
-#include "interpreter/display_model.h"
-#include "interpreter/display_view.h"
-#include "interpreter/user_input.h"
+#include "emulator/display_controller.h"
+#include "emulator/display_model.h"
+#include "emulator/display_view.h"
+#include "emulator/user_input.h"
 
-#include "interpreter/control_unit.h"
-#include "interpreter/control_unit_impl.h"
+#include "emulator/control_unit.h"
+#include "emulator/control_unit_impl.h"
 
 namespace chip8 {
 

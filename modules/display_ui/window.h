@@ -23,57 +23,37 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_EMULATOR_H_
-#define MODULES_INTERPRETER_EMULATOR_H_
+#ifndef MODULES_DISPLAY_WINDOW_H_
+#define MODULES_DISPLAY_WINDOW_H_
 
-#include <istream>
 #include <memory>
+#include <string>
+#include <utility>
 #include <vector>
 
-#include "interpreter/clock.h"
-#include "interpreter/control_unit.h"
-#include "interpreter/instruction_decoder.h"
-#include "interpreter/memory.h"
-#include "interpreter/rom_loader.h"
-#include "interpreter/user_input.h"
+#include <SDL.h>
 
-#include "display_controller.h"
-#include "display_model.h"
-#include "display_view.h"
+#include "utilities.h"
+#include "window_component.h"
 
 namespace chip8 {
 
-class Emulator {
+class Window {
  public:
-  Emulator(std::istream& rom,
-           std::unique_ptr<DisplayController> display_controller,
-           UserInputController* ui_controller);
-
+  Window(std::size_t width, std::size_t height, const std::string& label);
+  ~Window();
+  void setBackgroundColor(Color color);
   void update();
+  void attachNewComponent(WindowComponent* component) {
+    component->assign_renderer(m_renderer);
+    m_components.push_back(component);
+  }
 
  private:
-  void clockCycle();
-  void decrementDelayTimer();
-
- private:
-  Clock m_clock;
-
-  // Memory components
-  ProgramCounter m_pc;
-  StackPointer m_stack_ptr;
-  IndexRegister m_index_reg;
-  DelayTimerRegister m_delay_timer_reg;
-  SoundTimerRegister m_sound_timer_reg;
-  Stack m_stack;
-  std::vector<GeneralRegister> m_registers;
-  RAM m_ram;
-
-  // Controllers
-  std::unique_ptr<DisplayController> m_display_controller;
-  UserInputController* m_ui_controller;
-  std::unique_ptr<ControlUnit> m_ctrl_unit;
-  InstructionDecoder m_instruction_decoder;
+  std::vector<WindowComponent*> m_components;
+  SDL_Window* m_window;
+  SDL_Renderer* m_renderer;
 };
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_EMULATOR_H_
+#endif  // MODULES_DISPLAY_UTILITIES_H_

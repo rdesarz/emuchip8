@@ -27,17 +27,15 @@
 #include <iostream>
 #include <optional>
 
-#include "interpreter/emulator.h"
+#include "emulator/emulator.h"
 
-#include "display/user_input_impl.h"
-#include "interpreter/user_input.h"
+#include "display_ui/user_input_impl.h"
 
-#include "display/display_model_impl.h"
-#include "display/display_view_impl.h"
-#include "display/window.h"
-#include "interpreter/display_controller.h"
-#include "interpreter/display_model.h"
-#include "interpreter/display_view.h"
+#include "display_ui/display_model_impl.h"
+#include "display_ui/display_view_impl.h"
+#include "display_ui/window.h"
+#include "emulator/display_controller.h"
+#include "emulator/display_model.h"
 
 using namespace chip8;
 
@@ -60,14 +58,14 @@ int main(int argc, char** argv) {
   SDLInputToKeyMap key_to_map;
   SDLKeyboardUserInputController keyboard_controller(key_to_map);
 
-  // Initialize display
+  // Initialize display_ui
   std::unique_ptr<DisplayModel> display_model(new DisplayModelImpl());
   std::unique_ptr<SDLDisplayView> display_view(
       new SDLDisplayView(display_model.get()));
   std::unique_ptr<DisplayController> display_controller(
       new DisplayController(display_model.get(), display_view.get()));
 
-  // Add the display element to the window
+  // Add the display_ui element to the window
   Window main_window(640, 320, "Chip8 emulator");
   main_window.attachNewComponent(display_view.get());
 

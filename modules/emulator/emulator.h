@@ -23,18 +23,57 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_ROM_LOADER_H_
-#define MODULES_INTERPRETER_ROM_LOADER_H_
+#ifndef MODULES_INTERPRETER_EMULATOR_H_
+#define MODULES_INTERPRETER_EMULATOR_H_
 
-#include <cstdint>
-#include <iostream>
+#include <istream>
+#include <memory>
 #include <vector>
 
-#include "interpreter/memory.h"
+#include "clock.h"
+#include "control_unit.h"
+#include "instruction_decoder.h"
+#include "memory.h"
+#include "rom_loader.h"
+#include "user_input.h"
+
+#include "display_controller.h"
+#include "display_model.h"
+#include "display_view.h"
 
 namespace chip8 {
 
-bool loadProgramFromStream(RAM& buffer, std::istream& input_stream);
+class Emulator {
+ public:
+  Emulator(std::istream& rom,
+           std::unique_ptr<DisplayController> display_controller,
+           UserInputController* ui_controller);
+
+  void update();
+
+ private:
+  void clockCycle();
+  void decrementDelayTimer();
+
+ private:
+  Clock m_clock;
+
+  // Memory components
+  ProgramCounter m_pc;
+  StackPointer m_stack_ptr;
+  IndexRegister m_index_reg;
+  DelayTimerRegister m_delay_timer_reg;
+  SoundTimerRegister m_sound_timer_reg;
+  Stack m_stack;
+  std::vector<GeneralRegister> m_registers;
+  RAM m_ram;
+
+  // Controllers
+  std::unique_ptr<DisplayController> m_display_controller;
+  UserInputController* m_ui_controller;
+  std::unique_ptr<ControlUnit> m_ctrl_unit;
+  InstructionDecoder m_instruction_decoder;
+};
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_ROM_LOADER_H_
+#endif  // MODULES_INTERPRETER_EMULATOR_H_

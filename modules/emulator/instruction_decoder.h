@@ -23,33 +23,28 @@
  * SOFTWARE.
  */
 
-#include "interpreter/rom_loader.h"
+#ifndef MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
+#define MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
 
-#include <algorithm>
-#include <iterator>
+#include "control_unit.h"
+#include "units.h"
 
 namespace chip8 {
 
-bool loadProgramFromStream(RAM& ram, std::istream& input_stream) {
-  if (input_stream) {
-    // Get length of file:
-    input_stream.seekg (0, std::istream::end);
-    int length = input_stream.tellg();
-    input_stream.seekg (0, std::istream::beg);
+register_id_t getRegX(instruction_t instruction);
+register_id_t getRegY(instruction_t instruction);
+byte_t getLastByte(instruction_t instruction);
+nibble_t getLastNibble(instruction_t instruction);
+address_t getAddress(instruction_t instruction);
 
-    std::cout << length;
+class InstructionDecoder {
+ public:
+  explicit InstructionDecoder(ControlUnit* ctrl_unit);
+  void decode(instruction_t instruction);
 
-    char * buffer = new char [length];
-    input_stream.read (buffer,length);
+ private:
+  ControlUnit* m_ctrl_unit;
+};
 
-    // TODO: move memory to avoid huge copy
-    std::copy(buffer, buffer+length, ram.begin() + 0x200);
-
-    delete[] buffer;
-
-    return true;
-  }
-
-  return false;
-}
 }  // namespace chip8
+#endif  // MODULES_INTERPRETER_INSTRUCTION_DECODER_H_

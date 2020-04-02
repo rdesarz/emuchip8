@@ -23,38 +23,31 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
-#define MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
+#include "display_view_impl.h"
 
 #include <vector>
 
-#include <boost/numeric/ublas/matrix.hpp>
-
-#include "interpreter/display_model.h"
+using namespace chip8::pixel;
 
 namespace chip8 {
 
-class DisplayModelImpl : public DisplayModel {
- public:
-  DisplayModelImpl();
-
-  void setPixelValue(column_t col, row_t row, uint8_t value) override {
-    m_pixels(col, row) = value;
+void SDLDisplayView::render() {
+  if (getRenderer() == nullptr) {
+    return;
   }
 
-  uint8_t getPixelValue(column_t col, row_t row) const override {
-    return m_pixels(col, row);
+  for (std::size_t col = 0; col < m_model->getWidth(); ++col) {
+    for (std::size_t row = 0; row < m_model->getHeight(); ++row) {
+      if (m_model->getPixelValue(column_t(col), row_t(row)) == 0) {
+        Pixel pixel(getRenderer(), Position(col, row), makeBlack(),
+                    ScaleFactor(10));
+        pixel.render();
+      } else {
+        Pixel pixel(getRenderer(), Position(col, row), makeWhite(),
+                    ScaleFactor(10));
+        pixel.render();
+      }
+    }
   }
-
-  void clear() override { m_pixels.clear(); }
-
-  std::size_t getWidth() const override { return m_pixels.size1(); }
-
-  std::size_t getHeight() const override { return m_pixels.size2(); }
-
- private:
-  boost::numeric::ublas::matrix<uint8_t> m_pixels;
-};
-
+}
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_

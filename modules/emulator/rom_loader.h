@@ -23,37 +23,18 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_WINDOW_H_
-#define MODULES_DISPLAY_WINDOW_H_
+#ifndef MODULES_INTERPRETER_ROM_LOADER_H_
+#define MODULES_INTERPRETER_ROM_LOADER_H_
 
-#include <memory>
-#include <string>
-#include <utility>
+#include <cstdint>
+#include <iostream>
 #include <vector>
 
-#include <SDL.h>
-
-#include <display/utilities.h>
-#include <display/window_component.h>
+#include "memory.h"
 
 namespace chip8 {
 
-class Window {
- public:
-  Window(std::size_t width, std::size_t height, const std::string& label);
-  ~Window();
-  void setBackgroundColor(Color color);
-  void update();
-  void attachNewComponent(WindowComponent* component) {
-    component->assign_renderer(m_renderer);
-    m_components.push_back(component);
-  }
-
- private:
-  std::vector<WindowComponent*> m_components;
-  SDL_Window* m_window;
-  SDL_Renderer* m_renderer;
-};
+bool loadProgramFromStream(RAM& buffer, std::istream& input_stream);
 
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_UTILITIES_H_
+#endif  // MODULES_INTERPRETER_ROM_LOADER_H_

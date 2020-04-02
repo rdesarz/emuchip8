@@ -22,7 +22,7 @@
  */
 
 #include "gtest/gtest.h"
-#include "interpreter/memory.h"
+#include "emulator/memory.h"
 
 using namespace chip8;
 

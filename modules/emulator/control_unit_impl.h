@@ -30,9 +30,9 @@
 #include <vector>
 
 #include "display_controller.h"
-#include "interpreter/control_unit.h"
-#include "interpreter/memory.h"
-#include "interpreter/user_input.h"
+#include "control_unit.h"
+#include "memory.h"
+#include "user_input.h"
 
 namespace chip8 {
 

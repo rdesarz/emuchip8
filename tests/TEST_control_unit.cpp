@@ -26,7 +26,7 @@
 #include "gtest/gtest.h"
 
 #include "fixtures.h"
-#include "interpreter/control_unit.h"
+#include "emulator/control_unit.h"
 
 using namespace chip8;
 

@@ -23,41 +23,30 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
-#define MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
+#ifndef MODULES_DISPLAY_DISPLAY_VIEW_IMPL_H_
+#define MODULES_DISPLAY_DISPLAY_VIEW_IMPL_H_
 
-#include <memory>
 #include <vector>
 
+#include <SDL.h>
+#include <SDL_rect.h>
 #include <boost/numeric/ublas/matrix.hpp>
-#include "display/units.h"
-#include "display_model.h"
-#include "display_view.h"
+
+#include "pixel.h"
+#include "window_component.h"
+#include <emulator/display_model.h>
+#include <emulator/display_view.h>
 
 namespace chip8 {
 
-// Generate a vector of bit representing a sprite
-std::vector<std::uint8_t> byteToSprite(uint8_t byte);
-
-class DisplayController {
+class SDLDisplayView : public DisplayView, public WindowComponent {
  public:
-  DisplayController(DisplayModel* model, DisplayView* view);
-  DisplayController(const DisplayController&) = delete;
-  DisplayController(DisplayController&&) = delete;
-  DisplayController& operator=(const DisplayController&) = delete;
-  DisplayController& operator=(DisplayController&&) = delete;
-
-  // Set a pixel value following the logic of the chip 8 emulator
-  bool setPixel(column_t col, row_t row, uint8_t value);
-  // Set a sprite value following the logic of the chip 8 emulator
-  bool setSprite(column_t col, row_t row, std::vector<uint8_t> sprite);
-  // Clear the complete display
-  void clear();
+  explicit SDLDisplayView(const DisplayModel* model) : m_model(model) {}
+  void render() override;
 
  private:
-  DisplayModel* m_model;
-  DisplayView* m_view;
+  const DisplayModel* m_model;
 };
 
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
+#endif  // MODULES_DISPLAY_DISPLAY_VIEW_IMPL_H_

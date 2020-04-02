@@ -30,9 +30,9 @@
 #include <boost/numeric/ublas/matrix.hpp>
 
 #include "fixtures.h"
-#include "interpreter/display_controller.h"
-#include "interpreter/display_model.h"
-#include "interpreter/display_view.h"
+#include "emulator/display_controller.h"
+#include "emulator/display_model.h"
+#include "emulator/display_view.h"
 
 using namespace chip8;
 

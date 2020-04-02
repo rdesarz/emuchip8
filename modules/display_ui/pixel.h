@@ -30,7 +30,7 @@
 #include <SDL_rect.h>
 #include "boost/serialization/strong_typedef.hpp"
 
-#include "display/utilities.h"
+#include "utilities.h"
 
 namespace chip8 {
 

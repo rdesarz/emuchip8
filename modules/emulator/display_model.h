@@ -23,28 +23,21 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
-#define MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
+#ifndef MODULES_DISPLAY_DISPLAY_MODEL_H_
+#define MODULES_DISPLAY_DISPLAY_MODEL_H_
 
-#include "interpreter/control_unit.h"
-#include "display/units.h"
+#include "units.h"
 
 namespace chip8 {
 
-register_id_t getRegX(instruction_t instruction);
-register_id_t getRegY(instruction_t instruction);
-byte_t getLastByte(instruction_t instruction);
-nibble_t getLastNibble(instruction_t instruction);
-address_t getAddress(instruction_t instruction);
-
-class InstructionDecoder {
+class DisplayModel {
  public:
-  explicit InstructionDecoder(ControlUnit* ctrl_unit);
-  void decode(instruction_t instruction);
-
- private:
-  ControlUnit* m_ctrl_unit;
+  virtual void setPixelValue(column_t col, row_t row, uint8_t value) = 0;
+  virtual uint8_t getPixelValue(column_t col, row_t row) const = 0;
+  virtual void clear() = 0;
+  virtual std::size_t getWidth() const = 0;
+  virtual std::size_t getHeight() const = 0;
 };
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
+#endif  // MODULES_DISPLAY_DISPLAY_MODEL_H_

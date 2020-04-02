@@ -23,43 +23,38 @@
  * SOFTWARE.
  */
 
-#include "interpreter/clock.h"
+#ifndef MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
+#define MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
 
-static const double SECOND_TO_NANOSECOND = 1e9;
+#include <vector>
+
+#include <boost/numeric/ublas/matrix.hpp>
+
+#include "emulator/display_model.h"
 
 namespace chip8 {
 
-Clock::Clock(
-    std::function<std::chrono::system_clock::time_point()> get_current_time_cb)
-    : m_get_current_time(get_current_time_cb) {}
+class DisplayModelImpl : public DisplayModel {
+ public:
+  DisplayModelImpl();
 
-bool Clock::registerCallback(std::function<void()> cb, double frequency) {
-  if (m_get_current_time) {
-    m_callbacks.push_back(PeriodicCallback{
-        cb,
-        std::chrono::nanoseconds(
-            static_cast<uint64_t>(SECOND_TO_NANOSECOND / frequency)),
-        m_get_current_time()});
-    return true;
+  void setPixelValue(column_t col, row_t row, uint8_t value) override {
+    m_pixels(col, row) = value;
   }
 
-  return false;
-}
-
-void Clock::tick() {
-  for (auto& callback : m_callbacks) {
-    if (needsToBeCalled(callback)) {
-      callback.callback();
-      callback.last_call_timestamp = m_get_current_time();
-    }
+  uint8_t getPixelValue(column_t col, row_t row) const override {
+    return m_pixels(col, row);
   }
-}
 
-bool Clock::needsToBeCalled(const PeriodicCallback& periodic_cb) {
-  std::chrono::nanoseconds elapsed_time =
-      m_get_current_time() - periodic_cb.last_call_timestamp;
+  void clear() override { m_pixels.clear(); }
 
-  return elapsed_time >= periodic_cb.period;
-}
+  std::size_t getWidth() const override { return m_pixels.size1(); }
+
+  std::size_t getHeight() const override { return m_pixels.size2(); }
+
+ private:
+  boost::numeric::ublas::matrix<uint8_t> m_pixels;
+};
 
 }  // namespace chip8
+#endif  // MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_

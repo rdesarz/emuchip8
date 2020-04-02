@@ -21,37 +21,24 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "display/window.h"
-
-#include <vector>
+#include "pixel.h"
 
 namespace chip8 {
+namespace pixel {
 
-Window::Window(std::size_t width, std::size_t height,
-               const std::string& label) {
-  // Initialize window and renderer
-  SDL_Init(SDL_INIT_VIDEO);
-
-  m_window = SDL_CreateWindow(label.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED, width, height, 0);
-
-  m_renderer = SDL_CreateRenderer(m_window, -1, 0);
-
-  setBackgroundColor(makeBlack());
+void Pixel::render() {
+  m_rect.x = m_position.col() * m_scale_factor;
+  m_rect.y = m_position.row() * m_scale_factor;
+  m_rect.w = m_scale_factor;
+  m_rect.h = m_scale_factor;
+  SDL_SetRenderDrawColor(m_renderer, m_color.red(), m_color.green(),
+                         m_color.blue(), m_color.alpha());
+  SDL_RenderFillRect(m_renderer, &m_rect);
 }
 
-Window::~Window() { SDL_Quit(); }
+Color makeBlack() { return Color(0, 0, 0, 255); }
 
-void Window::setBackgroundColor(Color color) {
-  SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-  SDL_RenderClear(m_renderer);
-}
+Color makeWhite() { return Color(255, 255, 255, 255); }
 
-void Window::update() {
-  for (auto& component : m_components) {
-    component->render();
-  }
-
-  SDL_RenderPresent(m_renderer);
-}
-} // namespace chip8
+}  // namespace pixel
+}  // namespace chip8
