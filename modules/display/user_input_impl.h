@@ -23,38 +23,41 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
-#define MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
+#ifndef MODULES_INTERPRETER_USER_INPUT_IMPL_H_
+#define MODULES_INTERPRETER_USER_INPUT_IMPL_H_
 
-#include <vector>
+#include <unordered_map>
 
-#include <boost/numeric/ublas/matrix.hpp>
+#include <SDL.h>
 
-#include "interpreter/display_model.h"
+#include "interpreter/user_input.h"
 
 namespace chip8 {
 
-class DisplayModelImpl : public DisplayModel {
+// Map a Chip8 input to a SDL keycode
+class SDLInputToKeyMap {
  public:
-  DisplayModelImpl();
-
-  void setPixelValue(column_t col, row_t row, uint8_t value) override {
-    m_pixels(col, row) = value;
-  }
-
-  uint8_t getPixelValue(column_t col, row_t row) const override {
-    return m_pixels(col, row);
-  }
-
-  void clear() override { m_pixels.clear(); }
-
-  std::size_t getWidth() const override { return m_pixels.size1(); }
-
-  std::size_t getHeight() const override { return m_pixels.size2(); }
+  SDLInputToKeyMap();
+  std::optional<SDL_Keycode> toKey(InputId input_id) const;
 
  private:
-  boost::numeric::ublas::matrix<uint8_t> m_pixels;
+  std::unordered_map<InputId, SDL_Keycode> m_input_to_key;
 };
 
+// SDL User input controller
+class SDLKeyboardUserInputController : public UserInputController {
+ public:
+  explicit SDLKeyboardUserInputController(
+      const SDLInputToKeyMap& key_to_input_map);
+  bool processEvent(const SDL_Event& event);
+  std::optional<InputState> getInputState(InputId input_id) override;
+
+ private:
+  std::unordered_map<SDL_Keycode, InputState> m_keys_state;
+  const SDLInputToKeyMap& m_input_to_key_map;
+};
+
+
+
 }  // namespace chip8
-#endif  // MODULES_DISPLAY_DISPLAY_MODEL_IMPL_H_
+#endif  // MODULES_INTERPRETER_USER_INPUT_IMPL_H_

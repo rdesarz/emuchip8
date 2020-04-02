@@ -29,10 +29,10 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "display/display_controller.h"
-#include "display/display_model.h"
-#include "display/display_view.h"
 #include "fixtures.h"
+#include "interpreter/display_controller.h"
+#include "interpreter/display_model.h"
+#include "interpreter/display_view.h"
 
 using namespace chip8;
 

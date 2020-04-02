@@ -28,7 +28,7 @@
 
 #include <vector>
 
-#include "display/display_controller.h"
+#include "display_controller.h"
 #include "interpreter/memory.h"
 #include "interpreter/user_input.h"
 

@@ -31,15 +31,63 @@
 
 #include "gtest/gtest.h"
 
-#include "display/display_controller.h"
-#include "display/display_model.h"
-#include "display/display_view.h"
+#include "interpreter/display_controller.h"
+#include "interpreter/display_model.h"
+#include "interpreter/display_view.h"
+#include "interpreter/user_input.h"
 
 #include "interpreter/control_unit.h"
 #include "interpreter/control_unit_impl.h"
-#include "interpreter/user_input_impl.h"
 
 namespace chip8 {
+
+// User input controller for tests
+class TestUserInputController : public UserInputController {
+ public:
+  TestUserInputController() {
+    m_inputs_state[InputId::INPUT_0] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_1] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_2] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_3] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_4] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_5] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_6] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_7] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_8] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_9] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_A] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_B] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_C] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_D] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_E] = InputState::OFF;
+    m_inputs_state[InputId::INPUT_F] = InputState::OFF;
+  }
+
+  bool setInputState(InputId input_id, InputState input_state);
+  std::optional<InputState> getInputState(InputId input_id) override;
+
+ private:
+  std::unordered_map<InputId, InputState> m_inputs_state;
+};
+
+inline bool TestUserInputController::setInputState(InputId input_id,
+                                            InputState input_state) {
+  try {
+    m_inputs_state.at(input_id) = input_state;
+    return true;
+  } catch (std::out_of_range& e) {
+    return false;
+  }
+}
+
+inline std::optional<InputState> TestUserInputController::getInputState(
+    InputId input_id) {
+  try {
+    return m_inputs_state.at(input_id);
+  } catch (std::out_of_range& e) {
+    std::optional<InputState>();
+  }
+}
 
 class TestDisplayModel : public DisplayModel {
  public:

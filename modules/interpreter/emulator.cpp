@@ -72,8 +72,8 @@ void Emulator::clockCycle() {
       static_cast<uint16_t>(m_ram[m_pc] << 8 | m_ram[m_pc + 1])};
 
   // Dump instruction
-  // std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4)
-  // << std::hex << instruction << "\n";
+  std::cout << "Executed instruction: " << std::setfill('0') << std::setw(4)
+            << std::hex << instruction << "\n";
 
   // Decode and execute instruction
   m_instruction_decoder.decode(instruction);

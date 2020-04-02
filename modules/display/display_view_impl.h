@@ -32,10 +32,10 @@
 #include <SDL_rect.h>
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include <display/display_model.h>
-#include <display/display_view.h>
 #include <display/pixel.h>
 #include <display/window_component.h>
+#include <interpreter/display_model.h>
+#include <interpreter/display_view.h>
 
 namespace chip8 {
 

@@ -37,9 +37,9 @@
 #include "interpreter/rom_loader.h"
 #include "interpreter/user_input.h"
 
-#include "display/display_controller.h"
-#include "display/display_model.h"
-#include "display/display_view.h"
+#include "display_controller.h"
+#include "display_model.h"
+#include "display_view.h"
 
 namespace chip8 {
 

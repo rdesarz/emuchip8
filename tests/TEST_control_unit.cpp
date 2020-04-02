@@ -27,7 +27,6 @@
 
 #include "fixtures.h"
 #include "interpreter/control_unit.h"
-#include "interpreter/user_input_impl.h"
 
 using namespace chip8;
 

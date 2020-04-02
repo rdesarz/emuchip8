@@ -23,50 +23,41 @@
  * SOFTWARE.
  */
 
-#ifndef MODULES_INTERPRETER_USER_INPUT_IMPL_H_
-#define MODULES_INTERPRETER_USER_INPUT_IMPL_H_
+#ifndef MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
+#define MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
 
-#include <unordered_map>
+#include <memory>
+#include <vector>
 
-#include <SDL.h>
-
-#include "interpreter/user_input.h"
+#include <boost/numeric/ublas/matrix.hpp>
+#include "display/units.h"
+#include "display_model.h"
+#include "display_view.h"
 
 namespace chip8 {
 
-// Map a Chip8 input to a SDL keycode
-class SDLInputToKeyMap {
+// Generate a vector of bit representing a sprite
+std::vector<std::uint8_t> byteToSprite(uint8_t byte);
+
+class DisplayController {
  public:
-  SDLInputToKeyMap();
-  std::optional<SDL_Keycode> toKey(InputId input_id) const;
+  DisplayController(DisplayModel* model, DisplayView* view);
+  DisplayController(const DisplayController&) = delete;
+  DisplayController(DisplayController&&) = delete;
+  DisplayController& operator=(const DisplayController&) = delete;
+  DisplayController& operator=(DisplayController&&) = delete;
+
+  // Set a pixel value following the logic of the chip 8 emulator
+  bool setPixel(column_t col, row_t row, uint8_t value);
+  // Set a sprite value following the logic of the chip 8 emulator
+  bool setSprite(column_t col, row_t row, std::vector<uint8_t> sprite);
+  // Clear the complete display
+  void clear();
 
  private:
-  std::unordered_map<InputId, SDL_Keycode> m_input_to_key;
-};
-
-// SDL User input controller
-class SDLKeyboardUserInputController : public UserInputController {
- public:
-  explicit SDLKeyboardUserInputController(
-      const SDLInputToKeyMap& key_to_input_map);
-  bool processEvent(const SDL_Event& event);
-  std::optional<InputState> getInputState(InputId input_id) override;
-
- private:
-  std::unordered_map<SDL_Keycode, InputState> m_keys_state;
-  const SDLInputToKeyMap& m_input_to_key_map;
-};
-
-// User input controller for tests
-class TestUserInputController : public UserInputController {
- public:
-  TestUserInputController();
-  bool setInputState(InputId input_id, InputState input_state);
-  std::optional<InputState> getInputState(InputId input_id) override;
-
- private:
-  std::unordered_map<InputId, InputState> m_inputs_state;
+  DisplayModel* m_model;
+  DisplayView* m_view;
 };
 
 }  // namespace chip8
-#endif  // MODULES_INTERPRETER_USER_INPUT_IMPL_H_
+#endif  // MODULES_DISPLAY_DISPLAY_CONTROLLER_H_

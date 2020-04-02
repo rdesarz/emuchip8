@@ -29,15 +29,15 @@
 
 #include "interpreter/emulator.h"
 
+#include "display/user_input_impl.h"
 #include "interpreter/user_input.h"
-#include "interpreter/user_input_impl.h"
 
-#include "display/display_controller.h"
-#include "display/display_model.h"
 #include "display/display_model_impl.h"
-#include "display/display_view.h"
 #include "display/display_view_impl.h"
 #include "display/window.h"
+#include "interpreter/display_controller.h"
+#include "interpreter/display_model.h"
+#include "interpreter/display_view.h"
 
 using namespace chip8;
 
