@@ -27,12 +27,9 @@
 
 #include "gtest/gtest.h"
 
-#include <boost/numeric/ublas/matrix.hpp>
-
 #include "fixtures.h"
 #include "emulator/display_controller.h"
 #include "emulator/display_model.h"
-#include "emulator/display_view.h"
 
 using namespace chip8;
 
@@ -74,12 +71,19 @@ TEST_F(TestDisplayFixture, TestNonModifiedSpriteFlag) {
   EXPECT_EQ(modified, false);
 }
 
-TEST_F(TestDisplayFixture, TestSpriteOutsideOfScreen) {
+TEST_F(TestDisplayFixture, TestSpriteOutsideOfScreenColumn) {
   display.setSprite(column_t(63), row_t(1), byteToSprite(0b11111111));
 
   EXPECT_EQ(model.getPixelValue(column_t(0), row_t(1)), 1);
   EXPECT_EQ(model.getPixelValue(column_t(6), row_t(1)), 1);
   EXPECT_EQ(model.getPixelValue(column_t(7), row_t(1)), 0);
+}
+
+TEST_F(TestDisplayFixture, TestSpriteOutsideOfScreenRow) {
+  display.setSprite(column_t(0), row_t(32), byteToSprite(0b11111111));
+
+  EXPECT_EQ(model.getPixelValue(column_t(0), row_t(0)), 1);
+  EXPECT_EQ(model.getPixelValue(column_t(7), row_t(0)), 1);
 }
 
 TEST_F(TestDisplayFixture, TestClearDisplay) {

@@ -57,6 +57,10 @@ bool DisplayController::setPixel(column_t col, row_t row,
 bool DisplayController::setSprite(column_t col, row_t row,
                                   std::vector<uint8_t> sprite) {
   bool any_pixel_modified = false;
+
+  // Crop if row is outside of the screen
+  row = row % m_model->getHeight();
+
   for (uint8_t i = 0; i < 8; ++i) {
     any_pixel_modified |= setPixel(column_t(col + i), row, sprite[i]);
   }
