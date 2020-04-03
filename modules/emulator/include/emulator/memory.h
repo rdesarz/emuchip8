@@ -107,5 +107,7 @@ using StackPointer = Register<uint8_t>;
 using DelayTimerRegister = Register<uint8_t>;
 using SoundTimerRegister = Register<uint8_t>;
 
+void storeSpriteInMemory(RAM& ram);
+
 }  // namespace chip8
 #endif  // MODULES_INTERPRETER_MEMORY_H_

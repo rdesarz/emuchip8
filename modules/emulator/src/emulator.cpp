@@ -48,6 +48,9 @@ Emulator::Emulator(std::istream &rom,
   // TODO: throw exception if load fails
   loadProgramFromStream(m_ram, rom);
 
+  // Load the sprites in memory
+  storeSpriteInMemory(m_ram);
+
   // Register callbacks that will drive the emulator
   m_clock.registerCallback([this]() { this->clockCycle(); }, 600);
   m_clock.registerCallback([this]() { this->decrementDelayTimer(); }, 60);
