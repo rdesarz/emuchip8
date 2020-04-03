@@ -24,13 +24,13 @@ add_library(emulator
         modules/emulator/src/clock.cpp
         modules/emulator/src/rom_loader.cpp
         modules/emulator/src/instruction_decoder.cpp
-        modules/emulator/src/display_controller.cpp)
+        modules/emulator/src/display_controller.cpp
+        modules/emulator/src/display_model_impl.cpp)
 target_include_directories(emulator PUBLIC ${PROJECT_SOURCE_DIR}/modules/emulator/include)
 target_link_libraries(emulator PUBLIC CONAN_PKG::boost)
 target_compile_features(emulator PRIVATE cxx_std_17)
 
 add_library(display_ui
-        modules/display_ui/src/display_model_impl.cpp
         modules/display_ui/src/utilities.cpp
         modules/display_ui/src/pixel.cpp
         modules/display_ui/src/display_view_impl.cpp

@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "display_ui/display_model_impl.h"
+#include "emulator/display_model_impl.h"
 
 namespace chip8 {
 

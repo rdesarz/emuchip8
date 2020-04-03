@@ -31,11 +31,11 @@
 
 #include "display_ui/user_input_impl.h"
 
-#include "display_ui/display_model_impl.h"
 #include "display_ui/display_view_impl.h"
 #include "display_ui/window.h"
 #include "emulator/display_controller.h"
 #include "emulator/display_model.h"
+#include "emulator/display_model_impl.h"
 
 using namespace chip8;
 
