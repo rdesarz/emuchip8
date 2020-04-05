@@ -23,9 +23,15 @@
  * SOFTWARE.
  */
 
+// std
 #include <memory>
 
+// boost
+#include <boost/numeric/ublas/matrix.hpp>
+
 #include "emulator/display_controller.h"
+#include "emulator/display_model.h"
+#include "emulator/display_view.h"
 
 namespace chip8 {
 

@@ -29,14 +29,12 @@
 #include <memory>
 #include <vector>
 
-#include <boost/numeric/ublas/matrix.hpp>
-#include "display_model.h"
-#include "display_view.h"
 #include "units.h"
 
 namespace chip8 {
 
-// Generate a vector of bit representing a sprite
+class DisplayModel;
+class DisplayView;
 std::vector<std::uint8_t> byteToSprite(uint8_t byte);
 
 class DisplayController {

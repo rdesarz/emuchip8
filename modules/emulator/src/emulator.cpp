@@ -11,6 +11,7 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
@@ -23,19 +24,28 @@
  * SOFTWARE.
  */
 
+// std
 #include <iomanip>
 #include <iostream>
 #include <utility>
 
-#include "emulator/control_unit_impl.h"
 #include "emulator/emulator.h"
+
+#include "emulator/control_unit_impl.h"
+#include "emulator/display_controller.h"
+#include "emulator/display_model.h"
+#include "emulator/display_view.h"
+#include "emulator/instruction_decoder.h"
+#include "emulator/rom_loader.h"
+#include "emulator/user_input.h"
+#include "emulator/clock.h"
 
 namespace chip8 {
 
 Emulator::Emulator(std::istream &rom,
                    std::unique_ptr<DisplayController> display_controller,
                    UserInputController *ui_controller)
-    : m_clock([]() { return std::chrono::system_clock::now(); }),
+    : m_clock(new Clock([]() { return std::chrono::system_clock::now(); })),
       m_display_controller(std::move(display_controller)),
       m_ui_controller(ui_controller),
       m_registers(16),
@@ -43,7 +53,7 @@ Emulator::Emulator(std::istream &rom,
                                       m_delay_timer_reg, m_sound_timer_reg,
                                       m_stack, m_registers, m_ram,
                                       *m_display_controller, *m_ui_controller)),
-      m_instruction_decoder(m_ctrl_unit.get()) {
+      m_instruction_decoder(new InstructionDecoder(m_ctrl_unit.get())) {
   // Load the program
   // TODO: throw exception if load fails
   loadProgramFromStream(m_ram, rom);
@@ -52,8 +62,8 @@ Emulator::Emulator(std::istream &rom,
   storeSpriteInMemory(m_ram);
 
   // Register callbacks that will drive the emulator
-  m_clock.registerCallback([this]() { this->clockCycle(); }, 600);
-  m_clock.registerCallback([this]() { this->decrementDelayTimer(); }, 60);
+  m_clock->registerCallback([this]() { this->clockCycle(); }, 600);
+  m_clock->registerCallback([this]() { this->decrementDelayTimer(); }, 60);
 
   // Init components
   m_pc = 0x200;
@@ -61,7 +71,9 @@ Emulator::Emulator(std::istream &rom,
   m_delay_timer_reg = 0x0;
 }
 
-void Emulator::update() { m_clock.tick(); }
+Emulator::~Emulator() = default;
+
+void Emulator::update() { m_clock->tick(); }
 
 void Emulator::decrementDelayTimer() {
   if (m_delay_timer_reg != 0) {
@@ -79,7 +91,7 @@ void Emulator::clockCycle() {
             << std::hex << instruction << "\n";
 
   // Decode and execute instruction
-  m_instruction_decoder.decode(instruction);
+  m_instruction_decoder->decode(instruction);
 
   // Increment PC
   m_pc += 2;

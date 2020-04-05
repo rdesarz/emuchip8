@@ -28,6 +28,9 @@
 
 #include <memory>
 #include <vector>
+#include <unordered_map>
+
+#include <boost/numeric/ublas/matrix.hpp>
 
 #include "gtest/gtest.h"
 

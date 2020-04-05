@@ -26,28 +26,28 @@
 #ifndef MODULES_INTERPRETER_EMULATOR_H_
 #define MODULES_INTERPRETER_EMULATOR_H_
 
+// std
 #include <istream>
 #include <memory>
 #include <vector>
 
-#include "clock.h"
-#include "control_unit.h"
-#include "instruction_decoder.h"
 #include "memory.h"
-#include "rom_loader.h"
-#include "user_input.h"
-
-#include "display_controller.h"
-#include "display_model.h"
-#include "display_view.h"
 
 namespace chip8 {
+
+class DisplayController;
+class UserInputController;
+class ControlUnit;
+class InstructionDecoder;
+class Clock;
 
 class Emulator {
  public:
   Emulator(std::istream& rom,
            std::unique_ptr<DisplayController> display_controller,
            UserInputController* ui_controller);
+
+  virtual ~Emulator();
 
   void update();
 
@@ -56,8 +56,6 @@ class Emulator {
   void decrementDelayTimer();
 
  private:
-  Clock m_clock;
-
   // Memory components
   ProgramCounter m_pc;
   StackPointer m_stack_ptr;
@@ -69,10 +67,11 @@ class Emulator {
   RAM m_ram;
 
   // Controllers
-  std::unique_ptr<DisplayController> m_display_controller;
   UserInputController* m_ui_controller;
+  std::unique_ptr<Clock> m_clock;
+  std::unique_ptr<DisplayController> m_display_controller;
   std::unique_ptr<ControlUnit> m_ctrl_unit;
-  InstructionDecoder m_instruction_decoder;
+  std::unique_ptr<InstructionDecoder> m_instruction_decoder;
 };
 
 }  // namespace chip8
