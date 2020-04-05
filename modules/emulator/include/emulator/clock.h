@@ -33,20 +33,39 @@
 
 namespace chip8 {
 
-struct PeriodicCallback {
-  std::function<void()> callback;
-  std::chrono::nanoseconds period;
-  std::chrono::system_clock::time_point last_call_timestamp;
-};
-
+/*!
+ * @class Clock
+ * Helps calling registered callbacks at a regular frequency.
+ */
 class Clock {
  public:
+  /*!
+   * @param get_current_time_cb function that will return the current time
+   */
   explicit Clock(std::function<std::chrono::system_clock::time_point()>
                      get_current_time_cb);
+
+  /*!
+   * Register a new callback
+   * @param cb the function that will be called at frequency
+   * @param frequency frequency of the call [Hz]
+   * @return return true if the registration was a success
+   */
   bool registerCallback(std::function<void()> cb, double frequency);
+
+  /*!
+   * Check for each callbacks if it is necessary to call it or not. This method
+   * needs to be called regularly in the main update loop of your code.
+   */
   void tick();
 
  private:
+  struct PeriodicCallback {
+    std::function<void()> callback;
+    std::chrono::nanoseconds period;
+    std::chrono::system_clock::time_point last_call_timestamp;
+  };
+
   bool needsToBeCalled(const PeriodicCallback& periodic_cb);
 
  private:

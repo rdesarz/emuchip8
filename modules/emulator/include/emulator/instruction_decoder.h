@@ -26,20 +26,64 @@
 #ifndef MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
 #define MODULES_INTERPRETER_INSTRUCTION_DECODER_H_
 
-#include "control_unit.h"
 #include "units.h"
 
 namespace chip8 {
 
+class ControlUnit;
+
+/*!
+ * Return the value of the X register provided in the function
+ * @param instruction
+ * @return reg x value
+ */
 register_id_t getRegX(instruction_t instruction);
+
+/*!
+ * Return the value of the Y register provided in the function
+ * @param instruction
+ * @return reg y value
+ */
 register_id_t getRegY(instruction_t instruction);
+
+/*!
+ * Return the last byte contained in the instruction
+ * @param instruction
+ * @return byte value
+ */
 byte_t getLastByte(instruction_t instruction);
+
+/*!
+ * Return the nibble (4 byte value)contained in the instruction
+ * @param instruction
+ * @return nibble value
+ */
 nibble_t getLastNibble(instruction_t instruction);
+
+/*!
+ * Return the address (12 bytes value) contained in the instruction
+ * @param instruction
+ * @return address
+ */
 address_t getAddress(instruction_t instruction);
 
+/*!
+ * Helper class to decode and interpret Chip-8 instruction
+ */
 class InstructionDecoder {
  public:
+  /*!
+   * Constructor
+   * @param ctrl_unit pointer to control unit implementing the different
+   * instructions of the emulator
+   */
   explicit InstructionDecoder(ControlUnit* ctrl_unit);
+
+  /*!
+   *Decode the instruction and calls the corresponding method in the control
+   *unit
+   * @param instruction instruction to decode
+   */
   void decode(instruction_t instruction);
 
  private:

@@ -42,10 +42,6 @@ std::vector<std::uint8_t> byteToSprite(uint8_t byte);
 class DisplayController {
  public:
   DisplayController(DisplayModel* model, DisplayView* view);
-  DisplayController(const DisplayController&) = delete;
-  DisplayController(DisplayController&&) = delete;
-  DisplayController& operator=(const DisplayController&) = delete;
-  DisplayController& operator=(DisplayController&&) = delete;
 
   // Set a pixel value following the logic of the chip 8 emulator
   bool setPixel(column_t col, row_t row, uint8_t value);

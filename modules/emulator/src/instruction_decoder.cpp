@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#include "emulator/control_unit.h"
 #include "emulator/instruction_decoder.h"
 
 #include <cstdint>
