@@ -26,6 +26,7 @@
 #ifndef MODULES_INTERPRETER_ROM_LOADER_H_
 #define MODULES_INTERPRETER_ROM_LOADER_H_
 
+// std
 #include <cstdint>
 #include <iostream>
 #include <vector>
@@ -34,6 +35,12 @@
 
 namespace chip8 {
 
+/*!
+ * Copy the rom stored in the input stream to the ram memory
+ * @param buffer
+ * @param input_stream
+ * @return true if program was successfully loaded
+ */
 bool loadProgramFromStream(RAM& buffer, std::istream& input_stream);
 
 }  // namespace chip8

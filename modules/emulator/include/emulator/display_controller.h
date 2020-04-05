@@ -26,6 +26,7 @@
 #ifndef MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
 #define MODULES_DISPLAY_DISPLAY_CONTROLLER_H_
 
+// std
 #include <memory>
 #include <vector>
 
@@ -35,17 +36,50 @@ namespace chip8 {
 
 class DisplayModel;
 class DisplayView;
+
+/*!
+ * Helper function to extract each bit of a byte and store it into an array
+ * @param byte byte from which the bits are extracted
+ * @return vector where each index is an extracted bit
+ */
 std::vector<std::uint8_t> byteToSprite(uint8_t byte);
 
+/*!
+ * This controller is used to modify the output of the emulator.
+ */
 class DisplayController {
  public:
+  /*!
+   * Constructor
+   * @param model model of the display, which stores the state of the pixels
+   * (MVC pattern)
+   * @param view view of the display which outputs a graphical representation of
+   * the model (MVC pattern)
+   */
   DisplayController(DisplayModel* model, DisplayView* view);
 
-  // Set a pixel value following the logic of the chip 8 emulator
+  /*!
+   * Update a pixel with a new value with the Chip-8 update mode (XOR)
+   * @param col column at which the pixel is located
+   * @param row row at which the pixel is located
+   * @param value value of the updated pixel
+   * @return true if the corresponding was modified (0->1 or 1->0)
+   */
   bool setPixel(column_t col, row_t row, uint8_t value);
-  // Set a sprite value following the logic of the chip 8 emulator
+
+  /*!
+   * Update the display with several sprites. A sprite is a line of eight
+   * pixels.
+   * @param col column at which the first pixel is located
+   * @param row row at which the first pixel is located
+   * @param sprite sprite used for the update
+   * @return true if any pixels was modified (0->1 or 1->0)
+   */
   bool setSprite(column_t col, row_t row, std::vector<uint8_t> sprite);
-  // Clear the complete display_ui
+
+  /*!
+   * Clear the display (all pixels at 0)
+   */
   void clear();
 
  private:

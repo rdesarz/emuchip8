@@ -30,12 +30,42 @@
 
 namespace chip8 {
 
+/*!
+ * Interface for the model of the Chip-8 display (MVC pattern)
+ */
 class DisplayModel {
  public:
+  /*!
+   * Set the value of the pixel at coordinates {col, row}
+   * @param col column at which the pixel is located
+   * @param row row at which the pixel is located
+   * @param value value of the new pixel
+   */
   virtual void setPixelValue(column_t col, row_t row, uint8_t value) = 0;
+
+  /*!
+   * Get the value of the pixel at coordinates {col, row}
+   * @param col column at which the pixel is located
+   * @param row row at which the pixel is located
+   * @return value of the pixel
+   */
   virtual uint8_t getPixelValue(column_t col, row_t row) const = 0;
+
+  /*!
+   * Set all the pixels value at 0
+   */
   virtual void clear() = 0;
+
+  /*!
+   *
+   * @return Width of the display
+   */
   virtual std::size_t getWidth() const = 0;
+
+  /*!
+   *
+   * @return Height of the display
+   */
   virtual std::size_t getHeight() const = 0;
 };
 

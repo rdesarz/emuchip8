@@ -28,8 +28,14 @@
 
 namespace chip8 {
 
+/*!
+ * Interface to the view of the display
+ */
 class DisplayView {
  public:
+  /*
+   * Should be called when rendering of the display is required
+   */
   virtual void render() = 0;
 };
 
