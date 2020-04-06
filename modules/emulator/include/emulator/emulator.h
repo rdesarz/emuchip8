@@ -43,12 +43,21 @@ class Clock;
 
 class Emulator {
  public:
+  /*!
+   * @param rom input program to be loaded
+   * @param display_controller display controller to be used
+   * @param user input controller
+   * @param ui_controller
+   */
   Emulator(std::istream& rom,
            std::unique_ptr<DisplayController> display_controller,
            UserInputController* ui_controller);
 
   virtual ~Emulator();
 
+  /*!
+   * Perform an update of the emulator (load next instruction, etc)
+   */
   void update();
 
  private:

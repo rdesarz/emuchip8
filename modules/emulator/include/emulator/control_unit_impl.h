@@ -26,23 +26,35 @@
 #ifndef MODULES_INTERPRETER_CONTROL_UNIT_IMPL_H_
 #define MODULES_INTERPRETER_CONTROL_UNIT_IMPL_H_
 
+// std
 #include <random>
 #include <vector>
 
-#include "display_controller.h"
 #include "control_unit.h"
+#include "display_controller.h"
 #include "memory.h"
 #include "user_input.h"
 
 namespace chip8 {
 
+/*!
+ * @tparam Distribution probabilistic distribution used for number generation
+ */
 template <class Distribution>
 class RandomNumberGenerator {
  public:
+  /*!
+   * Constructor
+   * @param min_value minimum value generated
+   * @param max_value maximal value generated
+   */
   RandomNumberGenerator(int min_value, int max_value)
       : m_random_engine(m_random_device()),
         m_distribution(min_value, max_value) {}
 
+  /*!
+   * Generate a random number
+   */
   int generateNumber() { return m_distribution(m_random_engine); }
 
  private:
@@ -51,9 +63,15 @@ class RandomNumberGenerator {
   Distribution m_distribution;
 };
 
+/*!
+ * Random number generator with uniform distribution
+ */
 using UniformRandomNumberGenerator =
     RandomNumberGenerator<std::uniform_int_distribution<uint8_t>>;
 
+/*!
+ * Implementation of the control unit
+ */
 class ControlUnitImpl : public ControlUnit {
  public:
   ControlUnitImpl(ProgramCounter& pc, StackPointer& stack_ptr,

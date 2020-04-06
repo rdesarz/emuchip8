@@ -23,10 +23,10 @@
  * SOFTWARE.
  */
 
-#include "emulator/control_unit_impl.h"
-
-#include <cstdlib>
+// std
 #include <limits>
+
+#include "emulator/control_unit_impl.h"
 
 namespace chip8 {
 
