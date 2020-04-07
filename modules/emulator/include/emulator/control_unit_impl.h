@@ -38,9 +38,10 @@
 namespace chip8 {
 
 /*!
+ * @tparam T type of the random number generated (needs to be an integral type)
  * @tparam Distribution probabilistic distribution used for number generation
  */
-template <class Distribution>
+template<typename T, template<typename> class Distribution>
 class RandomNumberGenerator {
  public:
   /*!
@@ -48,26 +49,26 @@ class RandomNumberGenerator {
    * @param min_value minimum value generated
    * @param max_value maximal value generated
    */
-  RandomNumberGenerator(int min_value, int max_value)
+  explicit RandomNumberGenerator(T min_value, T max_value)
       : m_random_engine(m_random_device()),
         m_distribution(min_value, max_value) {}
 
   /*!
    * Generate a random number
    */
-  int generateNumber() { return m_distribution(m_random_engine); }
+  T generateNumber() { return m_distribution(m_random_engine); }
 
  private:
   std::random_device m_random_device;
   std::mt19937 m_random_engine;
-  Distribution m_distribution;
+  Distribution<T> m_distribution;
 };
 
 /*!
  * Random number generator with uniform distribution
  */
 using UniformRandomNumberGenerator =
-    RandomNumberGenerator<std::uniform_int_distribution<uint8_t>>;
+    RandomNumberGenerator<uint8_t, std::uniform_int_distribution>;
 
 /*!
  * Implementation of the control unit
