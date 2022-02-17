@@ -1,7 +1,7 @@
 [requires]
-boost/1.71.0@conan/stable
-sdl2/2.0.8@bincrafters/stable
-gtest/1.8.0@bincrafters/stable
+boost/[~1.78.0]
+sdl/[~2.0.20]
+gtest/[~1.8.0]
 
 [generators]
 cmake

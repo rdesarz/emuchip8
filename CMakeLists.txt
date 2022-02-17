@@ -10,7 +10,8 @@ endif ()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_cmake_run(CONANFILE
         conanfile.txt
-        BASIC_SETUP CMAKE_TARGETS)
+        BASIC_SETUP CMAKE_TARGETS
+        BUILD missing)
 
 # Required modules
 include(GoogleTest)
@@ -37,7 +38,7 @@ add_library(display_ui
         modules/display_ui/src/window.cpp
         modules/display_ui/src/user_input_impl.cpp)
 target_include_directories(display_ui PUBLIC ${PROJECT_SOURCE_DIR}/modules/display_ui/include)
-target_link_libraries(display_ui PUBLIC CONAN_PKG::sdl2 CONAN_PKG::boost emulator)
+target_link_libraries(display_ui PUBLIC CONAN_PKG::sdl CONAN_PKG::boost emulator)
 target_compile_features(display_ui PUBLIC cxx_std_17)
 
 
