@@ -21,6 +21,10 @@ jobs:
         conan profile new default --detect
         conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
 
+    - name: Add required dependencies
+      run: |
+        sudo apt-get install libegl-dev libgbm-dev:amd64 libjack0
+
     - name: Configure project
       run: cmake -DCMAKE_BUILD_TYPE=Release .
 
